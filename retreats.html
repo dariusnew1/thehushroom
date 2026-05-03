@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retreats &amp; Calendar — The Hush Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE HUSH ROOM — DESIGN SYSTEM (shared with index.html)
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Earths */
+  --sienna:       #7B3F2A;
+  --sienna-light: #C4896A;
+  --parchment:    #F5EDD9;
+  --warm-white:   #FDFAF3;
+  --charcoal:     #2E2B27;
+  --ash:          #4A4540;
+  --gold:         #C9A45A;
+  --gold-light:   #E8D5A8;
+  --ink:          #1E1B17;
+
+  /* Waters */
+  --sage:         #8A9E7F;
+  --sage-dark:    #5A7060;
+  --sage-light:   #C4CFBA;
+  --slate:        #5A7080;
+  --cream:        #F0E8D5;
+
+  /* Accent */
+  --crimson:      #8B2E2E;
+
+  /* Gates */
+  --gate1:        #5A7060;
+  --gate2:        #7B3F2A;
+  --gate3:        #5A7080;
+  --gate4:        #8B2E2E;
+
+  /* Rhythm */
+  --rule:         rgba(123,63,42,0.12);
+  --rule-soft:    rgba(123,63,42,0.08);
+  --rule-dark:    rgba(245,237,217,0.10);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  font-weight: 400;
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.48  0 0 0 0 0.25  0 0 0 0 0.16  0 0 0 0.5 0'/></filter><rect width='320' height='320' filter='url(%23n)'/></svg>");
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(123,63,42,0.04), transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgba(201,164,90,0.04), transparent 55%);
+}
+
+nav, section, footer, .verse-band, .filter-bar { position: relative; z-index: 1; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 2rem;
+  background: rgba(253,250,243,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(123,63,42,0.10);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--sienna);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-logo span { font-style: italic; color: var(--gold); }
+
+.nav-tagline {
+  flex: 1;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--ash);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex; align-items: center;
+  gap: 2rem;
+  list-style: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.nav-links a {
+  color: var(--charcoal); text-decoration: none;
+  opacity: 0.6;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { opacity: 1; color: var(--sienna); }
+
+.nav-cta {
+  background: var(--sienna) !important;
+  color: var(--parchment) !important;
+  padding: 0.55rem 1.4rem;
+  border-radius: 2rem;
+  opacity: 1 !important;
+  letter-spacing: 0.12em !important;
+  font-weight: 600 !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.nav-cta:hover { background: var(--crimson) !important; transform: translateY(-1px); }
+
+.nav-burger {
+  display: none;
+  background: none; border: 0; padding: 0.3rem;
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  margin: 5px 0;
+  background: var(--sienna);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-sheet {
+  position: fixed; inset: 0;
+  z-index: 999;
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-sheet.open { opacity: 1; pointer-events: auto; }
+.nav-sheet a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-sheet a.sheet-cta {
+  margin-top: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--sienna);
+  color: var(--parchment);
+  padding: 0.85rem 2.5rem;
+  border-radius: 2rem;
+}
+
+/* ============================================================
+   SHARED PRIMITIVES
+   ============================================================ */
+.section { padding: 8rem 3rem; position: relative; }
+.section-inner { max-width: 1120px; margin: 0 auto; position: relative; }
+
+.section-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--sienna);
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  letter-spacing: 0.01em;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: currentColor; opacity: 0.7;
+}
+.section-tag.light { color: var(--gold); }
+.section-tag.center { justify-content: center; }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.section-title em { color: var(--sienna); font-style: italic; font-weight: 400; }
+.section-title.light { color: var(--parchment); }
+.section-title.light em { color: var(--gold); }
+
+.section-body {
+  font-size: 1rem; line-height: 1.85;
+  color: rgba(46,43,39,0.7);
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+.section-body.light { color: rgba(245,237,217,0.55); }
+
+/* Buttons */
+.btn-primary, .btn-ghost, .btn-gold {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.9rem 2.4rem;
+  border-radius: 2rem;
+  border: 1px solid transparent;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.btn-primary { background: var(--sienna); color: var(--parchment); }
+.btn-primary:hover { background: var(--crimson); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--parchment); border-color: rgba(245,237,217,0.22); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.btn-ghost.on-light { color: var(--charcoal); border-color: rgba(46,43,39,0.22); }
+.btn-ghost.on-light:hover { color: var(--sienna); border-color: var(--sienna); }
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+/* Illustration placeholder */
+.illus {
+  background: rgba(123,63,42,0.06);
+  border: 1px dashed rgba(123,63,42,0.22);
+  border-radius: 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; position: relative; overflow: hidden;
+  padding: 2rem;
+}
+.illus::after {
+  content: '';
+  position: absolute; inset: 1rem;
+  border: 1px solid rgba(123,63,42,0.10);
+  border-radius: 0.35rem;
+  pointer-events: none;
+}
+.illus-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--sienna);
+  opacity: 0.55;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+.illus-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 0.4rem;
+}
+.illus.on-dark { background: rgba(245,237,217,0.04); border-color: rgba(201,164,90,0.25); }
+.illus.on-dark .illus-meta { color: var(--gold); }
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero {
+  min-height: 64vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 4rem;
+  align-items: end;
+  padding: 11rem 5rem 6rem;
+  background: var(--ink);
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 28%, rgba(123,63,42,0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 82% 78%, rgba(90,112,96,0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,164,90,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 35% at 12% 85%, rgba(139,46,46,0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 95% 15%, rgba(123,63,42,0.18) 0%, transparent 60%),
+    linear-gradient(165deg, #1E1B17 0%, #25201B 45%, #1A1815 100%);
+}
+.page-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/></filter><rect width='400' height='400' filter='url(%23n)' opacity='0.5'/></svg>");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.hero-atmos {
+  position: absolute;
+  top: 0; right: 0;
+  width: 48%; height: 100%;
+  z-index: 1;
+  opacity: 0.15;
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(245,237,217,0.02);
+  border-left: 1px dashed rgba(201,164,90,0.18);
+  mask-image: linear-gradient(90deg, transparent 0%, black 25%, black 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 25%, black 100%);
+}
+.hero-atmos-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--gold);
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 1.05rem;
+}
+.hero-atmos-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 0.4rem;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 600px;
+}
+
+.hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 1.75rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold); opacity: 0.6;
+}
+.hero-eyebrow a { color: inherit; text-decoration: none; opacity: 0.75; }
+.hero-eyebrow a:hover { opacity: 1; }
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5.5vw, 4.6rem);
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.05;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.hero-title em { font-style: italic; font-weight: 300; color: var(--gold-light); }
+
+.hero-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.55);
+  line-height: 1.85;
+  max-width: 480px;
+  text-wrap: pretty;
+}
+
+.hero-stats {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; gap: 0.85rem;
+}
+.hero-stat {
+  background: rgba(245,237,217,0.04);
+  border: 1px solid rgba(201,164,90,0.14);
+  border-radius: 0.85rem;
+  padding: 1.1rem 1.5rem;
+  display: grid; grid-template-columns: 60px 1fr; gap: 1rem; align-items: center;
+}
+.hero-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 600;
+  color: var(--gold); opacity: 0.75; line-height: 1;
+}
+.hero-stat-text {
+  font-size: 0.8rem; color: rgba(245,237,217,0.5); line-height: 1.55;
+}
+.hero-stat-text strong {
+  display: block;
+  color: rgba(245,237,217,0.85);
+  font-weight: 500;
+  margin-bottom: 0.15rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   FILTER BAR — typographic tabs (no pills)
+   ============================================================ */
+.filter-bar {
+  background: var(--parchment);
+  padding: 1.6rem 3rem;
+  border-bottom: 1px solid var(--rule);
+  position: sticky; top: 64px; z-index: 100;
+}
+.filter-inner {
+  max-width: 1120px; margin: 0 auto;
+  display: flex; gap: 1.6rem 2.4rem; align-items: center;
+  flex-wrap: wrap;
+}
+.filter-group { display: flex; gap: 1.6rem 2.2rem; align-items: center; flex-wrap: wrap; }
+.filter-group + .filter-group {
+  border-left: 1px solid var(--rule);
+  padding-left: 2.2rem;
+}
+.filter-label {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--ash);
+  opacity: 0.55; letter-spacing: 0.02em;
+}
+.filter-tab {
+  background: transparent; border: 0; cursor: pointer;
+  padding: 0.3rem 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ash); opacity: 0.55;
+  border-bottom: 1.5px solid transparent;
+  transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+.filter-tab:hover { opacity: 1; color: var(--sienna); }
+.filter-tab.active {
+  opacity: 1;
+  color: var(--sienna);
+  border-bottom-color: var(--sienna);
+  font-weight: 600;
+}
+
+/* ============================================================
+   RETREATS GRID
+   ============================================================ */
+.retreats-section { background: var(--warm-white); }
+
+.retreats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 3.5rem;
+}
+
+.retreat-card {
+  border-radius: 1.1rem; overflow: hidden;
+  border: 1px solid var(--rule);
+  border-top-width: 3px;
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.retreat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+.rc-1 { border-top-color: var(--gate1); }
+.rc-2 { border-top-color: var(--gate2); }
+.rc-3 { border-top-color: var(--gate3); }
+.rc-4 { border-top-color: var(--gate4); }
+.rc-gold { border-top-color: var(--gold); }
+
+.retreat-header {
+  padding: 2rem; min-height: 160px;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--ink);
+}
+.retreat-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 80% 20%, var(--rh-glow, rgba(255,255,255,0.10)) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 60% at 20% 80%, var(--rh-shadow, rgba(0,0,0,0.20)) 0%, transparent 65%),
+    var(--rh-base, var(--ink));
+}
+.rc-1 .retreat-header { --rh-base: linear-gradient(155deg, var(--gate1) 0%, #3D5247 100%); --rh-glow: rgba(196,207,186,0.18); }
+.rc-2 .retreat-header { --rh-base: linear-gradient(155deg, var(--gate2) 0%, #5A2A18 100%); --rh-glow: rgba(196,137,106,0.16); }
+.rc-3 .retreat-header { --rh-base: linear-gradient(155deg, var(--gate3) 0%, #3D5560 100%); --rh-glow: rgba(196,207,220,0.16); }
+.rc-4 .retreat-header { --rh-base: linear-gradient(155deg, #6B4F2A 0%, #4A3018 100%); --rh-glow: rgba(232,213,168,0.18); }
+.rc-gold .retreat-header { --rh-base: linear-gradient(155deg, #6B4F2A 0%, #2E2118 100%); --rh-glow: rgba(232,213,168,0.20); }
+
+.retreat-header-top {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+}
+
+.retreat-date {}
+.retreat-date-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.4rem; font-weight: 600;
+  color: var(--parchment);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.retreat-date-month {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em; color: rgba(245,237,217,0.65);
+  font-weight: 500;
+  margin-top: 0.4rem;
+}
+
+.retreat-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.16em; font-weight: 600;
+  padding: 0.35rem 0.85rem; border-radius: 2rem;
+  white-space: nowrap;
+}
+.badge-spots { background: rgba(245,237,217,0.15); color: var(--parchment); }
+.badge-open { background: rgba(196,207,186,0.18); color: var(--sage-light); }
+.badge-soon { background: rgba(232,213,168,0.16); color: var(--gold-light); }
+.badge-full { background: rgba(196,112,112,0.18); color: #DDB0B0; }
+.badge-featured { background: var(--gold); color: var(--ink); }
+
+.retreat-header-bottom { position: relative; z-index: 1; }
+.retreat-gate-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: rgba(245,237,217,0.7);
+  letter-spacing: 0.02em;
+}
+
+.retreat-body {
+  padding: 1.8rem 2rem 2rem;
+  flex: 1; display: flex; flex-direction: column;
+}
+.retreat-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.retreat-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(46,43,39,0.55);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  letter-spacing: 0.04em;
+}
+.retreat-meta-row {
+  display: flex; gap: 0.5rem; align-items: baseline;
+}
+.retreat-meta-row + .retreat-meta-row { margin-top: 0.15rem; }
+.retreat-meta-row .label {
+  text-transform: uppercase; letter-spacing: 0.14em;
+  font-weight: 600; font-size: 0.65rem;
+  color: var(--sienna); opacity: 0.65;
+  min-width: 70px;
+}
+
+.retreat-tags {
+  display: flex; gap: 0.4rem;
+  flex-wrap: wrap; margin-bottom: 1.2rem;
+}
+.retreat-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.14em; font-weight: 600;
+  padding: 0.3rem 0.7rem; border-radius: 2rem;
+  background: rgba(123,63,42,0.07); color: var(--sienna);
+}
+
+.retreat-desc {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(46,43,39,0.65);
+  margin-bottom: 1.6rem; flex: 1;
+  text-wrap: pretty;
+}
+
+.retreat-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule-soft);
+}
+.retreat-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600; color: var(--ink);
+  line-height: 1;
+}
+.retreat-price small {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; color: rgba(46,43,39,0.45);
+  font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.retreat-register {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: 0;
+  padding: 0.7rem 1.3rem; border-radius: 2rem;
+  transition: all 0.2s ease;
+}
+.register-active { background: var(--sienna); color: var(--parchment); }
+.register-active:hover { background: var(--crimson); transform: translateY(-1px); }
+.register-soon {
+  background: transparent; color: var(--ash);
+  border: 1px solid rgba(46,43,39,0.22);
+}
+.register-soon:hover { border-color: var(--sienna); color: var(--sienna); }
+.register-full {
+  background: rgba(46,43,39,0.05);
+  color: rgba(46,43,39,0.35);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   CALENDAR
+   ============================================================ */
+.calendar-section { background: var(--parchment); }
+
+.calendar-outer {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 4rem; margin-top: 3.5rem;
+}
+
+.calendar-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.cal-nav-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; color: var(--ash);
+  transition: all 0.2s ease;
+}
+.cal-nav-btn:hover { background: var(--sienna); color: var(--parchment); border-color: var(--sienna); }
+
+.cal-month-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 600; color: var(--ink);
+}
+.cal-month-year {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--ash); opacity: 0.55;
+  margin-left: 0.6rem;
+}
+
+.cal-days-header {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.6rem;
+}
+.cal-day-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.18em; font-weight: 600;
+  color: var(--ash); opacity: 0.45;
+  text-align: center; padding: 0.6rem 0;
+}
+
+.cal-days {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 0.5rem; cursor: pointer;
+  position: relative;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; color: var(--charcoal);
+  font-weight: 400;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.cal-day:hover { background: rgba(123,63,42,0.07); }
+.cal-day.empty { cursor: default; }
+.cal-day.empty:hover { background: transparent; }
+.cal-day.other-month { opacity: 0.25; }
+.cal-day.today { font-weight: 700; color: var(--sienna); }
+.cal-day.today::before {
+  content: '';
+  position: absolute; bottom: 5px;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--sienna);
+}
+.cal-day.has-retreat { font-weight: 600; }
+.cal-day.has-retreat::after {
+  content: '';
+  position: absolute; bottom: 5px;
+  width: 5px; height: 5px; border-radius: 50%;
+}
+.cal-day.retreat-g1::after { background: var(--gate1); }
+.cal-day.retreat-g2::after { background: var(--gate2); }
+.cal-day.retreat-g3::after { background: var(--gate3); }
+.cal-day.retreat-g4::after { background: var(--gate4); }
+.cal-day.retreat-gold::after { background: var(--gold); }
+.cal-day.selected {
+  background: var(--sienna); color: var(--parchment);
+  font-weight: 600;
+}
+.cal-day.selected::after { background: var(--parchment) !important; }
+
+/* Sidebar */
+.cal-card {
+  background: var(--warm-white);
+  border-radius: 1rem; padding: 1.75rem;
+  border: 1px solid var(--rule);
+}
+.cal-card + .cal-card { margin-top: 1.5rem; }
+.cal-card-title {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--sienna);
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.cal-card-title::before {
+  content: ''; display: block;
+  width: 1.5rem; height: 1px; background: currentColor; opacity: 0.6;
+}
+
+.cal-legend-item {
+  display: flex; gap: 0.85rem; align-items: center;
+  font-size: 0.82rem; color: rgba(46,43,39,0.7);
+  margin-bottom: 0.7rem;
+}
+.cal-legend-item:last-child { margin-bottom: 0; }
+.cal-legend-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.cal-legend-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--ink);
+}
+.cal-legend-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ash);
+  opacity: 0.55;
+  font-weight: 600;
+  margin-right: 0.3rem;
+}
+
+.cal-upcoming-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+  cursor: pointer; transition: padding 0.15s ease;
+  display: block; text-decoration: none;
+}
+.cal-upcoming-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.cal-upcoming-item:first-child { padding-top: 0; }
+.cal-upcoming-item:hover { padding-left: 0.4rem; }
+.cal-upcoming-date {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.cu-1 .cal-upcoming-date { color: var(--gate1); }
+.cu-2 .cal-upcoming-date { color: var(--gate2); }
+.cu-3 .cal-upcoming-date { color: var(--gate3); }
+.cu-4 .cal-upcoming-date { color: var(--gate4); }
+.cu-gold .cal-upcoming-date { color: var(--gold); }
+.cal-upcoming-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--ink);
+  line-height: 1.3;
+}
+.cal-upcoming-spots {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem; color: rgba(46,43,39,0.45);
+  margin-top: 0.25rem;
+}
+
+/* ============================================================
+   FORMATS
+   ============================================================ */
+.formats-section { background: var(--warm-white); }
+
+.formats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  margin-top: 3.5rem;
+  border: 1px solid var(--rule);
+}
+.format-card {
+  background: var(--warm-white);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: background 0.3s ease;
+}
+.format-card:hover { background: var(--parchment); }
+.format-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.fc-1::before { background: var(--sage-dark); }
+.fc-2::before { background: var(--gold); }
+.fc-3::before { background: var(--sienna); }
+.fc-4::before { background: var(--crimson); }
+
+.format-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  margin-bottom: 0.85rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.format-num::before {
+  content: ''; display: block;
+  width: 1.2rem; height: 1px;
+  background: currentColor; opacity: 0.7;
+}
+.fc-1 .format-num { color: var(--sage-dark); }
+.fc-2 .format-num { color: var(--gold); }
+.fc-3 .format-num { color: var(--sienna); }
+.fc-4 .format-num { color: var(--crimson); }
+
+.format-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+.format-duration {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: var(--ash); opacity: 0.6;
+  margin-bottom: 1rem;
+}
+.format-desc {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(46,43,39,0.65);
+  margin-bottom: 1.4rem;
+  text-wrap: pretty;
+}
+.format-includes {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.format-include-item {
+  display: flex; gap: 0.7rem; align-items: baseline;
+  font-size: 0.83rem; color: rgba(46,43,39,0.65);
+  line-height: 1.5;
+}
+.format-include-item::before {
+  content: ''; display: block;
+  width: 4px; height: 4px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 0.55rem;
+}
+.fc-1 .format-include-item::before { background: var(--sage-dark); opacity: 0.7; }
+.fc-2 .format-include-item::before { background: var(--gold); opacity: 0.7; }
+.fc-3 .format-include-item::before { background: var(--sienna); opacity: 0.7; }
+.fc-4 .format-include-item::before { background: var(--crimson); opacity: 0.7; }
+
+.format-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600; color: var(--ink);
+  margin-top: 1.5rem; padding-top: 1.2rem;
+  border-top: 1px solid var(--rule-soft);
+}
+.format-price small {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; color: rgba(46,43,39,0.45);
+  font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   SAMPLE SCHEDULE / HUSH ARC
+   ============================================================ */
+.schedule-section { background: var(--ink); }
+.schedule-section .section-title { color: var(--parchment); }
+.schedule-section .section-title em { color: var(--gold); }
+
+.schedule-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; margin-top: 3.5rem;
+  align-items: start;
+}
+
+.schedule-verse {
+  background: rgba(201,164,90,0.06);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.schedule-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  opacity: 0.85;
+  line-height: 1.55;
+}
+.schedule-verse-ref {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-top: 0.55rem;
+  font-weight: 500;
+}
+
+.schedule-body {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(245,237,217,0.55);
+  margin-bottom: 2rem;
+  text-wrap: pretty;
+}
+
+.hush-arc { display: flex; flex-direction: column; }
+.hush-arc-item {
+  display: grid; grid-template-columns: 56px 1fr;
+  gap: 1.5rem;
+  position: relative;
+  padding-bottom: 1.75rem;
+}
+.hush-arc-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 27px; top: 56px; bottom: 0;
+  width: 1px;
+  background: rgba(201,164,90,0.15);
+}
+.hush-arc-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 600;
+  color: var(--gold);
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(201,164,90,0.08);
+  border: 1px solid rgba(201,164,90,0.20);
+  border-radius: 50%;
+}
+.hush-arc-content { padding-top: 0.7rem; }
+.hush-arc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+.hush-arc-desc {
+  font-size: 0.85rem; line-height: 1.7;
+  color: rgba(245,237,217,0.45);
+  text-wrap: pretty;
+}
+
+/* Timeline */
+.timeline-header {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem; color: var(--gold);
+  opacity: 0.75; margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.timeline-header::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold); opacity: 0.6;
+}
+.timeline-list {
+  display: flex; flex-direction: column;
+  border-top: 1px solid rgba(201,164,90,0.10);
+}
+.timeline-item {
+  display: grid; grid-template-columns: 90px 1fr;
+  gap: 1.5rem; padding: 1rem 0;
+  border-bottom: 1px solid rgba(201,164,90,0.08);
+  align-items: start;
+}
+.timeline-time {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.65; letter-spacing: 0.02em;
+  padding-top: 0.15rem;
+}
+.timeline-movement {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.20em; font-weight: 600;
+  margin-bottom: 0.2rem; opacity: 0.7;
+}
+.tm-h { color: var(--sage-light); }
+.tm-u { color: var(--gold-light); }
+.tm-s { color: var(--sienna-light); }
+.tm-end { color: rgba(245,237,217,0.4); }
+.timeline-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 0.2rem;
+}
+.timeline-desc {
+  font-size: 0.78rem; line-height: 1.6;
+  color: rgba(245,237,217,0.4);
+}
+
+/* ============================================================
+   WHAT TO BRING
+   ============================================================ */
+.bring-section { background: var(--cream); }
+
+.bring-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; margin-top: 3.5rem;
+  align-items: start;
+}
+
+.bring-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem; color: var(--sienna);
+  opacity: 0.75;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.bring-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: currentColor; opacity: 0.6;
+}
+
+.bring-list { list-style: none; }
+.bring-item {
+  display: grid; grid-template-columns: 30px 1fr;
+  gap: 1.2rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.bring-item:first-child { border-top: 1px solid var(--rule-soft); }
+.bring-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; color: var(--sage-dark);
+  line-height: 1; padding-top: 0.1rem;
+}
+.bring-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.bring-desc {
+  font-size: 0.85rem; line-height: 1.7;
+  color: rgba(46,43,39,0.6);
+  text-wrap: pretty;
+}
+
+.leave-card {
+  background: var(--warm-white);
+  border-radius: 1rem; padding: 2.25rem;
+  border: 1px solid var(--rule);
+}
+.leave-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.leave-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--crimson);
+  opacity: 0.7; margin-bottom: 1.5rem;
+}
+.leave-item {
+  display: grid; grid-template-columns: 22px 1fr;
+  gap: 1rem; align-items: baseline;
+  font-size: 0.88rem; line-height: 1.6;
+  color: rgba(46,43,39,0.65);
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.leave-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.leave-mark {
+  font-family: 'Cormorant Garamond', serif;
+  color: rgba(139,46,46,0.55);
+  font-size: 0.95rem;
+}
+
+.scholarship-note {
+  background: rgba(90,112,96,0.08);
+  border: 1px solid rgba(90,112,96,0.20);
+  border-radius: 0.85rem; padding: 1.5rem 1.75rem;
+  margin-top: 1.75rem;
+}
+.scholarship-text {
+  font-size: 0.9rem; line-height: 1.75;
+  color: rgba(46,43,39,0.72);
+  text-wrap: pretty;
+}
+.scholarship-text strong { color: var(--sage-dark); font-weight: 600; }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-section { background: var(--warm-white); }
+
+.faq-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  margin-top: 3.5rem;
+  border: 1px solid var(--rule);
+}
+.faq-item {
+  background: var(--warm-white);
+  padding: 2rem 2.25rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.faq-item:hover { background: var(--parchment); }
+.faq-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.85rem;
+  line-height: 1.3;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 1rem;
+  text-wrap: balance;
+}
+.faq-mark {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold); opacity: 0.6;
+  font-size: 1.1rem; flex-shrink: 0;
+  font-style: italic;
+}
+.faq-a {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(46,43,39,0.65);
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   GROUP / REGISTER
+   ============================================================ */
+.group-section {
+  background: var(--sienna);
+  padding: 8rem 3rem;
+  overflow: hidden;
+}
+.group-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 8% 50%, rgba(139,46,46,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 92% 50%, rgba(30,27,23,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,164,90,0.10) 0%, transparent 70%);
+}
+
+.group-inner {
+  max-width: 1120px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+
+.group-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600; color: var(--parchment);
+  line-height: 1.15; margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.group-title em { color: var(--gold-light); font-style: italic; font-weight: 400; }
+
+.group-body {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(245,237,217,0.55);
+  margin-bottom: 2rem;
+  max-width: 460px;
+  text-wrap: pretty;
+}
+
+.group-types {
+  display: flex; flex-direction: column;
+  border-top: 1px solid rgba(201,164,90,0.18);
+}
+.group-type {
+  display: grid; grid-template-columns: 14px 1fr;
+  gap: 1rem; align-items: baseline;
+  padding: 0.85rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: rgba(245,237,217,0.78);
+  border-bottom: 1px solid rgba(201,164,90,0.18);
+  line-height: 1.5;
+}
+.group-type::before {
+  content: ''; display: block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); opacity: 0.6;
+  align-self: center;
+}
+
+.group-form {
+  background: rgba(245,237,217,0.05);
+  border: 1px solid rgba(245,237,217,0.10);
+  border-radius: 1rem;
+  padding: 2.5rem;
+}
+.group-form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 0.4rem;
+}
+.group-form-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.75; margin-bottom: 1.75rem;
+}
+
+.form-field { margin-bottom: 1.1rem; }
+.form-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(245,237,217,0.55);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.45rem;
+}
+.form-input, .form-select {
+  width: 100%; padding: 0.8rem 1rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(245,237,217,0.10);
+  background: rgba(245,237,217,0.05);
+  color: var(--parchment);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.form-input::placeholder { color: rgba(245,237,217,0.30); }
+.form-input:focus, .form-select:focus { border-color: rgba(201,164,90,0.45); background: rgba(245,237,217,0.07); }
+.form-select {
+  background: rgba(30,27,23,0.6);
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23E8D5A8' opacity='0.6' d='M6 8L0 0h12z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+textarea.form-input { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.btn-submit {
+  width: 100%; padding: 1rem;
+  border-radius: 2rem; border: 0;
+  background: var(--gold); color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-top: 0.5rem;
+}
+.btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+.form-promise {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.45);
+  text-align: center;
+  margin-top: 1.1rem;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.cta-section {
+  background: var(--ink);
+  padding: 9rem 3rem;
+  text-align: center;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 25% 35%, rgba(90,112,96,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 75% 70%, rgba(123,63,42,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,164,90,0.04) 0%, transparent 70%);
+}
+
+.cta-inner {
+  position: relative; z-index: 1;
+  max-width: 680px; margin: 0 auto;
+}
+
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.cta-title em { color: var(--gold-light); font-style: italic; font-weight: 300; }
+
+.cta-sub {
+  font-size: 0.98rem;
+  color: rgba(245,237,217,0.55);
+  margin-bottom: 2.5rem;
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+.cta-buttons {
+  display: flex; gap: 1rem; justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  opacity: 0.6;
+  margin-top: 3rem;
+  line-height: 1.65;
+  text-wrap: balance;
+}
+.cta-verse-ref {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 0.85rem;
+  font-weight: 500;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(201,164,90,0.10);
+  padding: 3rem;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+  position: relative; z-index: 1;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; color: var(--parchment);
+  font-weight: 600; text-decoration: none;
+}
+.footer-logo span { color: var(--gold); font-style: italic; }
+.footer-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(245,237,217,0.30);
+  margin-top: 0.4rem;
+  letter-spacing: 0.04em;
+}
+.footer-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.40);
+  text-align: center;
+  line-height: 1.4;
+}
+.footer-links {
+  display: flex; gap: 1.8rem; list-style: none;
+  justify-content: flex-end; flex-wrap: wrap;
+}
+.footer-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(245,237,217,0.45);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1180px) {
+  .nav-tagline { display: none; }
+  .nav-links { gap: 1.5rem; font-size: 0.75rem; letter-spacing: 0.12em; }
+  nav { padding: 1.1rem 2rem; }
+}
+@media (max-width: 1100px) {
+  .page-hero { padding: 10rem 3rem 5rem; grid-template-columns: 1fr; gap: 3rem; align-items: start; }
+  .hero-atmos { width: 35%; opacity: 0.10; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .retreats-grid { grid-template-columns: repeat(2, 1fr); }
+  .formats-grid { grid-template-columns: 1fr 1fr; }
+  .calendar-outer { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-burger { display: block; }
+}
+@media (max-width: 900px) {
+  .section { padding: 5rem 1.5rem; }
+  .page-hero { padding: 8rem 1.5rem 4rem; }
+  .filter-bar { padding: 1rem 1.5rem; }
+  .filter-group + .filter-group { border-left: 0; padding-left: 0; padding-top: 0.5rem; border-top: 1px dashed var(--rule); width: 100%; }
+  .retreats-grid { grid-template-columns: 1fr; }
+  .formats-grid { grid-template-columns: 1fr; }
+  .schedule-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .bring-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .group-section { padding: 5rem 1.5rem; }
+  .group-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .group-form { padding: 2rem; }
+  .cta-section { padding: 6rem 1.5rem; }
+  .cta-buttons .btn-primary, .cta-buttons .btn-ghost { width: 100%; }
+  footer { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+  .footer-links { justify-content: center; }
+  .hero-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav>
+  <a href="index.html" class="nav-logo">The <span>Hush</span> Room</a>
+  <div class="nav-tagline">The world says rush. God says hush.</div>
+  <ul class="nav-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html" class="active">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="nav-cta-desktop"><a href="#register" class="nav-cta">Join Us</a></li>
+  </ul>
+  <button class="nav-burger" aria-label="Open menu" id="navBurger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <a href="gates.html">Gates</a>
+  <a href="story.html">Story</a>
+  <a href="retreats.html">Retreats</a>
+  <a href="resources.html">Resources</a>
+  <a href="connect.html">Connect</a>
+  <a href="about.html">About</a>
+  <a href="#register" class="sheet-cta">Join Us</a>
+</div>
+
+<!-- ============================================================
+     PAGE HERO
+     ============================================================ -->
+<section class="page-hero">
+  <div class="hero-atmos" aria-hidden="true">
+    <img src="assets/images/gate-2-elijah.jpg"
+      alt=""
+      style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">2025 schedule · all four gates · all formats</div>
+
+    <h1 class="hero-title">
+      Find your<br><em>selah.</em>
+    </h1>
+
+    <p class="hero-sub">
+      Every retreat is small, intentional and grounded in Scripture.
+      Eight to fifteen people. Space to breathe. A guide who will sit
+      with you — not fix you, not preach at you — just companion you in the silence.
+    </p>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">15</div>
+      <div class="hero-stat-text">
+        <strong>Maximum per retreat</strong>
+        Intentionally small. Silence deserves space.
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">IV</div>
+      <div class="hero-stat-text">
+        <strong>Retreat formats</strong>
+        Half day · Full day · Overnight · Extended
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">0</div>
+      <div class="hero-stat-text">
+        <strong>Turned away for lack of funds</strong>
+        Scholarships always available — just ask.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILTER BAR
+     ============================================================ -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="filter-group">
+      <span class="filter-label">By Gate</span>
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="gate1">Gate I — Intentional</button>
+      <button class="filter-tab" data-filter="gate2">Gate II — Drawn</button>
+      <button class="filter-tab" data-filter="gate3">Gate III — Broken</button>
+      <button class="filter-tab" data-filter="gate4">Gate IV — Returning</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">By Format</span>
+      <button class="filter-tab" data-filter="day">Day</button>
+      <button class="filter-tab" data-filter="overnight">Overnight</button>
+      <button class="filter-tab" data-filter="extended">Extended</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     UPCOMING RETREATS
+     ============================================================ -->
+<section class="section retreats-section" id="retreats">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">2025 Schedule</div>
+      <h2 class="section-title">Upcoming <em>retreats.</em></h2>
+      <p class="section-body">
+        Register early — spots fill quickly. No one is turned away for financial reasons.
+        If cost is a barrier, reach out before you register.
+      </p>
+    </div>
+
+    <div class="retreats-grid" id="retreats-grid">
+
+      <!-- 1 -->
+      <article class="retreat-card rc-1 reveal" data-gate="gate1" data-format="day">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">14</div>
+              <div class="retreat-date-month">June 2025 · Saturday</div>
+            </div>
+            <span class="retreat-badge badge-spots">2 Spots Left</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate I — The Intentional</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Into the Stillness</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 8am – 6pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">Beginners</span>
+            <span class="retreat-tag">Ages 16–30</span>
+            <span class="retreat-tag">Day Retreat</span>
+            <span class="retreat-tag">Meals Incl.</span>
+          </div>
+          <p class="retreat-desc">
+            A gentle introduction to the practice of silence. Perfect for those
+            new to silent retreats — or those returning to the well.
+            We move through the full HUSH Arc together with guided Lectio Divina,
+            free silence and a spiritual direction session.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$65<small>per person · all inclusive</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="retreat-card rc-2 reveal" data-gate="gate2" data-format="overnight">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">11</div>
+              <div class="retreat-date-month">July 2025 · Fri – Sun</div>
+            </div>
+            <span class="retreat-badge badge-open">Open</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate II — The Drawn</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Come Away</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Batam, Indonesia</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Fri – Sun · 2 nights</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 18–40</span>
+            <span class="retreat-tag">Overnight</span>
+            <span class="retreat-tag">Ferry Incl.</span>
+          </div>
+          <p class="retreat-desc">
+            For those running on empty. Built on the Elijah model —
+            rest first, encounter second. We slow down together, eat well,
+            sleep, and enter the silence at a human pace. Extended spiritual
+            direction included for all participants.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$220<small>full board · ferry incl.</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="retreat-card rc-3 reveal" data-gate="gate3" data-format="day">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">23</div>
+              <div class="retreat-date-month">August 2025 · Saturday</div>
+            </div>
+            <span class="retreat-badge badge-soon">Coming Soon</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gates III &amp; IV — Broken &amp; Returning</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">The Ash Heap</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Janda Baik, Malaysia</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 9am – 5pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 10</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">All Ages</span>
+            <span class="retreat-tag">Confidential</span>
+            <span class="retreat-tag">Day Retreat</span>
+            <span class="retreat-tag">Grief Welcome</span>
+          </div>
+          <p class="retreat-desc">
+            For those who are broken or returning. This retreat holds deliberate
+            space for honest suffering and the long road home — inspired by Job's
+            ash heap and the Prodigal's far country. A safe, confidential space
+            to bring what you would not bring anywhere else.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$80<small>meals included</small></div>
+            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="retreat-card rc-1 reveal" data-gate="gate1" data-format="day">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">20</div>
+              <div class="retreat-date-month">September 2025 · Saturday</div>
+            </div>
+            <span class="retreat-badge badge-soon">Coming Soon</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate I — Women's Edition</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">The Inner Room</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 9am – 5pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">Women Only</span>
+            <span class="retreat-tag">Ages 18–35</span>
+            <span class="retreat-tag">Day Retreat</span>
+          </div>
+          <p class="retreat-desc">
+            A women-only space for the Primehood generation —
+            built for the unique pressures, expectations and identity questions
+            young women carry. Guided by female spiritual companions in a
+            safe, warm and unhurried space.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$75<small>meals included</small></div>
+            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="retreat-card rc-2 reveal" data-gate="gate2" data-format="day">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">18</div>
+              <div class="retreat-date-month">October 2025 · Saturday</div>
+            </div>
+            <span class="retreat-badge badge-soon">Coming Soon</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate II — Leadership Edition</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Lead from Rest</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 8am – 6pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">Leaders</span>
+            <span class="retreat-tag">Ministry</span>
+            <span class="retreat-tag">Day Retreat</span>
+          </div>
+          <p class="retreat-desc">
+            For pastors, cell leaders, worship leaders and ministry workers
+            giving from empty. Drawing from Alan Fadling on leading from a
+            rested soul — this retreat is permission to stop, receive
+            and be filled before you pour out again.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$65<small>meals included</small></div>
+            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="retreat-card rc-gold reveal" data-gate="all" data-format="extended">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">5</div>
+              <div class="retreat-date-month">December 2025 · Fri – Sun</div>
+            </div>
+            <span class="retreat-badge badge-featured">Featured</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Year End · All Gates Welcome</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Advent Silence</h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Cameron Highlands, Malaysia</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Fri – Sun · 2 nights</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">All Ages</span>
+            <span class="retreat-tag">All Gates</span>
+            <span class="retreat-tag">Overnight</span>
+            <span class="retreat-tag">Advent</span>
+          </div>
+          <p class="retreat-desc">
+            The year-end retreat. All four gates welcome.
+            In the season of Advent — when the world grows loudest —
+            we gather to become quiet together. To wait, like Mary.
+            To listen, like the shepherds. To receive what only the silence can give.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$250<small>full board · transport incl.</small></div>
+            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CALENDAR
+     ============================================================ -->
+<section class="section calendar-section" id="calendar">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">At a Glance</div>
+      <h2 class="section-title">The 2025 <em>calendar.</em></h2>
+      <p class="section-body">
+        Coloured marks indicate retreat dates. Click any marked day to jump to that retreat's details.
+        Dates are subject to change — join the mailing list to stay updated.
+      </p>
+    </div>
+
+    <div class="calendar-outer reveal">
+      <div class="calendar-main">
+        <div class="calendar-nav">
+          <button class="cal-nav-btn" onclick="changeMonth(-1)" aria-label="Previous month">‹</button>
+          <div>
+            <span class="cal-month-title" id="cal-month-title">June</span>
+            <span class="cal-month-year" id="cal-month-year">2025</span>
+          </div>
+          <button class="cal-nav-btn" onclick="changeMonth(1)" aria-label="Next month">›</button>
+        </div>
+
+        <div class="calendar-grid">
+          <div class="cal-days-header">
+            <div class="cal-day-name">Sun</div>
+            <div class="cal-day-name">Mon</div>
+            <div class="cal-day-name">Tue</div>
+            <div class="cal-day-name">Wed</div>
+            <div class="cal-day-name">Thu</div>
+            <div class="cal-day-name">Fri</div>
+            <div class="cal-day-name">Sat</div>
+          </div>
+          <div class="cal-days" id="cal-days"></div>
+        </div>
+      </div>
+
+      <div class="calendar-sidebar">
+        <div class="cal-card">
+          <div class="cal-card-title">Retreat Types</div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--gate1)"></div>
+            <span><span class="cal-legend-num">Gate I</span><span class="cal-legend-name">The Intentional</span></span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--gate2)"></div>
+            <span><span class="cal-legend-num">Gate II</span><span class="cal-legend-name">The Drawn</span></span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--gate3)"></div>
+            <span><span class="cal-legend-num">Gate III</span><span class="cal-legend-name">The Broken</span></span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--gate4)"></div>
+            <span><span class="cal-legend-num">Gate IV</span><span class="cal-legend-name">The Returning</span></span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--gold)"></div>
+            <span><span class="cal-legend-num">All Gates</span><span class="cal-legend-name">Special Retreat</span></span>
+          </div>
+        </div>
+
+        <div class="cal-card">
+          <div class="cal-card-title">Next Retreats</div>
+          <a href="#retreats" class="cal-upcoming-item cu-1">
+            <div class="cal-upcoming-date">14 Jun 2025 · Day</div>
+            <div class="cal-upcoming-name">Into the Stillness</div>
+            <div class="cal-upcoming-spots">2 spots remaining</div>
+          </a>
+          <a href="#retreats" class="cal-upcoming-item cu-2">
+            <div class="cal-upcoming-date">11 Jul 2025 · Overnight</div>
+            <div class="cal-upcoming-name">Come Away</div>
+            <div class="cal-upcoming-spots">8 spots remaining</div>
+          </a>
+          <a href="#retreats" class="cal-upcoming-item cu-3">
+            <div class="cal-upcoming-date">23 Aug 2025 · Day</div>
+            <div class="cal-upcoming-name">The Ash Heap</div>
+            <div class="cal-upcoming-spots">Registration opening soon</div>
+          </a>
+          <a href="#retreats" class="cal-upcoming-item cu-gold">
+            <div class="cal-upcoming-date">5 Dec 2025 · Overnight</div>
+            <div class="cal-upcoming-name">Advent Silence</div>
+            <div class="cal-upcoming-spots">Registration opening soon</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FORMATS
+     ============================================================ -->
+<section class="section formats-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Retreat Formats</div>
+      <h2 class="section-title">Four ways to <em>enter the silence.</em></h2>
+      <p class="section-body">
+        From a first taste to full immersion — there is a format
+        for every season, schedule and level of experience.
+      </p>
+    </div>
+
+    <div class="formats-grid reveal">
+      <div class="format-card fc-1">
+        <div class="format-num">Format I · 4 Hours</div>
+        <h3 class="format-name">The Half Day</h3>
+        <div class="format-duration">A first taste of silence</div>
+        <p class="format-desc">
+          For complete beginners or those with tight schedules.
+          Morning or afternoon. We invite you to surrender your phone for the duration.
+        </p>
+        <div class="format-includes">
+          <div class="format-include-item">Two guided silent sessions</div>
+          <div class="format-include-item">One Lectio Divina meditation</div>
+          <div class="format-include-item">Light refreshments</div>
+        </div>
+        <div class="format-price">From $40<small>per person</small></div>
+      </div>
+
+      <div class="format-card fc-2">
+        <div class="format-num">Format II · 8 – 10 Hours</div>
+        <h3 class="format-name">The Full Day</h3>
+        <div class="format-duration">The full HUSH arc, in one day</div>
+        <p class="format-desc">
+          The most popular format. Walk the entire HUSH arc —
+          Here, Unhurried, Surrender, Hear — in a single sustained day of silence.
+        </p>
+        <div class="format-includes">
+          <div class="format-include-item">Full HUSH arc — guided</div>
+          <div class="format-include-item">One spiritual direction session</div>
+          <div class="format-include-item">Two meals — silent</div>
+        </div>
+        <div class="format-price">From $65<small>per person</small></div>
+      </div>
+
+      <div class="format-card fc-3">
+        <div class="format-num">Format III · 2 Nights</div>
+        <h3 class="format-name">The Overnight</h3>
+        <div class="format-duration">Sleep enters the silence</div>
+        <p class="format-desc">
+          Friday evening through Sunday afternoon. The body slows.
+          The dreams change. Silence does deeper work over a single night
+          than ten retreat days.
+        </p>
+        <div class="format-includes">
+          <div class="format-include-item">Off-site location, full board</div>
+          <div class="format-include-item">Two spiritual direction sessions</div>
+          <div class="format-include-item">Optional walking retreat</div>
+        </div>
+        <div class="format-price">From $220<small>all inclusive</small></div>
+      </div>
+
+      <div class="format-card fc-4">
+        <div class="format-num">Format IV · 5 – 8 Days</div>
+        <h3 class="format-name">The Extended</h3>
+        <div class="format-duration">For those called deeper</div>
+        <p class="format-desc">
+          A monastic-length retreat. By application only.
+          For those in seasons of significant transition,
+          deep grief or vocational discernment.
+        </p>
+        <div class="format-includes">
+          <div class="format-include-item">Daily spiritual direction</div>
+          <div class="format-include-item">Personal cell &amp; private chapel</div>
+          <div class="format-include-item">Custom-built around you</div>
+        </div>
+        <div class="format-price">By Application<small>scholarships available</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SAMPLE SCHEDULE
+     ============================================================ -->
+<section class="section schedule-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag light">A Day in the Silence</div>
+      <h2 class="section-title light">The HUSH <em>arc.</em></h2>
+      <p class="section-body light">
+        Every retreat — half day, full day, overnight — moves through the same
+        four-part arc. <em>Here, Unhurried, Surrender, Hear.</em>
+        It is the rhythm of return.
+      </p>
+    </div>
+
+    <div class="schedule-grid">
+      <div class="reveal">
+        <div class="schedule-verse">
+          <div class="schedule-verse-text">
+            "Be still, and know that I am God."
+          </div>
+          <span class="schedule-verse-ref">Psalm 46:10</span>
+        </div>
+
+        <p class="schedule-body">
+          The four movements are not stages to complete — they are postures
+          to inhabit. Each one undoes a layer of noise. By the end of the
+          day, what remains is what was always there underneath.
+        </p>
+
+        <div class="hush-arc">
+          <div class="hush-arc-item">
+            <div class="hush-arc-letter">H</div>
+            <div class="hush-arc-content">
+              <div class="hush-arc-title">Here I am</div>
+              <div class="hush-arc-desc">
+                Arrive. Breathe. Lay down the week. <em>Hineni</em> —
+                the prayer of Moses, Samuel, Mary. <em>Here I am.</em>
+              </div>
+            </div>
+          </div>
+          <div class="hush-arc-item">
+            <div class="hush-arc-letter">U</div>
+            <div class="hush-arc-content">
+              <div class="hush-arc-title">Unhurried, Undivided</div>
+              <div class="hush-arc-desc">
+                Slow the body. Single-task the soul. The first hours
+                are about leaving the pace of the world behind.
+              </div>
+            </div>
+          </div>
+          <div class="hush-arc-item">
+            <div class="hush-arc-letter">S</div>
+            <div class="hush-arc-content">
+              <div class="hush-arc-title">Surrender, Sit, See</div>
+              <div class="hush-arc-desc">
+                Hand it over. The list, the worry, the performance.
+                Sit with what's there. See what's underneath.
+              </div>
+            </div>
+          </div>
+          <div class="hush-arc-item">
+            <div class="hush-arc-letter">H</div>
+            <div class="hush-arc-content">
+              <div class="hush-arc-title">Hear, Hold, Hope</div>
+              <div class="hush-arc-desc">
+                The still small voice. What is heard in the silence
+                is held in the soul, and carried back into the world as hope.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="timeline-header">A sample full-day retreat</div>
+        <div class="timeline-list">
+          <div class="timeline-item">
+            <div class="timeline-time">8.00 am</div>
+            <div>
+              <div class="timeline-movement tm-h">H — Here</div>
+              <div class="timeline-title">Arrival &amp; opening</div>
+              <div class="timeline-desc">Tea, settling, simple welcome. Phones surrendered.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">8.45 am</div>
+            <div>
+              <div class="timeline-movement tm-h">H — Here</div>
+              <div class="timeline-title">Opening Lectio</div>
+              <div class="timeline-desc">Psalm 46:10 — read four times, slowly.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">9.30 am</div>
+            <div>
+              <div class="timeline-movement tm-u">U — Unhurried</div>
+              <div class="timeline-title">First silence · 90 min</div>
+              <div class="timeline-desc">Walk, sit, journal. Resist the urge to be productive.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">11.00 am</div>
+            <div>
+              <div class="timeline-movement tm-u">U — Unhurried</div>
+              <div class="timeline-title">Silent meal</div>
+              <div class="timeline-desc">Eat slowly. Notice the food. The body matters.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">12.00 pm</div>
+            <div>
+              <div class="timeline-movement tm-s">S — Surrender</div>
+              <div class="timeline-title">Spiritual direction</div>
+              <div class="timeline-desc">A 30-minute companioned conversation. Confidential.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">2.00 pm</div>
+            <div>
+              <div class="timeline-movement tm-s">S — Surrender</div>
+              <div class="timeline-title">Second silence · 120 min</div>
+              <div class="timeline-desc">The deeper hours. Where most encounter happens.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">4.30 pm</div>
+            <div>
+              <div class="timeline-movement tm-end">H — Hear</div>
+              <div class="timeline-title">Closing circle</div>
+              <div class="timeline-desc">Optional sharing. No pressure to speak.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">5.30 pm</div>
+            <div>
+              <div class="timeline-movement tm-end">H — Hear</div>
+              <div class="timeline-title">Benediction &amp; release</div>
+              <div class="timeline-desc">A blessing. Phones returned. You leave changed.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHAT TO BRING
+     ============================================================ -->
+<section class="section bring-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Practical</div>
+      <h2 class="section-title">What to <em>bring.</em> What to <em>leave.</em></h2>
+      <p class="section-body">
+        Pack lightly. The silence will do most of the work.
+        Below is what we ask you to bring — and what we ask you to leave behind.
+      </p>
+    </div>
+
+    <div class="bring-grid">
+      <div class="reveal">
+        <div class="bring-eyebrow">Bring with you</div>
+        <ul class="bring-list">
+          <li class="bring-item">
+            <div class="bring-mark">✦</div>
+            <div>
+              <div class="bring-title">Your Bible</div>
+              <div class="bring-desc">Any translation. We'll be reading slowly. A physical copy is encouraged.</div>
+            </div>
+          </li>
+          <li class="bring-item">
+            <div class="bring-mark">✦</div>
+            <div>
+              <div class="bring-title">A journal &amp; pen</div>
+              <div class="bring-desc">Plain, lined or blank — yours. The Spirit speaks; the hand catches.</div>
+            </div>
+          </li>
+          <li class="bring-item">
+            <div class="bring-mark">✦</div>
+            <div>
+              <div class="bring-title">Comfortable clothing</div>
+              <div class="bring-desc">Layers for indoor/outdoor sitting. Walking shoes for the silent walk.</div>
+            </div>
+          </li>
+          <li class="bring-item">
+            <div class="bring-mark">✦</div>
+            <div>
+              <div class="bring-title">A water bottle</div>
+              <div class="bring-desc">Refilled silently throughout the day at the welcome table.</div>
+            </div>
+          </li>
+          <li class="bring-item">
+            <div class="bring-mark">✦</div>
+            <div>
+              <div class="bring-title">An honest heart</div>
+              <div class="bring-desc">Bring whatever state you're in. Don't perform. The room makes space.</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="scholarship-note">
+          <div class="scholarship-text">
+            <strong>Cost is never a reason to stay home.</strong>
+            If the price is a barrier — for any reason — write to us before you register.
+            No applications. No questions. We will quietly take care of it.
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal leave-card">
+        <h3 class="leave-title">What to leave behind</h3>
+        <div class="leave-sub">For the duration of the retreat</div>
+
+        <div class="leave-item">
+          <div class="leave-mark">✕</div>
+          <div>Your phone &amp; smart watch — surrendered at arrival, returned at the close</div>
+        </div>
+        <div class="leave-item">
+          <div class="leave-mark">✕</div>
+          <div>Work laptops, books and reading material outside Scripture</div>
+        </div>
+        <div class="leave-item">
+          <div class="leave-mark">✕</div>
+          <div>The need to perform peace, holiness or healing on a timeline</div>
+        </div>
+        <div class="leave-item">
+          <div class="leave-mark">✕</div>
+          <div>The expectation of an answer, a vision, or a particular outcome</div>
+        </div>
+        <div class="leave-item">
+          <div class="leave-mark">✕</div>
+          <div>The version of yourself you bring to church on Sunday</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="section faq-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Honest Questions</div>
+      <h2 class="section-title">Things people <em>actually ask.</em></h2>
+      <p class="section-body">
+        The questions we hear most often, before retreats and during.
+        Email us anything not answered here — we read every message.
+      </p>
+    </div>
+
+    <div class="faq-grid reveal">
+      <div class="faq-item">
+        <div class="faq-q">I've never done a silent retreat. Will I be okay? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          More than okay. Most of our retreatants are first-timers.
+          Silence is not an exam — it is a return to your own breath.
+          Your guide will set you up gently and check in as needed.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What about my phone? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          We invite you to surrender your phone for the duration.
+          This is the hardest and most transformative part of the retreat.
+          We provide a secure space for devices and help you prepare for it.
+          You will be okay — more than okay.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is this charismatic, tongues, healing-focused? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          No. Our retreats are grounded in ancient Christian contemplative practice —
+          Scripture, silence and spiritual direction. Quiet, gentle, non-spectacular.
+          We make room for the Holy Spirit to move as He wills, but we do not prescribe how.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">I'm not sure I'm a Christian. Can I still come? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          THR is a distinctly Christian space — centred on Jesus Christ.
+          If you are spiritually curious or on the edges of faith, you are
+          genuinely welcome. We will not pressure you. But you should know clearly —
+          this is a room made for encounter with the God of the Bible.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if I panic or cry in the silence? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          Both are more common than you think. Your guide is available throughout.
+          Silence often surfaces what we have been suppressing — that is not a malfunction.
+          It is the healing beginning. You are safe here. Tears are welcome.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are the retreats English-only? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          Currently yes — all guided sessions and spiritual direction are in English.
+          We hope to offer Mandarin and Bahasa sessions in the future.
+          Watch the calendar for updates.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I bring a friend? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          Yes — and we encourage it. However, once the retreat begins,
+          you will spend most of the time in individual silence, not together.
+          Many find that doing a retreat alongside a friend deepens the experience
+          even without speaking. Register together and note it in your booking.
+        </p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What does spiritual direction mean? <span class="faq-mark">+</span></div>
+        <p class="faq-a">
+          A confidential, 30-minute conversation with a trained companion.
+          Not therapy. Not advice-giving. A second set of ears for what God may be
+          stirring in you. You do not need a topic; we follow what's there.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GROUP / REGISTER
+     ============================================================ -->
+<section class="group-section" id="register">
+  <div class="group-inner">
+    <div class="reveal">
+      <div class="section-tag light">Register · Group &amp; Church Bookings</div>
+      <h2 class="group-title">
+        Bring THR to<br><em>your community.</em>
+      </h2>
+      <p class="group-body">
+        Register for an upcoming retreat below — or partner with us
+        to bring the Hush Room experience directly to your church,
+        campus fellowship, cell group or ministry team. We come to you;
+        you come to us.
+      </p>
+
+      <div class="group-types">
+        <div class="group-type">Church youth groups &amp; young adult ministries</div>
+        <div class="group-type">Campus Christian fellowships — NUS · NTU · SMU · Poly</div>
+        <div class="group-type">Cell groups &amp; discipleship communities</div>
+        <div class="group-type">Ministry leadership teams &amp; pastoral staff</div>
+        <div class="group-type">Schools with Christian foundations</div>
+      </div>
+    </div>
+
+    <form class="group-form reveal" onsubmit="event.preventDefault(); alert('Thank you. We will be in touch within two days.');">
+      <h3 class="group-form-title">Register or enquire</h3>
+      <div class="group-form-sub">A real human reads every message.</div>
+
+      <div class="form-field">
+        <label class="form-label">Your name</label>
+        <input type="text" class="form-input" placeholder="Full name" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Email address</label>
+        <input type="email" class="form-input" placeholder="your@email.com" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Which retreat</label>
+        <select class="form-select">
+          <option value="">Select a retreat...</option>
+          <option>14 Jun — Into the Stillness · Day</option>
+          <option>11 Jul — Come Away · Overnight</option>
+          <option>23 Aug — The Ash Heap · Day</option>
+          <option>20 Sep — The Inner Room · Women's</option>
+          <option>18 Oct — Lead from Rest · Leaders</option>
+          <option>5 Dec — Advent Silence · Overnight</option>
+          <option>Group / Church booking — enquire</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Which gate brings you?</label>
+        <select class="form-select">
+          <option value="">Select your gate...</option>
+          <option>Gate I — I am hungry</option>
+          <option>Gate II — I am exhausted</option>
+          <option>Gate III — I am broken</option>
+          <option>Gate IV — I am returning</option>
+          <option>I'm not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Anything you'd like us to know</label>
+        <textarea class="form-input" rows="3" placeholder="Scholarship request, dietary needs, questions..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Send Registration</button>
+      <div class="form-promise">No one turned away for lack of funds. Just ask.</div>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <h2 class="cta-title">
+      Still not sure<br>which <em>retreat?</em>
+    </h2>
+    <p class="cta-sub">
+      Follow your gate. If you are hungry — Gate I. If you are exhausted — Gate II.
+      If you are broken — Gate III. If you are returning — Gate IV. Trust the gate.
+      It will lead you to the right retreat.
+    </p>
+    <div class="cta-buttons">
+      <a href="gates.html" class="btn-gold">Find My Gate</a>
+      <a href="story.html" class="btn-ghost">Read Our Story</a>
+    </div>
+    <div class="cta-verse">
+      "In returning and rest you shall be saved;<br>
+      in quietness and trust shall be your strength."
+      <span class="cta-verse-ref">Isaiah 30:15</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">The <span>Hush</span> Room</a>
+    <div class="footer-meta">© 2025 The Hush Room · hush.asia</div>
+  </div>
+  <div class="footer-tagline">
+    The world says rush.<br>God says hush.
+  </div>
+  <ul class="footer-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+/* ===== Mobile menu ===== */
+const navBurger = document.getElementById('navBurger');
+const navSheet = document.getElementById('navSheet');
+if (navBurger) {
+  navBurger.addEventListener('click', () => navSheet.classList.toggle('open'));
+  navSheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navSheet.classList.remove('open')));
+}
+
+/* ===== Calendar ===== */
+const retreatDates = {
+  '2025-6':  [{ day: 14, gate: 'g1', name: 'Into the Stillness' }],
+  '2025-7':  [
+    { day: 11, gate: 'g2', name: 'Come Away' },
+    { day: 12, gate: 'g2', name: 'Come Away' },
+    { day: 13, gate: 'g2', name: 'Come Away' }
+  ],
+  '2025-8':  [{ day: 23, gate: 'g3', name: 'The Ash Heap' }],
+  '2025-9':  [{ day: 20, gate: 'g1', name: 'The Inner Room' }],
+  '2025-10': [{ day: 18, gate: 'g2', name: 'Lead from Rest' }],
+  '2025-12': [
+    { day: 5, gate: 'gold', name: 'Advent Silence' },
+    { day: 6, gate: 'gold', name: 'Advent Silence' },
+    { day: 7, gate: 'gold', name: 'Advent Silence' }
+  ]
+};
+
+let currentYear = 2025;
+let currentMonth = 5; // 0-indexed June
+
+const monthNames = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+
+function renderCalendar() {
+  const titleEl = document.getElementById('cal-month-title');
+  const yearEl = document.getElementById('cal-month-year');
+  const daysEl = document.getElementById('cal-days');
+
+  titleEl.textContent = monthNames[currentMonth];
+  yearEl.textContent = currentYear;
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
+
+  const key = currentYear + '-' + (currentMonth + 1);
+  const retreats = retreatDates[key] || [];
+  const retreatMap = {};
+  retreats.forEach(r => retreatMap[r.day] = r);
+
+  const today = new Date();
+  const isCurrentMonth = today.getFullYear() === currentYear && today.getMonth() === currentMonth;
+
+  let html = '';
+  for (let i = firstDay - 1; i >= 0; i--) {
+    html += '<div class="cal-day other-month empty">' + (daysInPrev - i) + '</div>';
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    let cls = 'cal-day';
+    if (isCurrentMonth && d === today.getDate()) cls += ' today';
+    if (retreatMap[d]) cls += ' has-retreat retreat-' + retreatMap[d].gate;
+    html += '<div class="' + cls + '" onclick="selectDay(' + d + ', event)">' + d + '</div>';
+  }
+  const remaining = 42 - (firstDay + daysInMonth);
+  for (let d = 1; d <= remaining; d++) {
+    html += '<div class="cal-day other-month empty">' + d + '</div>';
+  }
+  daysEl.innerHTML = html;
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  renderCalendar();
+}
+
+function selectDay(day, evt) {
+  const key = currentYear + '-' + (currentMonth + 1);
+  const retreats = retreatDates[key] || [];
+  const retreat = retreats.find(r => r.day === day);
+  document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('selected'));
+  if (evt && evt.target) evt.target.classList.add('selected');
+  if (retreat) {
+    const grid = document.getElementById('retreats');
+    if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+renderCalendar();
+
+/* ===== Filter ===== */
+const filterTabs = document.querySelectorAll('.filter-tab');
+filterTabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    // determine which group this button belongs to and clear that group only
+    const group = btn.closest('.filter-group');
+    group.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Read active filters from each group
+    const allGroups = document.querySelectorAll('.filter-group');
+    let gateFilter = 'all', formatFilter = 'all';
+    allGroups.forEach(g => {
+      const active = g.querySelector('.filter-tab.active');
+      if (!active) return;
+      const v = active.dataset.filter;
+      if (v && v.startsWith('gate')) gateFilter = v;
+      else if (v === 'all') gateFilter = 'all';
+      else formatFilter = v;
+    });
+
+    document.querySelectorAll('.retreat-card').forEach(card => {
+      const gate = card.dataset.gate;
+      const format = card.dataset.format;
+      const gateOk = gateFilter === 'all' || gate === gateFilter || gate === 'all';
+      const formatOk = formatFilter === 'all' || format === formatFilter;
+      card.style.display = (gateOk && formatOk) ? 'flex' : 'none';
+    });
+  });
+});
+
+// Add an "all" reset behaviour for the format group too
+document.querySelectorAll('.filter-group').forEach(group => {
+  // ensure exactly one active per group; if none, the "All" in gates is already active
+});
+
+/* ===== Reveal ===== */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

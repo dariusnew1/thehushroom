@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources — The Hush Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Earths */
+  --sienna:       #7B3F2A;
+  --sienna-light: #C4896A;
+  --parchment:    #F5EDD9;
+  --warm-white:   #FDFAF3;
+  --charcoal:     #2E2B27;
+  --ash:          #4A4540;
+  --gold:         #C9A45A;
+  --gold-light:   #E8D5A8;
+  --ink:          #1E1B17;
+
+  /* Waters */
+  --sage:         #8A9E7F;
+  --sage-dark:    #5A7060;
+  --sage-light:   #C4CFBA;
+  --slate:        #5A7080;
+  --slate-light:  #9CB3C2;
+  --cream:        #F0E8D5;
+
+  /* Accent */
+  --crimson:      #8B2E2E;
+  --crimson-light:#D08A8A;
+
+  /* Rule */
+  --rule:         rgba(123,63,42,0.10);
+  --rule-light:   rgba(123,63,42,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  font-weight: 400;
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* parchment grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ============================================================
+   NAVIGATION (system-shared)
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(253,250,243,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--sienna);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-logo span { font-style: italic; color: var(--gold); }
+
+.nav-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--ash);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--charcoal); text-decoration: none;
+  opacity: 0.6;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { opacity: 1; color: var(--sienna); }
+
+.nav-cta {
+  background: var(--sienna) !important;
+  color: var(--parchment) !important;
+  padding: 0.55rem 1.4rem;
+  border-radius: 2rem;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  font-size: 0.72rem !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.nav-cta:hover { background: var(--crimson) !important; transform: translateY(-1px); }
+
+.nav-burger {
+  display: none;
+  background: none; border: 0; padding: 0.3rem;
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  margin: 5px 0;
+  background: var(--sienna);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-sheet {
+  position: fixed; inset: 0;
+  z-index: 999;
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-sheet.open { opacity: 1; pointer-events: auto; }
+.nav-sheet a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-sheet a.sheet-cta {
+  margin-top: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--sienna);
+  color: var(--parchment);
+  padding: 0.85rem 2.5rem;
+  border-radius: 2rem;
+}
+
+/* ============================================================
+   PRIMITIVES
+   ============================================================ */
+.section { padding: 8rem 3rem; position: relative; }
+.section-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+
+.section-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--sienna);
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  opacity: 0.85;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--sienna); opacity: 0.7;
+}
+.section-tag.light { color: var(--gold); }
+.section-tag.light::before { background: var(--gold); }
+.section-tag.center { justify-content: center; }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.section-title em { color: var(--sienna); font-style: italic; font-weight: 400; }
+.section-title.light { color: var(--parchment); }
+.section-title.light em { color: var(--gold); }
+
+.section-body {
+  font-size: 0.98rem; line-height: 1.85;
+  color: rgba(46,43,39,0.65);
+  max-width: 580px;
+  margin-bottom: 2rem;
+  text-wrap: pretty;
+}
+.section-body.light { color: rgba(245,237,217,0.6); }
+
+/* Buttons */
+.btn-primary, .btn-ghost, .btn-gold {
+  display: inline-block;
+  padding: 0.9rem 2.4rem;
+  border-radius: 2rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.btn-primary { background: var(--sienna); color: var(--parchment); }
+.btn-primary:hover { background: var(--crimson); transform: translateY(-2px); }
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--parchment); border-color: rgba(245,237,217,0.22); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.btn-ghost.on-light { color: var(--charcoal); border-color: rgba(46,43,39,0.22); }
+.btn-ghost.on-light:hover { color: var(--sienna); border-color: var(--sienna); }
+
+/* Illustration placeholder */
+.illus {
+  background: rgba(123,63,42,0.06);
+  border: 1px dashed rgba(123,63,42,0.22);
+  border-radius: 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  position: relative; overflow: hidden;
+  padding: 2rem;
+}
+.illus::after {
+  content: '';
+  position: absolute; inset: 1rem;
+  border: 1px solid rgba(123,63,42,0.10);
+  border-radius: 0.35rem;
+  pointer-events: none;
+}
+.illus-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--sienna);
+  opacity: 0.55;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+.illus-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 0.4rem;
+}
+.illus.on-dark { background: rgba(245,237,217,0.04); border-color: rgba(201,164,90,0.25); }
+.illus.on-dark .illus-meta { color: var(--gold); }
+
+/* ============================================================
+   PAGE HERO — dark, watercolour-washed
+   ============================================================ */
+.page-hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 11rem 5rem 6rem;
+  position: relative; overflow: hidden;
+  background: var(--ink);
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 75% 60% at 20% 30%, rgba(123,63,42,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 20%, rgba(201,164,90,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at 80% 80%, rgba(90,112,96,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 15% 90%, rgba(90,112,128,0.16) 0%, transparent 60%);
+  filter: blur(2px);
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 4rem;
+  align-items: end;
+}
+
+.hero-text {}
+
+.hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--gold);
+  opacity: 0.75;
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  letter-spacing: 0.02em;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold); opacity: 0.6;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.05;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold-light);
+}
+
+.hero-sub {
+  font-size: 1rem; line-height: 1.85;
+  color: rgba(245,237,217,0.6);
+  max-width: 540px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-illus {
+  width: 100%;
+  aspect-ratio: 4/5;
+  max-width: 360px;
+  margin-left: auto;
+  animation: fadeUp 1s 0.45s ease both;
+}
+
+/* ============================================================
+   TAB NAV (sticky)
+   ============================================================ */
+.tab-nav {
+  background: var(--warm-white);
+  border-bottom: 1px solid var(--rule);
+  position: sticky; top: 0; z-index: 100;
+  padding: 0 3rem;
+}
+.tab-nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav-inner::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  padding: 1.4rem 1.6rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ash); opacity: 0.55;
+  background: transparent; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.tab-btn:hover { opacity: 0.85; color: var(--sienna); }
+.tab-btn.active {
+  opacity: 1; color: var(--sienna);
+  border-bottom-color: var(--sienna);
+  font-weight: 600;
+}
+
+/* ============================================================
+   SCRIPTURE REFLECTIONS
+   ============================================================ */
+.scripture-section { background: var(--warm-white); }
+
+.scripture-featured {
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 0; margin-bottom: 5rem;
+  background: var(--ink);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  border: 1px solid rgba(201,164,90,0.18);
+}
+
+.scripture-featured-illus {
+  min-height: 460px;
+  background: rgba(245,237,217,0.04);
+  border-right: 1px solid rgba(201,164,90,0.15);
+}
+
+.scripture-featured-content {
+  padding: 3.5rem 3rem;
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+
+.scripture-week {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.7; letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.scripture-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 600; color: var(--parchment);
+  line-height: 1.2; margin-bottom: 1.5rem;
+  letter-spacing: -0.005em;
+}
+
+.scripture-verse-block {
+  background: rgba(201,164,90,0.06);
+  border-left: 2px solid var(--gold);
+  padding: 1.1rem 1.4rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1rem 0 1.5rem;
+}
+.scripture-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.05rem;
+  color: var(--gold-light); line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+.scripture-verse-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--gold); opacity: 0.7;
+  font-weight: 500;
+}
+
+.scripture-body {
+  font-size: 0.92rem; line-height: 1.85;
+  color: rgba(245,237,217,0.55);
+  margin-bottom: 1rem;
+}
+
+.scripture-practice {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--gold);
+  opacity: 0.8; margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(245,237,217,0.08);
+  letter-spacing: 0.02em;
+}
+
+/* Archive */
+.scripture-archive-head {
+  margin-bottom: 2.5rem;
+}
+.scripture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.scripture-card {
+  background: var(--parchment);
+  border-radius: 0.9rem; padding: 2rem;
+  border: 1px solid var(--rule);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.scripture-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--sienna);
+  opacity: 0.5;
+}
+.sc-1::before { background: var(--sage-dark); }
+.sc-2::before { background: var(--sienna); }
+.sc-3::before { background: var(--slate); }
+.sc-4::before { background: var(--crimson); }
+.sc-all::before { background: var(--gold); }
+
+.scripture-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+
+.scripture-card-week {
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem; color: var(--sienna);
+  opacity: 0.7; margin-bottom: 0.4rem;
+  letter-spacing: 0.02em;
+}
+.scripture-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+.scripture-card-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; color: var(--sienna);
+  opacity: 0.7; margin-bottom: 1rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500;
+}
+.scripture-card-body {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(46,43,39,0.6);
+  margin-bottom: 1.2rem;
+}
+.scripture-card-practice {
+  font-family: 'Caveat', cursive;
+  font-size: 0.92rem; color: var(--sage-dark);
+  opacity: 0.85; padding-top: 1rem;
+  border-top: 1px solid var(--rule-light);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   READING LIST
+   ============================================================ */
+.reading-section { background: var(--parchment); }
+
+.reading-intro {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; margin-bottom: 4.5rem;
+  align-items: center;
+}
+
+.reading-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  font-style: italic; font-weight: 400;
+  color: var(--sienna); line-height: 1.5;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--gold);
+  text-wrap: pretty;
+}
+.reading-quote-attr {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  color: var(--ash); opacity: 0.6;
+  margin-top: 0.8rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500;
+}
+
+.reading-note {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(46,43,39,0.6);
+  text-wrap: pretty;
+}
+
+.reading-gates {
+  display: flex; flex-direction: column; gap: 3.5rem;
+}
+
+.reading-gate-header {
+  display: flex; align-items: center; gap: 1.2rem;
+  margin-bottom: 1.75rem; padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.reading-gate-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 600; line-height: 1;
+}
+.rg-1 .reading-gate-num { color: var(--sage-dark); }
+.rg-2 .reading-gate-num { color: var(--sienna); }
+.rg-3 .reading-gate-num { color: var(--slate); }
+.rg-4 .reading-gate-num { color: var(--crimson); }
+
+.reading-gate-label { display: flex; flex-direction: column; }
+.reading-gate-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.reading-gate-desc {
+  font-family: 'Caveat', cursive;
+  font-size: 0.9rem; opacity: 0.55; color: var(--ash);
+  letter-spacing: 0.02em;
+}
+
+.books-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.book-card {
+  background: var(--warm-white);
+  border-radius: 0.7rem; padding: 1.6rem;
+  border: 1px solid var(--rule);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex; flex-direction: column;
+}
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(46,43,39,0.06);
+}
+
+.book-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.05rem;
+  font-weight: 600; color: var(--ink);
+  margin-bottom: 0.25rem; line-height: 1.3;
+}
+.book-author {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; color: var(--sienna);
+  opacity: 0.75; margin-bottom: 0.7rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  font-weight: 600;
+}
+.book-desc {
+  font-size: 0.83rem; line-height: 1.7;
+  color: rgba(46,43,39,0.6);
+  margin-bottom: 0.9rem;
+  flex: 1;
+}
+.book-gate-tag {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.16em; font-weight: 600;
+  padding: 0.25rem 0.7rem; border-radius: 1rem;
+  align-self: flex-start;
+}
+.rg-1 .book-gate-tag { background: rgba(90,112,96,0.10); color: var(--sage-dark); }
+.rg-2 .book-gate-tag { background: rgba(123,63,42,0.10); color: var(--sienna); }
+.rg-3 .book-gate-tag { background: rgba(90,112,128,0.10); color: var(--slate); }
+.rg-4 .book-gate-tag { background: rgba(139,46,46,0.10); color: var(--crimson); }
+
+/* ============================================================
+   PRACTICES
+   ============================================================ */
+.practices-section { background: var(--warm-white); }
+
+.practices-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 3rem;
+}
+
+.practice-card {
+  border-radius: 1rem; overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--warm-white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+}
+.practice-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+
+.practice-header {
+  padding: 2.2rem 1.8rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+}
+.practice-header::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.ph-1 { background: linear-gradient(135deg, #5A7060 0%, #3D5247 100%); }
+.ph-2 { background: linear-gradient(135deg, #7B3F2A 0%, #5A2A18 100%); }
+.ph-3 { background: linear-gradient(135deg, #5A7080 0%, #3D5560 100%); }
+.ph-4 { background: linear-gradient(135deg, #6B5A3A 0%, #4A3F22 100%); }
+.ph-5 { background: linear-gradient(135deg, #8B2E2E 0%, #5A1A1A 100%); }
+.ph-6 { background: linear-gradient(135deg, #4A4540 0%, #2E2B27 100%); }
+
+.practice-icon-large {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem; color: rgba(245,237,217,0.32);
+  font-style: italic; line-height: 1;
+  margin-bottom: 0.8rem; display: block;
+  position: relative; z-index: 1;
+}
+
+.practice-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--parchment); margin-bottom: 0.3rem;
+  position: relative; z-index: 1;
+}
+.practice-latin {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: rgba(245,237,217,0.55);
+  letter-spacing: 0.02em;
+  position: relative; z-index: 1;
+}
+
+.practice-body-section { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
+
+.practice-desc {
+  font-size: 0.9rem; line-height: 1.8;
+  color: rgba(46,43,39,0.65);
+  margin-bottom: 1.4rem;
+}
+
+.practice-how-title {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--sienna);
+  letter-spacing: 0.02em; opacity: 0.8;
+  margin-bottom: 0.7rem;
+}
+.practice-steps {
+  display: flex; flex-direction: column; gap: 0.55rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+.practice-step {
+  display: flex; gap: 0.8rem; align-items: flex-start;
+  font-size: 0.83rem; line-height: 1.65;
+  color: rgba(46,43,39,0.6);
+}
+.practice-step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.75; min-width: 18px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.practice-download {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0.55rem 1.1rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(123,63,42,0.25);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--sienna); text-decoration: none;
+  transition: all 0.2s ease;
+}
+.practice-download:hover {
+  background: var(--sienna); color: var(--parchment);
+  border-color: var(--sienna);
+}
+
+/* ============================================================
+   PLAYLIST
+   ============================================================ */
+.playlist-section {
+  background: var(--ink);
+  padding: 8rem 3rem;
+  position: relative; overflow: hidden;
+}
+.playlist-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 30%, rgba(90,112,96,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 55% at 80% 70%, rgba(123,63,42,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(201,164,90,0.06) 0%, transparent 60%);
+  filter: blur(2px);
+}
+
+.playlist-inner {
+  max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+
+.playlist-statement {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.3rem;
+  color: var(--gold-light); line-height: 1.6;
+  margin: 1.5rem 0 2rem;
+  padding-left: 1.4rem;
+  border-left: 2px solid var(--gold);
+  text-wrap: pretty;
+}
+
+.playlist-body {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(245,237,217,0.55);
+  margin-bottom: 2.5rem;
+}
+
+.playlist-categories {
+  display: flex; flex-direction: column; gap: 0.9rem;
+}
+.playlist-cat {
+  display: flex; gap: 1.2rem; align-items: flex-start;
+  padding: 1.1rem 1.3rem;
+  background: rgba(245,237,217,0.04);
+  border: 1px solid rgba(245,237,217,0.08);
+  border-radius: 0.6rem;
+}
+.playlist-cat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.4rem; color: var(--gold);
+  opacity: 0.7; line-height: 1;
+  flex-shrink: 0; min-width: 26px;
+  margin-top: 0.1rem;
+}
+.playlist-cat-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--parchment); margin-bottom: 0.25rem;
+}
+.playlist-cat-desc {
+  font-size: 0.82rem; line-height: 1.65;
+  color: rgba(245,237,217,0.45);
+}
+
+.playlist-right { padding-top: 0.5rem; }
+
+.playlist-rh {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.65;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.playlist-tracks { display: flex; flex-direction: column; gap: 0; }
+.playlist-track {
+  display: flex; gap: 1.2rem; align-items: center;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(245,237,217,0.07);
+  cursor: pointer; transition: padding 0.2s ease;
+}
+.playlist-track:last-child { border-bottom: none; }
+.playlist-track:hover { padding-left: 0.4rem; }
+
+.track-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem; color: var(--gold);
+  opacity: 0.4; min-width: 30px;
+  letter-spacing: 0.02em;
+}
+.track-info { flex: 1; }
+.track-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--parchment); margin-bottom: 0.15rem;
+}
+.track-artist {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; color: rgba(245,237,217,0.4);
+}
+.track-type {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem; color: var(--gold);
+  opacity: 0.6; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 500;
+}
+
+.playlist-note {
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid rgba(245,237,217,0.08);
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: rgba(245,237,217,0.45);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   JOURNAL PROMPTS
+   ============================================================ */
+.journal-section {
+  background: var(--cream);
+  position: relative; overflow: hidden;
+}
+.journal-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(123,63,42,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(90,112,96,0.05) 0%, transparent 60%);
+}
+
+.journal-intro { max-width: 620px; margin-bottom: 3.5rem; position: relative; z-index: 1; }
+
+.journal-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem; position: relative; z-index: 1;
+}
+
+.journal-card {
+  background: var(--warm-white);
+  border-radius: 1rem; padding: 2.5rem;
+  border: 1px solid var(--rule);
+  position: relative; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.journal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+.journal-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.jc-1::before { background: var(--sage-dark); }
+.jc-2::before { background: var(--sienna); }
+.jc-3::before { background: var(--slate); }
+.jc-4::before { background: var(--crimson); }
+
+.journal-gate-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.18em;
+  text-transform: uppercase; margin-bottom: 1rem;
+  opacity: 0.75; font-weight: 600;
+}
+.jc-1 .journal-gate-label { color: var(--sage-dark); }
+.jc-2 .journal-gate-label { color: var(--sienna); }
+.jc-3 .journal-gate-label { color: var(--slate); }
+.jc-4 .journal-gate-label { color: var(--crimson); }
+
+.journal-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 1.4rem;
+  line-height: 1.3;
+}
+.journal-prompts-list { display: flex; flex-direction: column; gap: 0.95rem; }
+
+.journal-prompt {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: rgba(46,43,39,0.7); line-height: 1.5;
+  padding-left: 1.1rem;
+  border-left: 1px solid rgba(123,63,42,0.18);
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   AUDIO REFLECTIONS
+   ============================================================ */
+.audio-section { background: var(--warm-white); }
+
+.audio-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 3rem;
+}
+
+.audio-card {
+  border-radius: 1rem; overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--parchment);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+}
+.audio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+
+.audio-header {
+  padding: 1.8rem; background: var(--sienna);
+  position: relative; overflow: hidden;
+  min-height: 130px;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+.audio-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.10) 0%, transparent 60%);
+}
+.ah-1 { background: var(--sage-dark); }
+.ah-2 { background: var(--sienna); }
+.ah-3 { background: var(--slate); }
+.ah-4 { background: var(--crimson); }
+.ah-5 { background: var(--ash); }
+.ah-6 { background: var(--ink); }
+
+.audio-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem; font-weight: 600;
+  color: rgba(245,237,217,0.14); line-height: 1;
+  position: absolute; top: 0.5rem; right: 1.2rem;
+  font-style: italic;
+}
+
+.audio-duration {
+  font-family: 'Caveat', cursive;
+  font-size: 0.9rem; color: rgba(245,237,217,0.7);
+  letter-spacing: 0.02em;
+  position: relative; z-index: 1;
+}
+
+.audio-play {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(245,237,217,0.18);
+  border: 1px solid rgba(245,237,217,0.25);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s ease;
+  position: relative; z-index: 1;
+  color: var(--parchment);
+  font-size: 0.75rem;
+  padding-left: 3px;
+}
+.audio-play:hover { background: rgba(245,237,217,0.3); transform: scale(1.05); }
+
+.audio-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
+
+.audio-episode {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; color: var(--sienna);
+  letter-spacing: 0.18em; opacity: 0.75;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase; font-weight: 600;
+}
+.audio-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+.audio-desc {
+  font-size: 0.85rem; line-height: 1.75;
+  color: rgba(46,43,39,0.6);
+  margin-bottom: 1rem;
+  flex: 1;
+}
+.audio-scripture {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.9rem;
+  color: var(--sienna); opacity: 0.75;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule-light);
+}
+
+/* ============================================================
+   NEWSLETTER
+   ============================================================ */
+.newsletter-section {
+  background: var(--sienna);
+  padding: 8rem 3rem;
+  position: relative; overflow: hidden;
+}
+.newsletter-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(139,46,46,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 50%, rgba(30,27,23,0.35) 0%, transparent 60%);
+  filter: blur(2px);
+}
+
+.newsletter-inner {
+  max-width: 720px; margin: 0 auto;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+
+.newsletter-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  font-weight: 500; color: var(--parchment);
+  line-height: 1.15; margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+}
+.newsletter-title em { color: var(--gold-light); font-style: italic; font-weight: 300; }
+
+.newsletter-sub {
+  font-size: 1rem; color: rgba(245,237,217,0.65);
+  margin-bottom: 2.5rem; line-height: 1.85;
+  max-width: 560px; margin-left: auto; margin-right: auto;
+}
+
+.newsletter-form {
+  display: flex; gap: 0.75rem; justify-content: center;
+  flex-wrap: wrap; max-width: 480px;
+  margin: 0 auto 1.5rem;
+}
+.newsletter-input {
+  flex: 1; min-width: 240px;
+  padding: 0.95rem 1.6rem; border-radius: 2rem;
+  border: 1px solid rgba(245,237,217,0.22);
+  background: rgba(245,237,217,0.07);
+  color: var(--parchment);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; outline: none;
+  transition: border-color 0.2s ease;
+}
+.newsletter-input::placeholder { color: rgba(245,237,217,0.4); }
+.newsletter-input:focus { border-color: var(--gold); }
+
+.newsletter-note {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: rgba(245,237,217,0.45);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   FOOTER (system-shared)
+   ============================================================ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(201,164,90,0.10);
+  padding: 3.5rem 3rem;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; color: var(--parchment);
+  font-weight: 600; text-decoration: none;
+}
+.footer-logo span { color: var(--gold); font-style: italic; }
+
+.footer-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(245,237,217,0.3);
+  margin-top: 0.5rem;
+  letter-spacing: 0.08em;
+}
+
+.footer-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.4);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+.footer-links {
+  display: flex; gap: 1.8rem; list-style: none;
+  justify-content: flex-end; flex-wrap: wrap;
+}
+.footer-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(245,237,217,0.4);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1180px) {
+  .nav-tagline { display: none; }
+  .nav-links { gap: 1.5rem; font-size: 0.72rem; letter-spacing: 0.12em; }
+  nav { padding: 1.1rem 2rem; }
+}
+
+@media (max-width: 1100px) {
+  .page-hero { padding: 10rem 2.5rem 5rem; }
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-illus { max-width: 320px; aspect-ratio: 5/4; margin: 0; order: -1; }
+  .scripture-featured { grid-template-columns: 1fr; }
+  .scripture-featured-illus { min-height: 280px; border-right: none; border-bottom: 1px solid rgba(201,164,90,0.15); }
+  .scripture-grid { grid-template-columns: repeat(2, 1fr); }
+  .reading-intro { grid-template-columns: 1fr; gap: 2.5rem; }
+  .practices-grid { grid-template-columns: repeat(2, 1fr); }
+  .audio-grid { grid-template-columns: repeat(2, 1fr); }
+  .playlist-inner { grid-template-columns: 1fr; gap: 3.5rem; }
+  .books-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-burger { display: block; }
+  .nav-cta-desktop { display: none; }
+}
+
+@media (max-width: 900px) {
+  .section { padding: 5rem 1.5rem; }
+  .page-hero { padding: 8rem 1.5rem 4rem; min-height: auto; }
+  .playlist-section, .newsletter-section { padding: 5rem 1.5rem; }
+  .tab-nav { padding: 0 1.5rem; }
+  .tab-btn { padding: 1.1rem 1.1rem; font-size: 0.7rem; }
+  .scripture-grid { grid-template-columns: 1fr; }
+  .scripture-featured-content { padding: 2rem 1.5rem; }
+  .practices-grid { grid-template-columns: 1fr; }
+  .audio-grid { grid-template-columns: 1fr; }
+  .journal-grid { grid-template-columns: 1fr; }
+  .books-grid { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr; text-align: center; padding: 2.5rem 1.5rem; }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 560px) {
+  .scripture-featured-content { padding: 1.5rem 1.25rem; }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-input { min-width: 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav>
+  <a href="index.html" class="nav-logo">The <span>Hush</span> Room</a>
+  <div class="nav-tagline">The world says rush. God says hush.</div>
+  <ul class="nav-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html" class="active">Resources</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="nav-cta-desktop"><a href="retreats.html#register" class="nav-cta">Join Us</a></li>
+  </ul>
+  <button class="nav-burger" aria-label="Open menu" id="navBurger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <a href="gates.html">Gates</a>
+  <a href="story.html">Story</a>
+  <a href="retreats.html">Retreats</a>
+  <a href="resources.html">Resources</a>
+  <a href="connect.html">Connect</a>
+  <a href="about.html">About</a>
+  <a href="retreats.html#register" class="sheet-cta">Join Us</a>
+</div>
+
+<!-- ============================================================
+     PAGE HERO
+     ============================================================ -->
+<section class="page-hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">For the journey between retreats</div>
+      <h1 class="hero-title">For the <em>journey.</em></h1>
+      <p class="hero-sub">
+        The retreat ends. The silence doesn't have to. These resources are for
+        the days and weeks between — to keep the practice alive, the roots
+        going deeper, and the ear open to the still small voice.
+      </p>
+    </div>
+    <div class="hero-illus" aria-hidden="true">
+      <img src="assets/images/mary-listening.jpg"
+        alt=""
+        style="width:100%;height:100%;object-fit:cover;object-position:top;opacity:0.3;" />
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TAB NAV
+     ============================================================ -->
+<div class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" data-target="scripture">Scripture</button>
+    <button class="tab-btn" data-target="reading">Reading List</button>
+    <button class="tab-btn" data-target="practices">Practices</button>
+    <button class="tab-btn" data-target="playlist">Playlist</button>
+    <button class="tab-btn" data-target="journal">Journal</button>
+    <button class="tab-btn" data-target="audio">Reflections</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTURE
+     ============================================================ -->
+<section class="section scripture-section" id="scripture">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">This Week</div>
+      <h2 class="section-title">Weekly scripture <em>reflection.</em></h2>
+      <p class="section-body">
+        One passage. Read slowly. Read again. Sit with it.
+        This is not commentary. It is invitation.
+        Let the Word be the living voice it claims to be.
+      </p>
+    </div>
+
+    <div class="scripture-featured reveal">
+      <div class="scripture-featured-illus" aria-hidden="true">
+        <img src="assets/images/gate-1-jesus.jpg"
+          alt=""
+          style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.45;" />
+      </div>
+      <div class="scripture-featured-content">
+        <div class="scripture-week">Week of 3 May 2025 · Gate I</div>
+        <h3 class="scripture-title">The practice Jesus would not skip.</h3>
+        <div class="scripture-verse-block">
+          <div class="scripture-verse-text">
+            "Very early in the morning, while it was still dark, Jesus got up,
+            left the house and went off to a solitary place, where he prayed."
+          </div>
+          <div class="scripture-verse-ref">Mark 1:35</div>
+        </div>
+        <p class="scripture-body">
+          The day before this verse, Jesus had healed many people — the
+          synagogue, Simon's mother-in-law, the whole town at the door.
+          His most productive day. And the morning after — before anyone
+          else was awake — He withdrew. Not because He had nothing to do.
+          Because He had everything to do.
+        </p>
+        <p class="scripture-body">
+          Read the verse once more. Notice the words: <em>very early.
+          While it was still dark. Left. Went off.</em> Every word is intentional.
+          This was not accidental solitude. This was deliberate withdrawal
+          into the presence of the Father.
+        </p>
+        <div class="scripture-practice">
+          Practice this week — rise twenty minutes before your day begins.
+          Sit. Say only — Here I am. Then listen.
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal scripture-archive-head">
+      <div class="section-tag">Archive</div>
+      <h2 class="section-title" style="font-size:clamp(1.5rem, 2.6vw, 2rem); margin-bottom:0;">Previous reflections.</h2>
+    </div>
+
+    <div class="scripture-grid reveal">
+      <article class="scripture-card sc-2">
+        <div class="scripture-card-week">Week of 26 Apr · Gate II</div>
+        <h3 class="scripture-card-title">The journey is too much for you.</h3>
+        <div class="scripture-card-ref">1 Kings 19:7</div>
+        <p class="scripture-card-body">
+          God's first response to Elijah's burnout was not a sermon.
+          It was food. And rest. What does that tell us about how God sees our exhaustion?
+        </p>
+        <div class="scripture-card-practice">Practice — sleep without guilt this week.</div>
+      </article>
+
+      <article class="scripture-card sc-3">
+        <div class="scripture-card-week">Week of 19 Apr · Gate III</div>
+        <h3 class="scripture-card-title">My ears had heard of You.</h3>
+        <div class="scripture-card-ref">Job 42:5</div>
+        <p class="scripture-card-body">
+          Job moved from secondhand knowledge to firsthand encounter —
+          not because his questions were answered, but because God showed up.
+          What is the difference between hearing about God and seeing Him?
+        </p>
+        <div class="scripture-card-practice">Practice — sit with one unanswered question this week.</div>
+      </article>
+
+      <article class="scripture-card sc-4">
+        <div class="scripture-card-week">Week of 12 Apr · Gate IV</div>
+        <h3 class="scripture-card-title">While he was still a long way off.</h3>
+        <div class="scripture-card-ref">Luke 15:20</div>
+        <p class="scripture-card-body">
+          The Father didn't wait for the son to arrive. He was already watching.
+          Already running. What part of you is still in the far country —
+          and what would it mean to turn toward home?
+        </p>
+        <div class="scripture-card-practice">Practice — write one honest sentence to God this week.</div>
+      </article>
+
+      <article class="scripture-card sc-all">
+        <div class="scripture-card-week">Week of 5 Apr · All Gates</div>
+        <h3 class="scripture-card-title">Be still, and know.</h3>
+        <div class="scripture-card-ref">Psalm 46:10</div>
+        <p class="scripture-card-body">
+          The Hebrew <em>raphah</em> — to let go, to sink down, to release.
+          Not the absence of activity. The presence of surrender.
+          What are you still gripping that needs to be released?
+        </p>
+        <div class="scripture-card-practice">Practice — ten minutes of silence, no agenda.</div>
+      </article>
+
+      <article class="scripture-card sc-1">
+        <div class="scripture-card-week">Week of 29 Mar · Gate I</div>
+        <h3 class="scripture-card-title">Give me an undivided heart.</h3>
+        <div class="scripture-card-ref">Psalm 86:11</div>
+        <p class="scripture-card-body">
+          David prayed for what THR is trying to cultivate —
+          an undivided heart. Not perfect. Not sinless. A whole one.
+          Present. Undistracted. Fully here.
+        </p>
+        <div class="scripture-card-practice">Practice — notice every distraction today. Don't fight it. Just notice.</div>
+      </article>
+
+      <article class="scripture-card sc-2">
+        <div class="scripture-card-week">Week of 22 Mar · Gate II</div>
+        <h3 class="scripture-card-title">Come away and rest.</h3>
+        <div class="scripture-card-ref">Mark 6:31</div>
+        <p class="scripture-card-body">
+          Jesus said this to His disciples after they returned from ministry —
+          before they could even eat. Come away. Rest a while.
+          Not as a reward. As a rhythm. What rhythm are you living?
+        </p>
+        <div class="scripture-card-practice">Practice — schedule rest before you schedule anything else.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     READING LIST
+     ============================================================ -->
+<section class="section reading-section" id="reading">
+  <div class="section-inner">
+    <div class="reading-intro reveal">
+      <div>
+        <div class="section-tag">Curated Books</div>
+        <h2 class="section-title">The reading <em>list.</em></h2>
+      </div>
+      <div>
+        <p class="reading-quote">
+          We read not to fill our minds — but to be formed by what we encounter.
+          <span class="reading-quote-attr">A note from the librarian</span>
+        </p>
+        <p class="reading-note" style="margin-top:1.75rem;">
+          Organised by gate — read what speaks to your season. These are not
+          required. They are companions for the journey. Start with one.
+          Read slowly.
+        </p>
+      </div>
+    </div>
+
+    <div class="reading-gates">
+
+      <!-- Gate I -->
+      <div class="reading-gate-group rg-1 reveal">
+        <div class="reading-gate-header">
+          <div class="reading-gate-num">I</div>
+          <div class="reading-gate-label">
+            <div class="reading-gate-name">Gate I — The Intentional</div>
+            <div class="reading-gate-desc">For the hungry · deepening formation</div>
+          </div>
+        </div>
+        <div class="books-grid">
+          <article class="book-card">
+            <div class="book-title">Sacred Rhythms</div>
+            <div class="book-author">Ruth Haley Barton</div>
+            <p class="book-desc">Arranging your life for spiritual transformation. The foundational book for anyone serious about formation.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">An Unhurried Life</div>
+            <div class="book-author">Alan Fadling</div>
+            <p class="book-desc">Following Jesus' rhythms of work and rest. The pace of grace made practical.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">The Ruthless Elimination of Hurry</div>
+            <div class="book-author">John Mark Comer</div>
+            <p class="book-desc">How to stay emotionally healthy and spiritually alive in the chaos of the modern world.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Celebration of Discipline</div>
+            <div class="book-author">Richard Foster</div>
+            <p class="book-desc">The classic on spiritual disciplines — the path to spiritual growth through ancient practices.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Invitation to Solitude and Silence</div>
+            <div class="book-author">Ruth Haley Barton</div>
+            <p class="book-desc">Experiencing God's transforming presence. The book most directly aligned with THR's practice.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">The Way of the Heart</div>
+            <div class="book-author">Henri Nouwen</div>
+            <p class="book-desc">Desert spirituality and the spiritual life. Short, powerful, essential.</p>
+            <span class="book-gate-tag">Gate I</span>
+          </article>
+        </div>
+      </div>
+
+      <!-- Gate II -->
+      <div class="reading-gate-group rg-2 reveal">
+        <div class="reading-gate-header">
+          <div class="reading-gate-num">II</div>
+          <div class="reading-gate-label">
+            <div class="reading-gate-name">Gate II — The Drawn</div>
+            <div class="reading-gate-desc">For the exhausted · restoration and rest</div>
+          </div>
+        </div>
+        <div class="books-grid">
+          <article class="book-card">
+            <div class="book-title">Strengthening the Soul of Your Leadership</div>
+            <div class="book-author">Ruth Haley Barton</div>
+            <p class="book-desc">Seeking God in the crucible of ministry. For those who give and give and are running empty.</p>
+            <span class="book-gate-tag">Gate II</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">An Unhurried Leader</div>
+            <div class="book-author">Alan Fadling</div>
+            <p class="book-desc">The contemplative-active way of leading. Leading from rest rather than anxiety.</p>
+            <span class="book-gate-tag">Gate II</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Emotionally Healthy Spirituality</div>
+            <div class="book-author">Peter Scazzero</div>
+            <p class="book-desc">Honest about the cost of emotional avoidance. A revolution of compassion through the church.</p>
+            <span class="book-gate-tag">Gate II</span>
+          </article>
+        </div>
+      </div>
+
+      <!-- Gate III -->
+      <div class="reading-gate-group rg-3 reveal">
+        <div class="reading-gate-header">
+          <div class="reading-gate-num">III</div>
+          <div class="reading-gate-label">
+            <div class="reading-gate-name">Gate III — The Broken</div>
+            <div class="reading-gate-desc">For the suffering · honest grief and encounter</div>
+          </div>
+        </div>
+        <div class="books-grid">
+          <article class="book-card">
+            <div class="book-title">A Grief Observed</div>
+            <div class="book-author">C.S. Lewis</div>
+            <p class="book-desc">Lewis's raw journal of grief after losing his wife. One of the most honest books ever written about pain and God.</p>
+            <span class="book-gate-tag">Gate III</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Dark Night of the Soul</div>
+            <div class="book-author">St John of the Cross</div>
+            <p class="book-desc">The classic on spiritual desolation — when God feels absent. Ancient wisdom for modern suffering.</p>
+            <span class="book-gate-tag">Gate III</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Walking with God through Pain and Suffering</div>
+            <div class="book-author">Timothy Keller</div>
+            <p class="book-desc">Pastoral, theological and personal. A companion for those in the ash heap.</p>
+            <span class="book-gate-tag">Gate III</span>
+          </article>
+        </div>
+      </div>
+
+      <!-- Gate IV -->
+      <div class="reading-gate-group rg-4 reveal">
+        <div class="reading-gate-header">
+          <div class="reading-gate-num">IV</div>
+          <div class="reading-gate-label">
+            <div class="reading-gate-name">Gate IV — The Returning</div>
+            <div class="reading-gate-desc">For the returning · homecoming and identity</div>
+          </div>
+        </div>
+        <div class="books-grid">
+          <article class="book-card">
+            <div class="book-title">The Return of the Prodigal Son</div>
+            <div class="book-author">Henri Nouwen</div>
+            <p class="book-desc">A meditation on Rembrandt's painting. Every page is an invitation to receive the Father's embrace.</p>
+            <span class="book-gate-tag">Gate IV</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">Abba's Child</div>
+            <div class="book-author">Brennan Manning</div>
+            <p class="book-desc">The cry of the heart for intimate belonging. For those who struggle to believe they are truly loved.</p>
+            <span class="book-gate-tag">Gate IV</span>
+          </article>
+          <article class="book-card">
+            <div class="book-title">The Ragamuffin Gospel</div>
+            <div class="book-author">Brennan Manning</div>
+            <p class="book-desc">Good news for the bedraggled, beat-up and burnt out. Grace that reaches into the far country.</p>
+            <span class="book-gate-tag">Gate IV</span>
+          </article>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRACTICES
+     ============================================================ -->
+<section class="section practices-section" id="practices">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Ancient Disciplines</div>
+      <h2 class="section-title">The practices of <em>the silence.</em></h2>
+      <p class="section-body">
+        These are not techniques. They are postures — ways of making yourself
+        available to God. They have been practised by Christians for two
+        thousand years. They work not because of your effort, but because
+        God is faithful.
+      </p>
+    </div>
+
+    <div class="practices-grid">
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-1">
+          <span class="practice-icon-large">I</span>
+          <div class="practice-name">Lectio Divina</div>
+          <div class="practice-latin">Sacred Reading</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            Reading Scripture slowly — not for information, but for encounter.
+            The Word is treated as a living voice that speaks personally
+            in this moment.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Read — a short passage slowly, aloud if possible</span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Reflect — what word or phrase caught your attention?</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>Respond — speak honestly to God about what you noticed</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Rest — simply be in God's presence. No words needed.</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-2">
+          <span class="practice-icon-large">II</span>
+          <div class="practice-name">The Examen</div>
+          <div class="practice-latin">Daily Review</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            A prayerful review of your day — looking for where God was present
+            and where you resisted. Practised by Ignatius of Loyola since the
+            sixteenth century.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Gratitude — what are you grateful for today?</span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Review — walk through the day. Where was God present?</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>Notice — where did you feel most alive? Most distant?</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Forward — what is one intention for tomorrow?</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-3">
+          <span class="practice-icon-large">III</span>
+          <div class="practice-name">Breath Prayer</div>
+          <div class="practice-latin">Unceasing Prayer</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            A short prayer tied to the rhythm of breathing — practised
+            throughout the day to cultivate continuous awareness of
+            God's presence.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Choose — pick a short prayer phrase, e.g. <em>Here I am, Lord</em></span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Inhale — breathe in the first half of the phrase</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>Exhale — breathe out the second half</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Repeat — carry it through your day</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-4">
+          <span class="practice-icon-large">IV</span>
+          <div class="practice-name">Centering Prayer</div>
+          <div class="practice-latin">Contemplative Prayer</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            A method of silent prayer that prepares us to receive the gift
+            of God's presence. Not emptying the mind — but opening the will
+            to God.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Choose a sacred word as a symbol of your consent to God</span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Sit comfortably, eyes closed, introduce the word gently</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>When thoughts arise — return gently to your sacred word</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Sit for twenty minutes — end with the Lord's Prayer</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-5">
+          <span class="practice-icon-large">V</span>
+          <div class="practice-name">Sacred Lament</div>
+          <div class="practice-latin">Honest Prayer</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            The practice of bringing your honest pain, anger and grief
+            directly to God — modelled by the Psalms of lament and by Job.
+            God can handle the truth.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Address God directly — do not perform peace you don't feel</span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Name the complaint — what is your honest cry?</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>Recall God's faithfulness — even through the grief</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Express trust — even if small, even if uncertain</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+      <article class="practice-card reveal">
+        <div class="practice-header ph-6">
+          <span class="practice-icon-large">VI</span>
+          <div class="practice-name">Sacred Reading</div>
+          <div class="practice-latin">Formative Reading</div>
+        </div>
+        <div class="practice-body-section">
+          <p class="practice-desc">
+            Reading spiritual books slowly — stopping when something strikes
+            you, sitting with it before moving on. Reading for formation,
+            not information.
+          </p>
+          <div class="practice-how-title">How to practise</div>
+          <div class="practice-steps">
+            <div class="practice-step"><span class="practice-step-num">i</span><span>Read slowly — no chapter goals, no finish lines</span></div>
+            <div class="practice-step"><span class="practice-step-num">ii</span><span>Stop when something resonates — sit with it</span></div>
+            <div class="practice-step"><span class="practice-step-num">iii</span><span>Journal what you notice — even one sentence</span></div>
+            <div class="practice-step"><span class="practice-step-num">iv</span><span>Ask — what is God saying to me through this?</span></div>
+          </div>
+          <a href="#" class="practice-download">Download Guide</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PLAYLIST
+     ============================================================ -->
+<section class="playlist-section" id="playlist">
+  <div class="playlist-inner">
+    <div class="playlist-left reveal">
+      <div class="section-tag light">Music for Silence</div>
+      <h2 class="section-title light">The <em>playlist.</em></h2>
+
+      <p class="playlist-statement">
+        Music for the silence is not background noise.
+        It is atmosphere — creating space for the soul to settle.
+      </p>
+
+      <p class="playlist-body">
+        These tracks are chosen to support the practice of silence —
+        not to distract from it. Use them for the transition into silence,
+        or as a gentle companion when silence feels too loud.
+      </p>
+
+      <div class="playlist-categories">
+        <div class="playlist-cat">
+          <span class="playlist-cat-num">I</span>
+          <div>
+            <div class="playlist-cat-title">Taizé &amp; Chant</div>
+            <div class="playlist-cat-desc">Ancient repetitive chant that stills the mind and opens the heart.</div>
+          </div>
+        </div>
+        <div class="playlist-cat">
+          <span class="playlist-cat-num">II</span>
+          <div>
+            <div class="playlist-cat-title">Instrumental &amp; Ambient</div>
+            <div class="playlist-cat-desc">No words — just sound that creates sacred space.</div>
+          </div>
+        </div>
+        <div class="playlist-cat">
+          <span class="playlist-cat-num">III</span>
+          <div>
+            <div class="playlist-cat-title">Soaking &amp; Worship</div>
+            <div class="playlist-cat-desc">Gentle worship that invites encounter without performance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="playlist-right reveal">
+      <div class="playlist-rh">Recommended tracks</div>
+      <div class="playlist-tracks">
+        <div class="playlist-track">
+          <div class="track-num">i</div>
+          <div class="track-info">
+            <div class="track-title">Be Still My Soul</div>
+            <div class="track-artist">Audrey Assad</div>
+          </div>
+          <div class="track-type">Worship</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">ii</div>
+          <div class="track-info">
+            <div class="track-title">Ubi Caritas</div>
+            <div class="track-artist">Taizé Community</div>
+          </div>
+          <div class="track-type">Chant</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">iii</div>
+          <div class="track-info">
+            <div class="track-title">Abide with Me</div>
+            <div class="track-artist">Matt Redman</div>
+          </div>
+          <div class="track-type">Hymn</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">iv</div>
+          <div class="track-info">
+            <div class="track-title">Still Waters</div>
+            <div class="track-artist">Hillsong Worship</div>
+          </div>
+          <div class="track-type">Soaking</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">v</div>
+          <div class="track-info">
+            <div class="track-title">O Lord Hear My Prayer</div>
+            <div class="track-artist">Taizé Community</div>
+          </div>
+          <div class="track-type">Chant</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">vi</div>
+          <div class="track-info">
+            <div class="track-title">Come to the Water</div>
+            <div class="track-artist">Audrey Assad</div>
+          </div>
+          <div class="track-type">Worship</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">vii</div>
+          <div class="track-info">
+            <div class="track-title">The Lord's Prayer</div>
+            <div class="track-artist">Shane &amp; Shane</div>
+          </div>
+          <div class="track-type">Prayer</div>
+        </div>
+        <div class="playlist-track">
+          <div class="track-num">viii</div>
+          <div class="track-info">
+            <div class="track-title">Instrumental Psalm 23</div>
+            <div class="track-artist">Various</div>
+          </div>
+          <div class="track-type">Instrumental</div>
+        </div>
+      </div>
+      <p class="playlist-note">
+        Full playlist available on Spotify · Search <em>The Hush Room</em> ·
+        Updated monthly. Music is a door, not a destination —
+        when silence feels ready, let the music fade.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     JOURNAL PROMPTS
+     ============================================================ -->
+<section class="section journal-section" id="journal">
+  <div class="section-inner">
+    <div class="journal-intro reveal">
+      <div class="section-tag">For Your Journal</div>
+      <h2 class="section-title">Prompts for the <em>silence.</em></h2>
+      <p class="section-body">
+        Journalling in the silence is not about producing beautiful writing.
+        It is about externalising what is happening inside so you can see
+        it more clearly. One honest sentence is worth a thousand polished
+        paragraphs. Write badly. Write honestly.
+      </p>
+    </div>
+
+    <div class="journal-grid">
+      <article class="journal-card jc-1 reveal">
+        <div class="journal-gate-label">Gate I · The Intentional</div>
+        <h3 class="journal-card-title">For those who are hungry.</h3>
+        <div class="journal-prompts-list">
+          <div class="journal-prompt">"What am I most hungry for right now — and is it what I think it is?"</div>
+          <div class="journal-prompt">"Where have I felt most alive in God's presence in the past year?"</div>
+          <div class="journal-prompt">"What practice am I avoiding — and why?"</div>
+          <div class="journal-prompt">"If I had twenty minutes tomorrow morning before the world begins — what would I do with it?"</div>
+          <div class="journal-prompt">"What would an undivided heart look like for me this week?"</div>
+        </div>
+      </article>
+
+      <article class="journal-card jc-2 reveal">
+        <div class="journal-gate-label">Gate II · The Drawn</div>
+        <h3 class="journal-card-title">For those who are exhausted.</h3>
+        <div class="journal-prompts-list">
+          <div class="journal-prompt">"What am I carrying right now that was not mine to pick up?"</div>
+          <div class="journal-prompt">"When did I last say no — and what happened when I did?"</div>
+          <div class="journal-prompt">"If God sent an angel to me right now with food and water, what would the angel say?"</div>
+          <div class="journal-prompt">"What would rest actually feel like — not sleep, but genuine rest?"</div>
+          <div class="journal-prompt">"What is the journey that has been too much for me?"</div>
+        </div>
+      </article>
+
+      <article class="journal-card jc-3 reveal">
+        <div class="journal-gate-label">Gate III · The Broken</div>
+        <h3 class="journal-card-title">For those who are suffering.</h3>
+        <div class="journal-prompts-list">
+          <div class="journal-prompt">"What is my honest, unfiltered cry to God right now?"</div>
+          <div class="journal-prompt">"What question do I most need God to answer — knowing He may not?"</div>
+          <div class="journal-prompt">"Where have I been sitting in the ash heap alone — and what would it mean to let someone sit with me?"</div>
+          <div class="journal-prompt">"Is there a difference between hearing about God and seeing Him? What would seeing look like for me?"</div>
+          <div class="journal-prompt">"What has suffering taught me that nothing else could have?"</div>
+        </div>
+      </article>
+
+      <article class="journal-card jc-4 reveal">
+        <div class="journal-gate-label">Gate IV · The Returning</div>
+        <h3 class="journal-card-title">For those coming home.</h3>
+        <div class="journal-prompts-list">
+          <div class="journal-prompt">"What is the far country I have been living in — and what brought me to my senses?"</div>
+          <div class="journal-prompt">"What is the rehearsed speech I have been preparing for God — and what do I really want to say?"</div>
+          <div class="journal-prompt">"What would it feel like to be greeted by the Father running — before I finish my sentence?"</div>
+          <div class="journal-prompt">"Is there an elder brother in me — resentful, dutiful, outside the feast?"</div>
+          <div class="journal-prompt">"What has been restored to me that I almost didn't notice — the robe, the ring, the sandals?"</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     AUDIO REFLECTIONS
+     ============================================================ -->
+<section class="section audio-section" id="audio">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Short Reflections</div>
+      <h2 class="section-title">Audio <em>reflections.</em></h2>
+      <p class="section-body">
+        Five to ten minutes. One scripture. One practice. One invitation.
+        For the commute, the quiet moment, the in-between space of your day.
+      </p>
+    </div>
+
+    <div class="audio-grid">
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-1">
+          <div class="audio-num">I</div>
+          <div class="audio-duration">7 min · Gate I</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 1 · The Intentional</div>
+          <h3 class="audio-title">The practice Jesus would not skip.</h3>
+          <p class="audio-desc">Why Jesus — the Son of God — withdrew regularly, and what that means for us. A reflection on Mark 1:35.</p>
+          <div class="audio-scripture">Mark 1:35</div>
+        </div>
+      </article>
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-2">
+          <div class="audio-num">II</div>
+          <div class="audio-duration">8 min · Gate II</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 2 · The Drawn</div>
+          <h3 class="audio-title">The journey is too much for you.</h3>
+          <p class="audio-desc">God's response to Elijah's burnout — and what it reveals about how God sees our exhaustion. A reflection on 1 Kings 19.</p>
+          <div class="audio-scripture">1 Kings 19:7</div>
+        </div>
+      </article>
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-3">
+          <div class="audio-num">III</div>
+          <div class="audio-duration">9 min · Gate III</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 3 · The Broken</div>
+          <h3 class="audio-title">From hearing to seeing.</h3>
+          <p class="audio-desc">Job's journey from secondhand knowledge of God to face-to-face encounter. Why the ash heap is not the end.</p>
+          <div class="audio-scripture">Job 42:5</div>
+        </div>
+      </article>
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-4">
+          <div class="audio-num">IV</div>
+          <div class="audio-duration">10 min · Gate IV</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 4 · The Returning</div>
+          <h3 class="audio-title">While he was still a long way off.</h3>
+          <p class="audio-desc">The Father who was already watching, already running. What the Prodigal's homecoming reveals about God's character.</p>
+          <div class="audio-scripture">Luke 15:20</div>
+        </div>
+      </article>
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-5">
+          <div class="audio-num">V</div>
+          <div class="audio-duration">6 min · All Gates</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 5 · The Practice</div>
+          <h3 class="audio-title">Your first twenty minutes of silence.</h3>
+          <p class="audio-desc">A guided entry into silence for complete beginners. What to expect, what to do when the mind wanders, and how to begin.</p>
+          <div class="audio-scripture">Psalm 46:10</div>
+        </div>
+      </article>
+
+      <article class="audio-card reveal">
+        <div class="audio-header ah-6">
+          <div class="audio-num">VI</div>
+          <div class="audio-duration">8 min · All Gates</div>
+          <button class="audio-play" aria-label="Play">▶</button>
+        </div>
+        <div class="audio-body">
+          <div class="audio-episode">Episode 6 · The Word</div>
+          <h3 class="audio-title">How to practise Lectio Divina.</h3>
+          <p class="audio-desc">A practical guide to reading Scripture the way it was meant to be read — slowly, attentively, as if God is speaking directly to you.</p>
+          <div class="audio-scripture">Hebrews 4:12</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER
+     ============================================================ -->
+<section class="newsletter-section">
+  <div class="newsletter-inner reveal">
+    <div class="section-tag light center" style="margin-bottom:1.5rem;">Stay Connected</div>
+    <h2 class="newsletter-title">Carry the silence <em>home.</em></h2>
+    <p class="newsletter-sub">
+      Weekly scripture reflection delivered to your inbox every Sunday morning.
+      No noise. No marketing. Just one passage, one practice, one invitation.
+    </p>
+    <form class="newsletter-form" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="your@email.com" class="newsletter-input" required />
+      <button type="submit" class="btn-gold">Subscribe</button>
+    </form>
+    <div class="newsletter-note">
+      One email per week · Unsubscribe any time · No spam · Ever
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">The <span>Hush</span> Room</a>
+    <div class="footer-meta">© 2025 The Hush Room · hush.asia · All rights reserved</div>
+  </div>
+  <div class="footer-tagline">The world says rush.<br>God says hush.</div>
+  <ul class="footer-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+(function() {
+  // Mobile menu
+  var burger = document.getElementById('navBurger');
+  var sheet  = document.getElementById('navSheet');
+  if (burger && sheet) {
+    burger.addEventListener('click', function() { sheet.classList.toggle('open'); });
+    sheet.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { sheet.classList.remove('open'); });
+    });
+  }
+
+  // Tab nav — smooth scroll to section
+  var tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var target = btn.getAttribute('data-target');
+      var el = document.getElementById(target);
+      if (el) {
+        var offset = 64; // sticky tab height
+        var y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Active tab on scroll
+  var sections = ['scripture', 'reading', 'practices', 'playlist', 'journal', 'audio'];
+  function setActiveTab() {
+    var fromTop = window.scrollY + 140;
+    var current = sections[0];
+    sections.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && el.offsetTop <= fromTop) current = id;
+    });
+    tabs.forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-target') === current);
+    });
+  }
+  window.addEventListener('scroll', setActiveTab, { passive: true });
+
+  // Reveal on scroll
+  var reveals = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(function(el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

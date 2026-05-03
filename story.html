@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story — The Hush Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE HUSH ROOM — DESIGN SYSTEM (root tokens + primitives)
+   Mirrors index.html — keep in sync across all pages
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Earths */
+  --sienna:       #7B3F2A;
+  --sienna-light: #C4896A;
+  --parchment:    #F5EDD9;
+  --warm-white:   #FDFAF3;
+  --charcoal:     #2E2B27;
+  --ash:          #4A4540;
+  --gold:         #C9A45A;
+  --gold-light:   #E8D5A8;
+  --ink:          #1E1B17;
+
+  /* Waters */
+  --sage:         #8A9E7F;
+  --sage-dark:    #5A7060;
+  --sage-light:   #C4CFBA;
+  --mauve:        #A67C8A;
+  --slate:        #5A7080;
+  --cream:        #F0E8D5;
+
+  /* Accent */
+  --crimson:      #8B2E2E;
+
+  /* Gates */
+  --gate1:        #5A7060;
+  --gate2:        #7B3F2A;
+  --gate3:        #5A7080;
+  --gate4:        #8B2E2E;
+
+  /* Rhythm */
+  --rule:         rgba(123,63,42,0.12);
+  --rule-soft:    rgba(123,63,42,0.08);
+  --rule-dark:    rgba(245,237,217,0.10);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  font-weight: 400;
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Parchment grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.48  0 0 0 0 0.25  0 0 0 0 0.16  0 0 0 0.5 0'/></filter><rect width='320' height='320' filter='url(%23n)'/></svg>");
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+}
+
+/* Aged warmth */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(123,63,42,0.04), transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgba(201,164,90,0.04), transparent 55%);
+}
+
+nav, section, footer { position: relative; z-index: 1; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 2rem;
+  background: rgba(253,250,243,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(123,63,42,0.10);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--sienna);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-logo span { font-style: italic; color: var(--gold); }
+
+.nav-tagline {
+  flex: 1;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--ash);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex; align-items: center;
+  gap: 2rem;
+  list-style: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.nav-links a {
+  color: var(--charcoal); text-decoration: none;
+  opacity: 0.6;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { opacity: 1; color: var(--sienna); }
+
+.nav-cta {
+  background: var(--sienna) !important;
+  color: var(--parchment) !important;
+  padding: 0.55rem 1.4rem;
+  border-radius: 2rem;
+  opacity: 1 !important;
+  letter-spacing: 0.12em !important;
+  font-weight: 600 !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.nav-cta:hover { background: var(--crimson) !important; transform: translateY(-1px); }
+
+.nav-burger {
+  display: none;
+  background: none; border: 0; padding: 0.3rem;
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  margin: 5px 0;
+  background: var(--sienna);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+/* Mobile sheet */
+.nav-sheet {
+  position: fixed; inset: 0;
+  z-index: 999;
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-sheet.open { opacity: 1; pointer-events: auto; }
+.nav-sheet a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-sheet a.sheet-cta {
+  margin-top: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--sienna);
+  color: var(--parchment);
+  padding: 0.85rem 2.5rem;
+  border-radius: 2rem;
+}
+
+/* ============================================================
+   SECTION PRIMITIVES
+   ============================================================ */
+.section { padding: 8rem 3rem; position: relative; overflow: hidden; }
+.section-inner { max-width: 1120px; margin: 0 auto; position: relative; }
+
+.section-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--sienna);
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  letter-spacing: 0.01em;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+.section-tag.light { color: var(--gold); }
+.section-tag.center { justify-content: center; }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.section-title em { color: var(--sienna); font-style: italic; font-weight: 400; }
+.section-title.light { color: var(--parchment); }
+.section-title.light em { color: var(--gold); }
+
+.section-body {
+  font-size: 1rem; line-height: 1.85;
+  color: rgba(46,43,39,0.7);
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+.section-body.light { color: rgba(245,237,217,0.55); }
+
+/* ============================================================
+   ILLUSTRATION PLACEHOLDER
+   ============================================================ */
+.illus {
+  background: rgba(123,63,42,0.06);
+  border: 1px dashed rgba(123,63,42,0.22);
+  border-radius: 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+.illus::after {
+  content: '';
+  position: absolute; inset: 1rem;
+  border: 1px solid rgba(123,63,42,0.10);
+  border-radius: 0.35rem;
+  pointer-events: none;
+}
+.illus-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--sienna);
+  opacity: 0.55;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+.illus-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-top: 0.4rem;
+}
+.illus.on-dark { background: rgba(245,237,217,0.04); border-color: rgba(201,164,90,0.25); }
+.illus.on-dark .illus-meta { color: var(--gold); }
+
+/* ============================================================
+   PAGE HERO — dark, with ROOM-EMPTY backdrop placeholder
+   ============================================================ */
+.page-hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 11rem 3rem 6rem;
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 16% 28%, rgba(123,63,42,0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 84% 78%, rgba(90,112,96,0.32) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,164,90,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 35% at 12% 85%, rgba(139,46,46,0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 95% 15%, rgba(123,63,42,0.18) 0%, transparent 60%),
+    linear-gradient(165deg, #1E1B17 0%, #25201B 45%, #1A1815 100%);
+  z-index: 0;
+}
+.page-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/></filter><rect width='400' height='400' filter='url(%23n)' opacity='0.5'/></svg>");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* room-empty.jpg placeholder — full-bleed atmospheric layer at opacity 0.15 */
+.page-hero-bg {
+  position: absolute; inset: 0;
+  z-index: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.15;
+  pointer-events: none;
+}
+.page-hero-bg .illus-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--gold);
+  opacity: 0.6;
+  font-size: 1.05rem;
+  text-align: center;
+}
+.page-hero-bg .illus-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.page-hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1120px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem; align-items: flex-end;
+}
+
+.page-hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.page-hero-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold); opacity: 0.6;
+}
+
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5.5vw, 4.6rem);
+  font-weight: 400; line-height: 1.05;
+  color: var(--parchment); margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.page-title em { color: var(--gold-light); font-style: italic; font-weight: 300; }
+
+.page-intro {
+  font-size: 1rem; line-height: 1.85;
+  color: rgba(245,237,217,0.55);
+  max-width: 480px;
+  text-wrap: pretty;
+}
+
+.page-hero-right {
+  display: flex; flex-direction: column;
+  gap: 0.85rem;
+}
+
+.hero-stat {
+  background: rgba(245,237,217,0.04);
+  border: 1px solid rgba(201,164,90,0.15);
+  border-radius: 0.85rem;
+  padding: 1.2rem 1.4rem;
+  display: grid; grid-template-columns: 22px 1fr;
+  gap: 1rem; align-items: start;
+}
+
+.hero-stat-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; color: var(--gold);
+  opacity: 0.7; line-height: 1.2;
+}
+
+.hero-stat-text {
+  font-size: 0.84rem; line-height: 1.6;
+  color: rgba(245,237,217,0.55);
+}
+.hero-stat-text strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: rgba(245,237,217,0.85);
+  margin-bottom: 0.15rem;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   ORIGIN STORY
+   ============================================================ */
+.story-section { background: var(--warm-white); }
+.story-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 5% 30%, rgba(123,63,42,0.05) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 95% 70%, rgba(90,112,96,0.04) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+.story-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+  margin-top: 0.5rem;
+  position: relative; z-index: 1;
+}
+
+.story-pull {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-style: italic; font-weight: 300;
+  color: var(--sienna); line-height: 1.5;
+  margin-bottom: 2.25rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--gold);
+  text-wrap: pretty;
+}
+
+.story-para {
+  font-size: 0.95rem; line-height: 1.9;
+  color: rgba(46,43,39,0.7);
+  margin-bottom: 1.4rem;
+  text-wrap: pretty;
+}
+.story-para em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.05em;
+  color: var(--ink);
+}
+
+.story-aside {
+  background: var(--parchment);
+  border-radius: 1.1rem;
+  padding: 3rem;
+  position: relative; overflow: hidden;
+  border: 1px solid var(--rule-soft);
+}
+.story-aside::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 1.1rem;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(123,63,42,0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(90,112,96,0.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+.story-aside-inner { position: relative; z-index: 1; }
+
+.aside-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--sienna);
+  letter-spacing: 0.02em; opacity: 0.75;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.aside-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: currentColor; opacity: 0.7;
+}
+
+.aside-verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-style: italic;
+  color: var(--ink); line-height: 1.55;
+  margin-bottom: 1rem; font-weight: 300;
+  text-wrap: pretty;
+}
+
+.aside-verse-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--sienna);
+  opacity: 0.7; margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.aside-conviction {
+  font-size: 0.9rem; line-height: 1.85;
+  color: rgba(46,43,39,0.7);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule-soft);
+}
+.aside-conviction p + p { margin-top: 1rem; }
+
+/* ============================================================
+   CORE SENTENCE — Father / Son / Spirit
+   ============================================================ */
+.core-section {
+  background: var(--ink);
+  padding: 8rem 3rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.core-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(123,63,42,0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(90,112,96,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 35% at 50% 100%, rgba(201,164,90,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.core-inner {
+  position: relative; z-index: 1;
+  max-width: 920px; margin: 0 auto;
+}
+
+.core-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem; color: var(--gold);
+  opacity: 0.7; margin-bottom: 3rem;
+  letter-spacing: 0.02em;
+  display: inline-flex; align-items: center; gap: 0.85rem;
+}
+.core-label::before, .core-label::after {
+  content: ''; display: block;
+  width: 1.5rem; height: 1px;
+  background: currentColor; opacity: 0.5;
+}
+
+.core-three {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-bottom: 3.5rem;
+  border: 1px solid rgba(201,164,90,0.18);
+  border-radius: 1.1rem; overflow: hidden;
+  text-align: left;
+}
+
+.core-item {
+  padding: 2.75rem 2rem;
+  border-right: 1px solid rgba(201,164,90,0.10);
+  position: relative;
+}
+.core-item:last-child { border-right: none; }
+.core-item::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; opacity: 0.55;
+}
+.core-item:nth-child(1)::after { background: var(--gold); }
+.core-item:nth-child(2)::after { background: var(--sienna-light); }
+.core-item:nth-child(3)::after { background: var(--sage); }
+
+.core-person {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.22em; font-weight: 600;
+  color: var(--gold); opacity: 0.7;
+  margin-bottom: 1.1rem;
+}
+
+.core-statement {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 2.6vw, 2rem);
+  font-weight: 600;
+  color: var(--parchment); margin-bottom: 1rem;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.core-statement em { font-style: italic; color: var(--gold-light); font-weight: 300; }
+
+.core-verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: rgba(245,237,217,0.55);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+.core-verse-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--gold); opacity: 0.6;
+  font-weight: 500;
+}
+
+.core-full-sentence {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: rgba(245,237,217,0.5);
+  letter-spacing: 0.04em;
+  font-style: italic;
+  text-wrap: balance;
+}
+
+/* ============================================================
+   BIBLICAL GALLERY
+   ============================================================ */
+.gallery-section { background: var(--parchment); }
+.gallery-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 8% 20%, rgba(123,63,42,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 92% 80%, rgba(90,112,96,0.05) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.gallery-section .section-inner { z-index: 1; }
+
+.gallery-row-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  margin: 3rem 0 1.5rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  opacity: 0.8;
+}
+.gallery-row-label.gates { color: var(--sage-dark); margin-top: 1rem; }
+.gallery-row-label.pillars { color: var(--gold); }
+.gallery-row-label::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: currentColor; opacity: 0.7;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.gallery-card {
+  background: var(--warm-white);
+  border-radius: 1.1rem;
+  padding: 2rem 1.6rem;
+  border: 1px solid var(--rule);
+  border-top-width: 3px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(46,43,39,0.07);
+}
+
+/* Gate-coloured top borders to match site-wide system */
+.gc-gate.g1 { border-top-color: var(--gate1); }
+.gc-gate.g2 { border-top-color: var(--gate2); }
+.gc-gate.g3 { border-top-color: var(--gate3); }
+.gc-gate.g4 { border-top-color: var(--gate4); }
+.gc-pillar { border-top-color: var(--gold); }
+
+/* Per-card illustration thumbnail (top-right, opacity 0.4) */
+.gallery-thumb {
+  position: absolute;
+  top: 1.25rem; right: 1.25rem;
+  width: 80px; height: 100px;
+  background: rgba(123,63,42,0.06);
+  border: 1px dashed rgba(123,63,42,0.22);
+  border-radius: 0.4rem;
+  opacity: 0.4;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 0.4rem;
+  pointer-events: none;
+}
+.gallery-thumb-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sienna);
+  line-height: 1.3;
+}
+
+.gallery-type {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600;
+  margin-bottom: 1rem;
+  padding-right: 90px; /* room for thumbnail */
+}
+.gc-gate.g1 .gallery-type { color: var(--gate1); }
+.gc-gate.g2 .gallery-type { color: var(--gate2); }
+.gc-gate.g3 .gallery-type { color: var(--gate3); }
+.gc-gate.g4 .gallery-type { color: var(--gate4); }
+.gc-pillar .gallery-type { color: var(--gold); }
+
+.gallery-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.25rem;
+  line-height: 1.1;
+}
+
+.gallery-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.95rem;
+  color: var(--sienna); margin-bottom: 1.1rem;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+.gallery-body {
+  font-size: 0.85rem; line-height: 1.8;
+  color: rgba(46,43,39,0.7);
+  margin-bottom: 1.2rem;
+  text-wrap: pretty;
+}
+
+.gallery-scripture {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: rgba(46,43,39,0.6);
+  border-left: 2px solid var(--gold);
+  padding: 0.5rem 0 0.5rem 0.8rem;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   TEACHERS
+   ============================================================ */
+.teachers-section { background: var(--warm-white); }
+.teachers-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 95% 30%, rgba(123,63,42,0.04) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+.teachers-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 2fr 2fr 2fr 1.4fr;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.teacher-card {
+  background: var(--parchment);
+  border-radius: 1.1rem;
+  padding: 2.5rem 2rem;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--gold);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+}
+.teacher-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(46,43,39,0.07);
+}
+
+.teacher-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.18em; font-weight: 600;
+  color: var(--sienna); opacity: 0.75;
+  margin-bottom: 0.85rem;
+}
+
+.teacher-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.25rem;
+  line-height: 1.1;
+}
+
+.teacher-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.9rem;
+  color: var(--ash); opacity: 0.65;
+  margin-bottom: 1.4rem;
+  line-height: 1.4;
+}
+
+.teacher-body {
+  font-size: 0.88rem; line-height: 1.85;
+  color: rgba(46,43,39,0.7);
+  margin-bottom: 1.5rem;
+  text-wrap: pretty;
+}
+
+.teacher-books {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule-soft);
+  margin-top: auto;
+}
+
+.teacher-book {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.92rem;
+  color: var(--sienna); opacity: 0.85;
+  display: flex; gap: 0.55rem; align-items: baseline;
+  line-height: 1.4;
+}
+.teacher-book::before {
+  content: '›'; font-style: normal;
+  color: var(--gold); opacity: 0.7;
+  font-weight: 600;
+}
+
+/* Teachers right-side atmospheric — mary-listening.jpg at opacity 0.2 */
+.teachers-aside {
+  background: var(--cream);
+  border-radius: 1.1rem;
+  border: 1px solid var(--rule);
+  padding: 2.5rem 1.75rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+}
+.teachers-aside-bg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  opacity: 0.2;
+  pointer-events: none;
+  background: rgba(123,63,42,0.05);
+}
+.teachers-aside-bg .illus-meta {
+  font-family: 'Caveat', cursive;
+  color: var(--sienna); opacity: 0.8;
+  font-size: 0.95rem;
+}
+.teachers-aside-bg .illus-meta .file {
+  font-family: 'DM Sans', sans-serif;
+  display: block; font-size: 0.62rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-top: 0.4rem; font-weight: 500;
+}
+.teachers-aside-content {
+  position: relative; z-index: 1;
+}
+.teachers-aside-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; color: var(--sienna);
+  opacity: 0.8; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.teachers-aside-eyebrow::before {
+  content: ''; display: block;
+  width: 1.5rem; height: 1px;
+  background: currentColor; opacity: 0.7;
+}
+.teachers-aside-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 1.2rem; color: var(--ink);
+  line-height: 1.5;
+  text-wrap: pretty;
+  margin-bottom: 1.2rem;
+}
+.teachers-aside-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--sienna); opacity: 0.65;
+  font-weight: 500;
+  position: relative; z-index: 1;
+}
+
+/* ============================================================
+   STATEMENT OF FAITH
+   ============================================================ */
+.faith-section {
+  background: var(--ink);
+  padding: 8rem 3rem;
+  position: relative; overflow: hidden;
+}
+.faith-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 5% 30%, rgba(123,63,42,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 95% 70%, rgba(90,112,96,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 35% at 50% 100%, rgba(201,164,90,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.faith-inner {
+  max-width: 1120px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1.9fr;
+  gap: 5rem;
+}
+
+.faith-left { position: sticky; top: 7rem; align-self: start; }
+.faith-left .section-title.light { font-size: clamp(1.8rem, 3vw, 2.4rem); }
+
+.faith-nav {
+  margin-top: 2rem;
+  display: flex; flex-direction: column; gap: 0.15rem;
+  list-style: none;
+}
+
+.faith-nav-item {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: rgba(245,237,217,0.4);
+  cursor: pointer; padding: 0.5rem 0 0.5rem 1.1rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+  text-decoration: none;
+  display: block;
+}
+.faith-nav-item:hover,
+.faith-nav-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  padding-left: 1.4rem;
+}
+
+.faith-nav-num {
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-right: 0.6rem;
+}
+
+.faith-right {
+  display: flex; flex-direction: column; gap: 3rem;
+}
+
+.faith-article {
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(201,164,90,0.10);
+  scroll-margin-top: 7rem;
+}
+.faith-article:last-child { border-bottom: none; padding-bottom: 0; }
+
+.faith-article-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.2em; font-weight: 600;
+  color: var(--gold); opacity: 0.7;
+  margin-bottom: 0.7rem;
+}
+
+.faith-article-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+  font-weight: 600;
+  color: var(--parchment); margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.faith-article-body {
+  font-size: 0.95rem; line-height: 1.95;
+  color: rgba(245,237,217,0.6);
+  margin-bottom: 1.4rem;
+  text-wrap: pretty;
+}
+
+.faith-verse {
+  background: rgba(201,164,90,0.06);
+  border-left: 2px solid var(--gold);
+  padding: 1rem 1.3rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 0.85rem 0;
+}
+.faith-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: rgba(245,237,217,0.8); line-height: 1.6;
+  margin-bottom: 0.4rem;
+  text-wrap: pretty;
+}
+.faith-verse-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold); opacity: 0.7;
+  font-weight: 500;
+}
+
+/* ============================================================
+   SPIRIT & WORD
+   ============================================================ */
+.spirit-section {
+  background: var(--sienna);
+  padding: 8rem 3rem;
+  position: relative; overflow: hidden;
+}
+.spirit-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 12% 50%, rgba(139,46,46,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 88% 50%, rgba(30,27,23,0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 35% at 50% 100%, rgba(201,164,90,0.10) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.spirit-inner {
+  max-width: 1120px; margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+}
+
+.spirit-statement {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  font-style: italic; color: var(--parchment);
+  line-height: 1.55; margin-bottom: 2rem;
+  font-weight: 300;
+  text-wrap: pretty;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--gold-light);
+}
+
+.spirit-para {
+  font-size: 0.95rem; line-height: 1.9;
+  color: rgba(245,237,217,0.65);
+  margin-bottom: 1.2rem;
+  text-wrap: pretty;
+}
+
+.spirit-verses {
+  display: flex; flex-direction: column; gap: 0.65rem;
+  margin-top: 2rem;
+}
+
+.spirit-verse-item {
+  display: grid; grid-template-columns: 110px 1fr;
+  gap: 1rem; align-items: baseline;
+  padding: 0.95rem 1.1rem;
+  background: rgba(245,237,217,0.05);
+  border-radius: 0.6rem;
+  border: 1px solid rgba(245,237,217,0.08);
+}
+
+.spirit-verse-ref {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold-light); opacity: 0.75;
+  font-weight: 500;
+}
+
+.spirit-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.95rem;
+  color: rgba(245,237,217,0.75); line-height: 1.5;
+}
+
+.spirit-table {
+  background: rgba(245,237,217,0.05);
+  border: 1px solid rgba(245,237,217,0.10);
+  border-radius: 1.1rem; overflow: hidden;
+}
+
+.spirit-row {
+  display: grid; grid-template-columns: 22px 1fr;
+  gap: 1rem; padding: 1.4rem 1.6rem;
+  border-bottom: 1px solid rgba(245,237,217,0.08);
+  align-items: start;
+}
+.spirit-row:last-child { border-bottom: none; }
+
+.spirit-row-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; color: var(--gold-light);
+  opacity: 0.7; line-height: 1.4;
+}
+
+.spirit-row-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600;
+  color: rgba(245,237,217,0.92);
+  margin-bottom: 0.25rem;
+  letter-spacing: 0;
+}
+
+.spirit-row-body {
+  font-size: 0.85rem; line-height: 1.7;
+  color: rgba(245,237,217,0.55);
+}
+
+/* ============================================================
+   DENOMINATIONAL LANGUAGE
+   ============================================================ */
+.denom-section { background: var(--cream); }
+.denom-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 90% 20%, rgba(123,63,42,0.05) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.denom-section .section-inner { z-index: 1; }
+
+.denom-grid {
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 4rem; align-items: start;
+}
+
+.denom-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  font-style: italic; font-weight: 300;
+  color: var(--sienna); line-height: 1.5;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--gold);
+  text-wrap: pretty;
+}
+
+.denom-para {
+  font-size: 0.94rem; line-height: 1.9;
+  color: rgba(46,43,39,0.7);
+  margin-bottom: 1.2rem;
+  text-wrap: pretty;
+}
+
+.denom-table {
+  background: var(--warm-white);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.denom-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.denom-row:last-child { border-bottom: none; }
+
+.denom-cell {
+  padding: 1.3rem 1.6rem;
+  font-size: 0.85rem; line-height: 1.6;
+  color: rgba(46,43,39,0.55);
+  border-right: 1px solid var(--rule-soft);
+}
+.denom-cell:last-child { border-right: none; }
+
+.denom-cell strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: 600;
+  display: block; margin-bottom: 0.25rem;
+}
+.denom-avoid { background: rgba(139,46,46,0.03); }
+.denom-avoid strong { color: rgba(139,46,46,0.75); }
+.denom-use strong { color: var(--sage-dark); }
+
+.denom-head {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.2em; font-weight: 600;
+  padding: 0.95rem 1.6rem;
+  background: rgba(123,63,42,0.06);
+  border-right: 1px solid var(--rule-soft);
+}
+.denom-head:last-child { border-right: none; }
+.denom-head-avoid { color: rgba(139,46,46,0.7); }
+.denom-head-use { color: var(--sage-dark); }
+
+/* ============================================================
+   MANIFESTO
+   ============================================================ */
+.manifesto-section { background: var(--warm-white); }
+.manifesto-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(123,63,42,0.04) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 35% at 50% 100%, rgba(201,164,90,0.05) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+.manifesto-inner {
+  max-width: 780px; margin: 0 auto;
+  text-align: center;
+  position: relative; z-index: 1;
+}
+
+.manifesto-opening {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  font-style: italic; font-weight: 300;
+  color: var(--ink); line-height: 1.7;
+  margin-bottom: 3.5rem;
+  text-wrap: balance;
+}
+.manifesto-opening em { color: var(--sienna); font-weight: 400; }
+
+.manifesto-gates {
+  display: flex; flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 1.1rem; overflow: hidden;
+  text-align: left;
+  margin-bottom: 3.5rem;
+  background: var(--warm-white);
+}
+
+.manifesto-gate {
+  padding: 2.25rem 2.5rem;
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 3px solid transparent;
+  transition: background 0.25s ease, border-left-color 0.25s ease;
+}
+.manifesto-gate:last-child { border-bottom: none; }
+.manifesto-gate:hover { background: var(--parchment); }
+.mg-1 { border-left-color: var(--gate1); }
+.mg-2 { border-left-color: var(--gate2); }
+.mg-3 { border-left-color: var(--gate3); }
+.mg-4 { border-left-color: var(--gate4); }
+
+.manifesto-gate-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.66rem; text-transform: uppercase;
+  letter-spacing: 0.2em; font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+.mg-1 .manifesto-gate-label { color: var(--gate1); }
+.mg-2 .manifesto-gate-label { color: var(--gate2); }
+.mg-3 .manifesto-gate-label { color: var(--gate3); }
+.mg-4 .manifesto-gate-label { color: var(--gate4); }
+
+.manifesto-gate-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.manifesto-gate-body {
+  font-size: 0.92rem; line-height: 1.85;
+  color: rgba(46,43,39,0.7);
+  text-wrap: pretty;
+}
+
+.manifesto-close {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  font-style: italic; font-weight: 300;
+  color: var(--sienna); line-height: 1.55;
+  margin-bottom: 2rem;
+  text-wrap: balance;
+}
+
+.manifesto-mark {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--ash);
+  opacity: 0.6; letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(201,164,90,0.10);
+  padding: 3.5rem 3rem;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; color: var(--parchment);
+  font-weight: 600; text-decoration: none;
+}
+.footer-logo span { color: var(--gold); font-style: italic; }
+
+.footer-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(245,237,217,0.3);
+  margin-top: 0.5rem;
+  letter-spacing: 0.08em;
+}
+
+.footer-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.4);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+.footer-links {
+  display: flex; gap: 1.8rem; list-style: none;
+  justify-content: flex-end; flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(245,237,217,0.4);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1180px) {
+  .nav-tagline { display: none; }
+  .nav-links { gap: 1.5rem; font-size: 0.75rem; letter-spacing: 0.12em; }
+  nav { padding: 1.1rem 2rem; }
+}
+
+@media (max-width: 1100px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .section { padding: 5rem 1.5rem; }
+  .page-hero { padding: 8rem 1.5rem 4rem; min-height: 0; }
+  .page-hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+  .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .story-aside { padding: 2rem; }
+
+  .core-section { padding: 5rem 1.5rem; }
+  .core-three { grid-template-columns: 1fr; }
+  .core-item { border-right: none; border-bottom: 1px solid rgba(201,164,90,0.10); }
+  .core-item:last-child { border-bottom: none; }
+
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-thumb { width: 64px; height: 80px; }
+  .gallery-type { padding-right: 76px; }
+
+  .teachers-grid { grid-template-columns: 1fr; }
+
+  .faith-section { padding: 5rem 1.5rem; }
+  .faith-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .faith-left { position: static; }
+  .faith-nav { display: none; } /* collapse sticky nav on mobile */
+
+  .spirit-section { padding: 5rem 1.5rem; }
+  .spirit-inner { grid-template-columns: 1fr; gap: 3rem; }
+
+  .denom-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+  .manifesto-gate { padding: 1.75rem 1.75rem; }
+
+  footer { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav>
+  <a href="index.html" class="nav-logo">The <span>Hush</span> Room</a>
+  <div class="nav-tagline">The world says rush. God says hush.</div>
+  <ul class="nav-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html" class="active">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="nav-cta-desktop"><a href="retreats.html#register" class="nav-cta">Join Us</a></li>
+  </ul>
+  <button class="nav-burger" aria-label="Open menu" id="navBurger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <a href="gates.html">Gates</a>
+  <a href="story.html">Story</a>
+  <a href="retreats.html">Retreats</a>
+  <a href="resources.html">Resources</a>
+  <a href="connect.html">Connect</a>
+  <a href="about.html">About</a>
+  <a href="retreats.html#register" class="sheet-cta">Join Us</a>
+</div>
+
+<!-- ============================================================
+     PAGE HERO — with room-empty.jpg backdrop placeholder
+     ============================================================ -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <div class="illus-meta">
+      room-empty<br>
+      <span class="file">full-bleed · atmospheric · opacity 0.15</span>
+    </div>
+  </div>
+
+  <div class="page-hero-inner">
+    <div>
+      <div class="page-hero-eyebrow">Our story · Our beliefs</div>
+      <h1 class="page-title">
+        Why we built<br><em>this room.</em>
+      </h1>
+      <p class="page-intro">
+        The Hush Room was not born in a boardroom or a strategy session.
+        It was born in the silence — in the realisation that an entire generation
+        had never been invited into the oldest practice of the Christian faith.
+        This is our story. This is what we believe. This is why we built this room for you.
+      </p>
+    </div>
+
+    <div class="page-hero-right">
+      <div class="hero-stat">
+        <div class="hero-stat-mark">✦</div>
+        <div class="hero-stat-text">
+          <strong>Interdenominational</strong>
+          All who confess Jesus as Lord are genuinely welcome here.
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-mark">✦</div>
+        <div class="hero-stat-text">
+          <strong>Scripture-Grounded</strong>
+          Every practice anchored in the living Word of God.
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-mark">✦</div>
+        <div class="hero-stat-text">
+          <strong>Spirit-Open</strong>
+          We don't tell the Spirit how to move. We simply don't close the door.
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-mark">✦</div>
+        <div class="hero-stat-text">
+          <strong>Youth-First</strong>
+          Built for the Primehood generation. Open to every season of life.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ORIGIN STORY
+     ============================================================ -->
+<section class="section story-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">The Beginning</div>
+      <h2 class="section-title">A generation that was never <em>invited in.</em></h2>
+    </div>
+
+    <div class="story-grid">
+      <div class="story-text reveal">
+        <div class="story-pull">
+          The practice of silence is not new. But the invitation to the young — that was missing.
+        </div>
+
+        <p class="story-para">
+          Look at the landscape of Christian silent retreat ministry today.
+          Beautiful spaces. Deep theology. Experienced facilitators.
+          But look at who they are designed for — and who is quietly excluded
+          by the language, the design, the unspoken assumption that
+          this depth is for another generation.
+        </p>
+
+        <p class="story-para">
+          The Hush Room was built to change that. Not by lowering the depth —
+          but by widening the door. Because Jesus said it plainly:
+          <em>"Let the children come to me. Do not hinder them.
+          For the kingdom of God belongs to such as these."</em> — Mark 10:14
+        </p>
+
+        <p class="story-para">
+          We take Him at His word. The silence is not only for the spiritually mature.
+          The Hush Room is for the 17-year-old who is searching.
+          The 25-year-old who is burning out. The 31-year-old who is breaking.
+          And the 68-year-old who is leaving legacy. All of them.
+          Always. Together.
+        </p>
+      </div>
+
+      <div class="story-aside reveal">
+        <div class="story-aside-inner">
+          <div class="aside-eyebrow">Our founding conviction</div>
+          <div class="aside-verse">
+            "Let the children come to me, and do not hinder them, for the kingdom of God belongs to such as these."
+          </div>
+          <div class="aside-verse-ref">Mark 10:14 · The words of Jesus</div>
+
+          <div class="aside-conviction">
+            <p>
+              This is not a ministry strategy. It is an act of obedience to a direct command of Jesus.
+              He said let them come. He said do not hinder them. We are choosing to listen.
+            </p>
+            <p>
+              The Hush Room exists so that no young person is told —
+              by silence of invitation, by design not made for them,
+              by spaces that feel like they belong to another generation —
+              that this depth is not for them.
+              It is for them. It has always been for them.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CORE SENTENCE — Father · Son · Spirit
+     ============================================================ -->
+<section class="core-section">
+  <div class="core-inner">
+    <div class="core-label reveal">Our one sentence · Our complete theology</div>
+
+    <div class="core-three reveal">
+      <div class="core-item">
+        <div class="core-person">God the Father</div>
+        <div class="core-statement">The Father<br><em>waits.</em></div>
+        <div class="core-verse">"While he was still a long way off, his father saw him and ran."</div>
+        <div class="core-verse-ref">Luke 15:20</div>
+      </div>
+      <div class="core-item">
+        <div class="core-person">God the Son</div>
+        <div class="core-statement">The Son<br><em>welcomes.</em></div>
+        <div class="core-verse">"Come to me, all you who are weary and burdened."</div>
+        <div class="core-verse-ref">Matthew 11:28</div>
+      </div>
+      <div class="core-item">
+        <div class="core-person">God the Spirit</div>
+        <div class="core-statement">The Spirit<br><em>moves.</em></div>
+        <div class="core-verse">"The wind blows wherever it pleases."</div>
+        <div class="core-verse-ref">John 3:8</div>
+      </div>
+    </div>
+
+    <div class="core-full-sentence reveal">
+      One God. Three Persons. One room. All are welcome.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BIBLICAL GALLERY — 4 Gates + 4 Pillars
+     ============================================================ -->
+<section class="section gallery-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">The Biblical Foundation</div>
+      <h2 class="section-title">Eight figures who built <em>this room.</em></h2>
+      <p class="section-body">
+        The practice of silent retreat is woven through Scripture —
+        from the burning bush to the upper room. These are the gates we enter
+        and the pillars that hold us.
+      </p>
+    </div>
+
+    <div class="gallery-row-label gates reveal">The Four Gates · How we enter</div>
+
+    <!-- GATES -->
+    <div class="gallery-grid reveal">
+      <article class="gallery-card gc-gate g1">
+        <div class="gallery-thumb">
+          <div class="gallery-thumb-meta">gate-1<br>jesus<br>80×100</div>
+        </div>
+        <div class="gallery-type">Gate I · The Intentional</div>
+        <div class="gallery-name">Jesus</div>
+        <div class="gallery-role">Our model for the unhurried life</div>
+        <p class="gallery-body">
+          Jesus withdrew regularly and intentionally — before dawn, after miracles,
+          throughout His ministry. The Son of God would not skip the silence.
+          Neither should we.
+        </p>
+        <div class="gallery-scripture">
+          "But Jesus often withdrew to lonely places and prayed." — Luke 5:16
+        </div>
+      </article>
+
+      <article class="gallery-card gc-gate g2">
+        <div class="gallery-thumb">
+          <div class="gallery-thumb-meta">gate-2<br>elijah<br>80×100</div>
+        </div>
+        <div class="gallery-type">Gate II · The Drawn</div>
+        <div class="gallery-name">Elijah</div>
+        <div class="gallery-role">The burnt-out prophet met by grace</div>
+        <p class="gallery-body">
+          Fresh from his greatest miracle, Elijah collapsed and said he was done.
+          God's response was not a rebuke — it was food, rest, and a still small voice.
+          God meets burnout with grace.
+        </p>
+        <div class="gallery-scripture">
+          "Get up and eat. The journey is too much for you." — 1 Kings 19:7
+        </div>
+      </article>
+
+      <article class="gallery-card gc-gate g3">
+        <div class="gallery-thumb">
+          <div class="gallery-thumb-meta">gate-3<br>broken<br>80×100</div>
+        </div>
+        <div class="gallery-type">Gate III · The Broken</div>
+        <div class="gallery-name">Job</div>
+        <div class="gallery-role">From hearing about God to seeing God</div>
+        <p class="gallery-body">
+          Job was blameless and still lost everything. He didn't perform peace.
+          He sat in the ash heap and told God exactly how he felt.
+          God never rebuked him for his honesty. And Job saw God face to face.
+        </p>
+        <div class="gallery-scripture">
+          "My ears had heard of you — but now my eyes have seen you." — Job 42:5
+        </div>
+      </article>
+
+      <article class="gallery-card gc-gate g4">
+        <div class="gallery-thumb">
+          <div class="gallery-thumb-meta">prodigal<br>return<br>80×100</div>
+        </div>
+        <div class="gallery-type">Gate IV · The Returning</div>
+        <div class="gallery-name">The Prodigal</div>
+        <div class="gallery-role">The Father already running</div>
+        <p class="gallery-body">
+          He made a mess. He knew it. He came rehearsing a speech.
+          The Father interrupted it with a robe, a ring, a feast and arms that
+          would not let go. While he was still far off — the Father saw him and ran.
+        </p>
+        <div class="gallery-scripture">
+          "While he was still a long way off, his father saw him." — Luke 15:20
+        </div>
+      </article>
+    </div>
+
+    <div class="gallery-row-label pillars reveal">The Four Pillars · What holds the room</div>
+
+    <!-- PILLARS -->
+    <div class="gallery-grid reveal">
+      <article class="gallery-card gc-pillar">
+        <div class="gallery-type">Pillar I · The Space</div>
+        <div class="gallery-name">Moses</div>
+        <div class="gallery-role">The first Hush Room</div>
+        <p class="gallery-body">
+          Moses pitched the Tent of Meeting outside the camp — a physical space
+          dedicated to regular encounter with God. The burning bush was already
+          burning before Moses turned aside. God was already speaking.
+        </p>
+        <div class="gallery-scripture">
+          "The Lord would speak to Moses face to face, as one speaks to a friend." — Exodus 33:11
+        </div>
+      </article>
+
+      <article class="gallery-card gc-pillar">
+        <div class="gallery-type">Pillar II · The Posture</div>
+        <div class="gallery-name">David</div>
+        <div class="gallery-role">The undivided heart</div>
+        <p class="gallery-body">
+          David prayed for an undivided heart — the U in our HUSH poem.
+          He wrote the original retreat journals. He modelled honest lament,
+          joyful pursuit and radical stillness before the same God.
+        </p>
+        <div class="gallery-scripture">
+          "Give me an undivided heart, that I may fear your name." — Psalm 86:11
+        </div>
+      </article>
+
+      <article class="gallery-card gc-pillar">
+        <div class="gallery-type">Pillar III · The Waiting</div>
+        <div class="gallery-name">Ruth</div>
+        <div class="gallery-role">Faithful in the in-between</div>
+        <p class="gallery-body">
+          Ruth's season of silence was not empty — it was pregnant with what God
+          was preparing. She waited faithfully, moved quietly, and her hidden season
+          carried her into a destiny she could not yet see.
+        </p>
+        <div class="gallery-scripture">
+          "Wait, my daughter, until you find out what happens." — Ruth 3:18
+        </div>
+      </article>
+
+      <article class="gallery-card gc-pillar">
+        <div class="gallery-type">Pillar IV · The Practice</div>
+        <div class="gallery-name">Mary</div>
+        <div class="gallery-role">The one thing</div>
+        <p class="gallery-body">
+          In a world of Marthas, Mary sat. She chose the one thing —
+          to be present at Jesus' feet, fully attentive, undivided.
+          Jesus said what she chose would never be taken from her.
+        </p>
+        <div class="gallery-scripture">
+          "Mary has chosen what is better, and it will not be taken away." — Luke 10:42
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TEACHERS — with mary-listening.jpg atmospheric panel
+     ============================================================ -->
+<section class="section teachers-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Our Teachers & Influences</div>
+      <h2 class="section-title">Standing on <em>deep wells.</em></h2>
+      <p class="section-body">
+        THR draws from the riches of those who have walked this ancient path before us —
+        teachers who have given their lives to the theology and practice of
+        silence, solitude and spiritual formation.
+      </p>
+    </div>
+
+    <div class="teachers-grid">
+      <article class="teacher-card reveal">
+        <div class="teacher-label">Spiritual Formation</div>
+        <div class="teacher-name">Ruth Haley Barton</div>
+        <div class="teacher-title">Founder, Transforming Center · Spiritual Director</div>
+        <p class="teacher-body">
+          Barton's work on solitude and silence forms one of the core theological
+          pillars of THR. Her insight that we are starved for quiet —
+          to hear the sound of sheer silence that is the very presence of God —
+          speaks directly to what THR is built to offer.
+          Her use of Elijah's story as the central model of
+          divine restoration in silence shaped our Gate II.
+        </p>
+        <div class="teacher-books">
+          <div class="teacher-book">Invitation to Solitude and Silence</div>
+          <div class="teacher-book">Sacred Rhythms</div>
+          <div class="teacher-book">Strengthening the Soul of Your Leadership</div>
+        </div>
+      </article>
+
+      <article class="teacher-card reveal">
+        <div class="teacher-label">Unhurried Living</div>
+        <div class="teacher-name">Alan Fadling</div>
+        <div class="teacher-title">Founder, Unhurried Living · Spiritual Director</div>
+        <p class="teacher-body">
+          Fadling's concept of the pace of grace — following Jesus'
+          own rhythms of work and rest — is woven into the U of our HUSH poem.
+          His conviction that love isn't rushed, and that hurry is not a
+          time problem but a soul problem, shapes how THR thinks about
+          the Primehood generation and what they most need.
+        </p>
+        <div class="teacher-books">
+          <div class="teacher-book">An Unhurried Life</div>
+          <div class="teacher-book">An Unhurried Leader</div>
+          <div class="teacher-book">A Non-Anxious Life</div>
+        </div>
+      </article>
+
+      <article class="teacher-card reveal">
+        <div class="teacher-label">Contemplative Theology</div>
+        <div class="teacher-name">Henri Nouwen</div>
+        <div class="teacher-title">Priest · Author · Spiritual Director · 1932–1996</div>
+        <p class="teacher-body">
+          Nouwen's time at L'Arche community and his lifelong wrestling
+          with solitude, identity and belonging speaks profoundly into
+          Gate IV — the returning. His meditation on Rembrandt's
+          Return of the Prodigal Son — which hangs at the heart of THR —
+          captures in art what words almost cannot.
+        </p>
+        <div class="teacher-books">
+          <div class="teacher-book">The Return of the Prodigal Son</div>
+          <div class="teacher-book">The Way of the Heart</div>
+          <div class="teacher-book">Reaching Out</div>
+        </div>
+      </article>
+
+      <aside class="teachers-aside reveal">
+        <div class="teachers-aside-bg">
+          <div class="illus-meta">
+            mary-listening<br>
+            <span class="file">atmospheric · op 0.2</span>
+          </div>
+        </div>
+        <div class="teachers-aside-content">
+          <div class="teachers-aside-eyebrow">The one thing</div>
+          <div class="teachers-aside-quote">
+            "Mary has chosen what is better, and it will not be taken away from her."
+          </div>
+        </div>
+        <div class="teachers-aside-ref">Luke 10:42</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATEMENT OF FAITH — sticky left nav · 9 articles
+     ============================================================ -->
+<section class="faith-section" id="beliefs">
+  <div class="faith-inner">
+
+    <div class="faith-left reveal">
+      <div class="section-tag light">Statement of Faith</div>
+      <h2 class="section-title light">What we <em>believe.</em></h2>
+      <p class="section-body light">
+        Grounded in Scripture. Trinitarian. Interdenominational.
+        Every word here is earned — checked against the Word of God
+        before it was written down.
+      </p>
+
+      <ul class="faith-nav" id="faithNav">
+        <li><a class="faith-nav-item" href="#article-1"><span class="faith-nav-num">I</span>God the Father</a></li>
+        <li><a class="faith-nav-item" href="#article-2"><span class="faith-nav-num">II</span>Jesus Christ</a></li>
+        <li><a class="faith-nav-item" href="#article-3"><span class="faith-nav-num">III</span>The Holy Spirit</a></li>
+        <li><a class="faith-nav-item" href="#article-4"><span class="faith-nav-num">IV</span>Scripture</a></li>
+        <li><a class="faith-nav-item" href="#article-5"><span class="faith-nav-num">V</span>Salvation</a></li>
+        <li><a class="faith-nav-item" href="#article-6"><span class="faith-nav-num">VI</span>The Church</a></li>
+        <li><a class="faith-nav-item" href="#article-7"><span class="faith-nav-num">VII</span>Spiritual Formation</a></li>
+        <li><a class="faith-nav-item" href="#article-8"><span class="faith-nav-num">VIII</span>Silence &amp; Solitude</a></li>
+        <li><a class="faith-nav-item" href="#article-9"><span class="faith-nav-num">IX</span>Youth &amp; Children</a></li>
+      </ul>
+    </div>
+
+    <div class="faith-right">
+
+      <article class="faith-article reveal" id="article-1">
+        <div class="faith-article-label">Article I</div>
+        <h3 class="faith-article-title">God the Father</h3>
+        <p class="faith-article-body">
+          We believe in God the Father — who loves with a love that runs.
+          Who watches the road for every returning son and daughter.
+          Who waits — not passively, but actively — for every soul to turn toward home.
+          The Prodigal's father is our image of God — running before the son
+          finishes his speech, restoring dignity before it is asked for.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"While he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him."</div>
+          <div class="faith-verse-ref">Luke 15:20</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"The Lord your God is with you, the Mighty Warrior who saves. He will rejoice over you with singing."</div>
+          <div class="faith-verse-ref">Zephaniah 3:17</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-2">
+        <div class="faith-article-label">Article II</div>
+        <h3 class="faith-article-title">Jesus Christ</h3>
+        <p class="faith-article-body">
+          We believe in Jesus Christ — fully God, fully human. Born of a virgin.
+          Crucified for our sin. Risen from the dead. The only way to the Father.
+          We believe He is our model for the unhurried life — that the Son of God
+          Himself withdrew regularly to pray, showing us not weakness but wisdom.
+          His invitation remains open — to every weary, hungry, broken and returning soul.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"I am the way and the truth and the life. No one comes to the Father except through me."</div>
+          <div class="faith-verse-ref">John 14:6</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Come to me, all you who are weary and burdened, and I will give you rest."</div>
+          <div class="faith-verse-ref">Matthew 11:28</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-3">
+        <div class="faith-article-label">Article III</div>
+        <h3 class="faith-article-title">The Holy Spirit</h3>
+        <p class="faith-article-body">
+          We believe in the Holy Spirit — the breath of God, the Counsellor, the Guide.
+          Present at creation. Poured out at Pentecost. Active today.
+          We do not tell the Spirit how to move. We simply do not close the door.
+          The same Spirit who fell at Pentecost — rushing wind, tongues of fire —
+          is the still small voice that spoke to Elijah in the cave.
+          We do not choose between the fire and the silence.
+          The silence prepares us for the fire. The fire drives us back to the silence.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"But when he, the Spirit of truth, comes, he will guide you into all the truth."</div>
+          <div class="faith-verse-ref">John 16:13</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Do not quench the Spirit."</div>
+          <div class="faith-verse-ref">1 Thessalonians 5:19</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-4">
+        <div class="faith-article-label">Article IV</div>
+        <h3 class="faith-article-title">Scripture</h3>
+        <p class="faith-article-body">
+          We believe the Bible is the living, breathing Word of God —
+          active, sharper than any double-edged sword, able to penetrate
+          to the very soul. Every practice at THR is anchored in Scripture.
+          We do not come to the silence to empty our minds.
+          We come to fill them with Christ — to let His Word dwell in us richly.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"For the word of God is alive and active. Sharper than any double-edged sword."</div>
+          <div class="faith-verse-ref">Hebrews 4:12</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Let the message of Christ dwell among you richly."</div>
+          <div class="faith-verse-ref">Colossians 3:16</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-5">
+        <div class="faith-article-label">Article V</div>
+        <h3 class="faith-article-title">Salvation</h3>
+        <p class="faith-article-body">
+          We believe in salvation by grace through faith — not by works,
+          not by spiritual performance, not by how well you sit in silence.
+          The Hush Room is not a place to earn God's favour.
+          It is a place to receive what He has already freely given.
+          You do not come to THR to become worthy.
+          You come because He already made you so.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God."</div>
+          <div class="faith-verse-ref">Ephesians 2:8-9</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-6">
+        <div class="faith-article-label">Article VI</div>
+        <h3 class="faith-article-title">The Church</h3>
+        <p class="faith-article-body">
+          We believe in the Church — one Body, many traditions, one Lord.
+          We are not affiliated with any single denomination.
+          We are not a replacement for your local church.
+          We are a room within the Body of Christ —
+          where all who confess Jesus as Lord are genuinely welcome.
+          Catholic or Protestant. Charismatic or liturgical.
+          Anglican, Baptist, Pentecostal, non-denominational.
+          If Jesus is your Lord — you are home here.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"There is one body and one Spirit... one Lord, one faith, one baptism; one God and Father of all."</div>
+          <div class="faith-verse-ref">Ephesians 4:4-6</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-7">
+        <div class="faith-article-label">Article VII</div>
+        <h3 class="faith-article-title">Spiritual Formation</h3>
+        <p class="faith-article-body">
+          We believe in the ongoing spiritual formation of every person —
+          at every age, in every season of life. God is always forming.
+          We are always being formed. The silence is where we cooperate
+          with that work — not by striving, but by surrendering.
+          In Childhood — wonder. In Primehood — becoming.
+          In Adulthood — deepening. In Elderhood — legacy.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"He who began a good work in you will carry it on to completion until the day of Christ Jesus."</div>
+          <div class="faith-verse-ref">Philippians 1:6</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-8">
+        <div class="faith-article-label">Article VIII</div>
+        <h3 class="faith-article-title">Silence &amp; Solitude</h3>
+        <p class="faith-article-body">
+          We believe in the practice of silence and solitude —
+          not as an end in itself, not as Eastern meditation or mindfulness,
+          not as emptiness — but as attentiveness to the living God.
+          Our silence is not empty. It is full of the presence of Father, Son and Spirit.
+          We cannot hear the whisper in a rush.
+          That is why we built this room.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Be still, and know that I am God."</div>
+          <div class="faith-verse-ref">Psalm 46:10</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"And after the fire came a gentle whisper."</div>
+          <div class="faith-verse-ref">1 Kings 19:12</div>
+        </div>
+      </article>
+
+      <article class="faith-article reveal" id="article-9">
+        <div class="faith-article-label">Article IX</div>
+        <h3 class="faith-article-title">Youth &amp; Children</h3>
+        <p class="faith-article-body">
+          We believe Jesus meant it when He said let the children come.
+          We take Him at His word. The silence is not only for the spiritually mature —
+          not only for the middle-aged or those who have already arrived.
+          It is for the 16-year-old who is searching. The 24-year-old
+          who is burning out. The kingdom belongs to such as these.
+          All of them. Always.
+        </p>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Let the little children come to me, and do not hinder them, for the kingdom of God belongs to such as these."</div>
+          <div class="faith-verse-ref">Mark 10:14</div>
+        </div>
+        <div class="faith-verse">
+          <div class="faith-verse-text">"Remember your Creator in the days of your youth."</div>
+          <div class="faith-verse-ref">Ecclesiastes 12:1</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SPIRIT & WORD
+     ============================================================ -->
+<section class="spirit-section">
+  <div class="spirit-inner">
+    <div class="reveal">
+      <div class="section-tag light">Spirit &amp; Word</div>
+      <h2 class="section-title light">We are <em>Pentecostal</em><br>and contemplative.<br>Both. Always both.</h2>
+
+      <p class="spirit-statement">
+        "The same Spirit who fell at Pentecost is the still small voice that spoke to Elijah. We do not choose between the fire and the silence."
+      </p>
+
+      <p class="spirit-para">
+        Some will ask — can you be Spirit-led and contemplative?
+        Can you value the gifts of the Spirit and the practice of silence?
+        We answer simply: look at Jesus.
+      </p>
+
+      <p class="spirit-para">
+        He moved in power — healing, raising the dead, casting out darkness.
+        And He withdrew regularly to pray alone. He did not choose between
+        the fire and the quiet. He lived in both. THR follows the same Jesus.
+      </p>
+
+      <div class="spirit-verses">
+        <div class="spirit-verse-item">
+          <div class="spirit-verse-ref">1 Thess 5:19</div>
+          <div class="spirit-verse-text">"Do not quench the Spirit."</div>
+        </div>
+        <div class="spirit-verse-item">
+          <div class="spirit-verse-ref">Psalm 46:10</div>
+          <div class="spirit-verse-text">"Be still, and know that I am God."</div>
+        </div>
+        <div class="spirit-verse-item">
+          <div class="spirit-verse-ref">Luke 5:16</div>
+          <div class="spirit-verse-text">"But Jesus often withdrew to lonely places and prayed."</div>
+        </div>
+        <div class="spirit-verse-item">
+          <div class="spirit-verse-ref">Acts 2:2</div>
+          <div class="spirit-verse-text">"Suddenly a sound like the blowing of a violent wind came from heaven."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="spirit-table">
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Word-Based</div>
+            <div class="spirit-row-body">Every session anchored in Scripture. Lectio Divina treats the Word as a living voice — because it is.</div>
+          </div>
+        </div>
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Spirit-Led</div>
+            <div class="spirit-row-body">We create space for the Holy Spirit to move as He wills. We don't choreograph encounter — we make room for it.</div>
+          </div>
+        </div>
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Contemplative</div>
+            <div class="spirit-row-body">We practice ancient Christian disciplines — 2,000 years of Spirit-formed tradition available to every believer.</div>
+          </div>
+        </div>
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Expectant</div>
+            <div class="spirit-row-body">We do not come to learn about God. We come to meet Him. We expect encounter — we just don't prescribe its form.</div>
+          </div>
+        </div>
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Interdenominational</div>
+            <div class="spirit-row-body">Catholic, Protestant, charismatic, liturgical — all traditions that confess Christ are genuinely welcome here.</div>
+          </div>
+        </div>
+        <div class="spirit-row">
+          <div class="spirit-row-mark">✦</div>
+          <div>
+            <div class="spirit-row-title">Not New Age</div>
+            <div class="spirit-row-body">Our silence is not empty. We are not teaching mindfulness. We are teaching attentiveness to the living God — Father, Son and Holy Spirit.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DENOMINATIONAL LANGUAGE
+     ============================================================ -->
+<section class="section denom-section">
+  <div class="section-inner">
+    <div class="denom-grid">
+      <div class="denom-text reveal">
+        <div class="section-tag">How We Speak</div>
+        <h2 class="section-title">Language that <em>opens doors.</em></h2>
+
+        <div class="denom-quote">
+          Denominations are man's categories. Jesus is everybody's Lord.
+        </div>
+
+        <p class="denom-para">
+          When you lead with Jesus — His practices, His rhythm, His invitation —
+          every genuine Christian from every tradition recognises Him.
+          A Catholic nun and a Pentecostal worship leader both follow the same Jesus
+          who withdrew to lonely places to pray. That is our common ground.
+          THR builds its house there.
+        </p>
+
+        <p class="denom-para">
+          Below is how we speak — and why it matters.
+          Not theological compromise — theological precision.
+          Jesus is big enough to hold all of us.
+        </p>
+      </div>
+
+      <div class="denom-table reveal">
+        <div class="denom-row">
+          <div class="denom-head denom-head-avoid">Instead of saying…</div>
+          <div class="denom-head denom-head-use">We say…</div>
+        </div>
+        <div class="denom-row">
+          <div class="denom-cell denom-avoid">
+            <strong>"We are Pentecostal"</strong>
+            Labels a tribe, closes doors.
+          </div>
+          <div class="denom-cell denom-use">
+            <strong>"We are Spirit-open, Word-grounded"</strong>
+            Describes a posture, opens doors.
+          </div>
+        </div>
+        <div class="denom-row">
+          <div class="denom-cell denom-avoid">
+            <strong>"We are not Catholic"</strong>
+            Divides unnecessarily.
+          </div>
+          <div class="denom-cell denom-use">
+            <strong>"We draw from the whole Christian tradition"</strong>
+            Celebrates the riches of the whole Body.
+          </div>
+        </div>
+        <div class="denom-row">
+          <div class="denom-cell denom-avoid">
+            <strong>"We are against mindfulness"</strong>
+            Defensive, combative.
+          </div>
+          <div class="denom-cell denom-use">
+            <strong>"Our silence is not empty — it is full of Christ"</strong>
+            Clear, confident, winsome.
+          </div>
+        </div>
+        <div class="denom-row">
+          <div class="denom-cell denom-avoid">
+            <strong>"All are welcome"</strong>
+            Vague, people don't know what to expect.
+          </div>
+          <div class="denom-cell denom-use">
+            <strong>"If Jesus is your Lord — you are home here"</strong>
+            Specific, warm, clear boundary.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MANIFESTO
+     ============================================================ -->
+<section class="section manifesto-section">
+  <div class="manifesto-inner">
+    <div class="section-tag center reveal">Our Manifesto</div>
+    <h2 class="section-title reveal" style="text-align:center;">We made this for <em>you.</em></h2>
+
+    <div class="manifesto-opening reveal">
+      There is a noise inside you that never stops.
+      Not just the notifications — the deeper noise.
+      The voice that asks: <em>am I enough, am I loved, is any of this real?</em>
+      You were not made to live like this.
+      And somewhere, in the part of you that is most honest —
+      you already know that.
+    </div>
+
+    <div class="manifesto-gates reveal">
+      <div class="manifesto-gate mg-1">
+        <div class="manifesto-gate-label">Gate I · For those who are hungry</div>
+        <div class="manifesto-gate-title">You chose to come.</div>
+        <p class="manifesto-gate-body">
+          Something in your soul has tasted the presence of God and it has ruined you —
+          ruined you for anything less. Jesus found it — every day, before dawn, in a lonely place.
+          This room was made for your hunger. Come and go deeper.
+        </p>
+      </div>
+      <div class="manifesto-gate mg-2">
+        <div class="manifesto-gate-label">Gate II · For those who are exhausted</div>
+        <div class="manifesto-gate-title">Something pulled you here.</div>
+        <p class="manifesto-gate-body">
+          You didn't plan to be here. But you came. God sent an angel to Elijah —
+          not with a sermon, but with food — and said: the journey is too much for you.
+          You don't have to perform here. Just come.
+        </p>
+      </div>
+      <div class="manifesto-gate mg-3">
+        <div class="manifesto-gate-label">Gate III · For those who are broken</div>
+        <div class="manifesto-gate-title">Everything fell apart.</div>
+        <p class="manifesto-gate-body">
+          You did nothing wrong and it still happened. Like Job.
+          Your honest wrestling is more acceptable to God than polished theology.
+          The ash heap became the place where Job said:
+          now my eyes have seen you. It can be that for you too.
+        </p>
+      </div>
+      <div class="manifesto-gate mg-4">
+        <div class="manifesto-gate-label">Gate IV · For those who are returning</div>
+        <div class="manifesto-gate-title">You made a mess. Come home.</div>
+        <p class="manifesto-gate-body">
+          You know what you did. But while you were still a long way off —
+          the Father saw you. He was already running.
+          Come rehearsing whatever you need to rehearse.
+          He will interrupt you with a robe, a ring, and arms that will not let go.
+        </p>
+      </div>
+    </div>
+
+    <div class="manifesto-close reveal">
+      "It doesn't matter which door you walked through.<br>
+      God has been here the whole time.<br>
+      Welcome to The Hush Room."
+    </div>
+
+    <div class="manifesto-mark reveal">— The Hush Room · Founded on Mark 10:14</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">The <span>Hush</span> Room</a>
+    <div class="footer-meta">© 2026 · The Hush Room · hush.asia</div>
+  </div>
+  <div class="footer-tagline">
+    The world says rush.<br>God says hush.
+  </div>
+  <ul class="footer-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS — burger menu + scroll reveal + faith nav active
+     ============================================================ -->
+<script>
+  // Burger / sheet menu
+  const burger = document.getElementById('navBurger');
+  const sheet  = document.getElementById('navSheet');
+  if (burger && sheet) {
+    burger.addEventListener('click', () => sheet.classList.toggle('open'));
+    sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => sheet.classList.remove('open')));
+  }
+
+  // Reveal-on-scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  // Faith nav — active state on scroll
+  const articles = document.querySelectorAll('.faith-article');
+  const navItems = document.querySelectorAll('.faith-nav-item');
+  if (articles.length && navItems.length) {
+    const articleObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px' });
+    articles.forEach(a => articleObs.observe(a));
+  }
+</script>
+
+</body>
+</html>

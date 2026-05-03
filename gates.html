@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Four Gates — The Hush Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sienna:      #7B3F2A;
+  --sienna-light:#C4896A;
+  --parchment:   #F5EDD9;
+  --warm-white:  #FDFAF3;
+  --charcoal:    #2E2B27;
+  --ash:         #4A4540;
+  --gold:        #C9A45A;
+  --gold-light:  #E8D5A8;
+  --sage:        #8A9E7F;
+  --sage-dark:   #5A7060;
+  --sage-light:  #C4CFBA;
+  --slate:       #5A7080;
+  --crimson:     #8B2E2E;
+  --cream:       #F0E8D5;
+  --ink:         #1E1B17;
+
+  --gate1: #5A7060;
+  --gate2: #7B3F2A;
+  --gate3: #5A7080;
+  --gate4: #8B2E2E;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  overflow-x: hidden;
+  line-height: 1.85;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ============ NAV (system) ============ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(253,250,243,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(123,63,42,0.1);
+  gap: 2rem;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--sienna); text-decoration: none;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-logo span { font-style: italic; color: var(--gold); }
+
+.nav-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.9rem;
+  color: var(--ash);
+  opacity: 0.55;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.nav-right {
+  display: flex; align-items: center; gap: 2rem;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+
+.nav-links a {
+  color: var(--charcoal); text-decoration: none;
+  opacity: 0.6; transition: opacity 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { opacity: 1; color: var(--sienna); }
+.nav-links a.active { opacity: 1; color: var(--sienna); }
+
+.nav-cta {
+  background: var(--sienna);
+  color: var(--parchment) !important;
+  padding: 0.55rem 1.4rem; border-radius: 2rem;
+  opacity: 1 !important;
+  transition: background 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-cta:hover { background: #5C2E1F; }
+
+.nav-burger {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  width: 32px; height: 24px;
+  flex-direction: column; justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.nav-burger span {
+  display: block; width: 100%; height: 2px;
+  background: var(--sienna); transition: all 0.3s;
+}
+
+.mobile-sheet {
+  display: none;
+  position: fixed; top: 70px; left: 0; right: 0;
+  background: var(--warm-white);
+  border-bottom: 1px solid rgba(123,63,42,0.1);
+  padding: 2rem 1.5rem;
+  z-index: 999;
+  flex-direction: column; gap: 1.2rem;
+}
+
+.mobile-sheet.open { display: flex; }
+
+.mobile-sheet a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--charcoal); text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(123,63,42,0.08);
+}
+
+.mobile-sheet a.cta-mobile {
+  background: var(--sienna); color: var(--parchment);
+  text-align: center; padding: 0.9rem;
+  border-radius: 2rem; border: none;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1180px) {
+  .nav-tagline { display: none; }
+  .nav-links { gap: 1.5rem; font-size: 0.72rem; letter-spacing: 0.1em; }
+}
+
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+}
+
+/* ============ PAGE HERO ============ */
+.page-hero {
+  min-height: 80vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  padding: 11rem 3rem 7rem;
+  position: relative; overflow: hidden;
+  background: var(--ink);
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 18% 28%, rgba(90,112,96,0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 82% 30%, rgba(123,63,42,0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 55% at 22% 78%, rgba(90,112,128,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 75%, rgba(139,46,46,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,164,90,0.06) 0%, transparent 70%),
+    linear-gradient(165deg, #1E1B17 0%, #25201B 100%);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+.hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem; color: var(--gold);
+  opacity: 0.7; margin-bottom: 1.8rem;
+  letter-spacing: 0.08em;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 600; line-height: 1.05;
+  color: var(--parchment); margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s 0.15s ease both;
+  text-wrap: balance;
+}
+
+.hero-title em { color: var(--gold); font-style: italic; }
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.15rem;
+  color: rgba(245,237,217,0.5); line-height: 1.7;
+  margin-bottom: 3rem; font-weight: 300;
+  animation: fadeUp 0.8s 0.3s ease both;
+  text-wrap: pretty;
+}
+
+.hero-gates {
+  display: flex; gap: 1rem; justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+
+.hero-gate-pill {
+  padding: 0.75rem 1.6rem;
+  border-radius: 2rem; border: 1px solid;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.12em; text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.25s; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+}
+
+.hero-gate-pill .roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-style: italic;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+.hgp1 { border-color: rgba(90,112,96,0.4); color: var(--sage-light); }
+.hgp1:hover { background: rgba(90,112,96,0.15); border-color: var(--sage); }
+
+.hgp2 { border-color: rgba(196,137,106,0.4); color: var(--sienna-light); }
+.hgp2:hover { background: rgba(196,137,106,0.15); border-color: var(--sienna-light); }
+
+.hgp3 { border-color: rgba(90,112,128,0.4); color: #8AAABB; }
+.hgp3:hover { background: rgba(90,112,128,0.15); border-color: #8AAABB; }
+
+.hgp4 { border-color: rgba(139,46,46,0.4); color: #C47070; }
+.hgp4:hover { background: rgba(139,46,46,0.15); border-color: #C47070; }
+
+/* ============ INTRO BAND ============ */
+.intro-band {
+  background: var(--parchment);
+  padding: 7rem 3rem;
+  position: relative; overflow: hidden;
+}
+
+.intro-band::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 0% 50%, rgba(123,63,42,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 100% 50%, rgba(90,112,96,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.intro-band-inner {
+  max-width: 900px; margin: 0 auto;
+  text-align: center;
+  position: relative; z-index: 1;
+}
+
+.intro-band-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-style: italic; font-weight: 300;
+  color: var(--ink); line-height: 1.45;
+  margin-bottom: 1.8rem;
+  text-wrap: balance;
+}
+
+.intro-band-body {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(46,43,39,0.6);
+  max-width: 650px; margin: 0 auto 2rem;
+  text-wrap: pretty;
+}
+
+.intro-band-ref {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--sienna);
+  opacity: 0.6; letter-spacing: 0.06em;
+}
+
+/* ============ SHARED ============ */
+.section-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; color: var(--sienna);
+  margin-bottom: 1rem; display: inline-flex;
+  align-items: center; gap: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.section-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px; background: var(--sienna);
+}
+
+.section-tag.light { color: var(--gold); }
+.section-tag.light::before { background: var(--gold); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15; font-weight: 600;
+  color: var(--ink); margin-bottom: 1rem;
+  text-wrap: balance;
+}
+
+.section-title em { color: var(--sienna); font-style: italic; }
+.section-title.light { color: var(--parchment); }
+.section-title.light em { color: var(--gold); }
+
+/* Illustration placeholder primitive */
+.illus {
+  background: rgba(123,63,42,0.05);
+  border: 1px dashed rgba(123,63,42,0.25);
+  border-radius: 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 0.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(123,63,42,0.5);
+  text-align: center; padding: 1rem;
+  position: relative;
+}
+
+.illus::before {
+  content: '';
+  width: 28px; height: 28px;
+  border: 1px solid rgba(123,63,42,0.3);
+  border-radius: 50%;
+}
+
+.illus .illus-name {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: rgba(123,63,42,0.6);
+  font-weight: 500;
+}
+
+.illus .illus-dim {
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+
+.illus.dark {
+  background: rgba(245,237,217,0.04);
+  border-color: rgba(201,164,90,0.25);
+  color: rgba(201,164,90,0.5);
+}
+
+.illus.dark::before {
+  border-color: rgba(201,164,90,0.3);
+}
+
+.illus.dark .illus-name { color: rgba(201,164,90,0.65); }
+
+/* ============ GATE SECTIONS ============ */
+.gate-section { position: relative; overflow: hidden; }
+
+.gate-section-1 { background: var(--warm-white); }
+.gate-section-2 { background: var(--cream); }
+.gate-section-3 { background: var(--warm-white); }
+.gate-section-4 { background: var(--ink); }
+
+.gate-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 8rem 3rem;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: center;
+  position: relative; z-index: 1;
+}
+
+.gate-inner.reverse { direction: rtl; }
+.gate-inner.reverse > * { direction: ltr; }
+
+.gate-watermark {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32vw; font-weight: 700;
+  line-height: 1; opacity: 0.025;
+  pointer-events: none; user-select: none;
+  top: 50%; transform: translateY(-50%);
+}
+
+.gate-section-1 .gate-watermark { color: var(--gate1); left: -5%; }
+.gate-section-2 .gate-watermark { color: var(--gate2); right: -5%; left: auto; }
+.gate-section-3 .gate-watermark { color: var(--gate3); left: -5%; }
+.gate-section-4 .gate-watermark { color: var(--gold); right: -5%; left: auto; opacity: 0.04; }
+
+/* ---- gate left: copy ---- */
+.gate-number-badge {
+  display: inline-flex; align-items: center; gap: 1.1rem;
+  margin-bottom: 1.8rem;
+}
+
+.gate-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem; font-weight: 700;
+  line-height: 1;
+}
+
+.gate-section-1 .gate-num { color: var(--gate1); }
+.gate-section-2 .gate-num { color: var(--gate2); }
+.gate-section-3 .gate-num { color: var(--gate3); }
+.gate-section-4 .gate-num { color: var(--gold); }
+
+.gate-num-label { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.gate-num-season {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.gate-section-1 .gate-num-season { color: var(--gate1); }
+.gate-section-2 .gate-num-season { color: var(--gate2); }
+.gate-section-3 .gate-num-season { color: var(--gate3); }
+.gate-section-4 .gate-num-season { color: var(--gold); }
+
+.gate-num-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em; font-weight: 600;
+  opacity: 0.5;
+}
+
+.gate-section-1 .gate-num-name,
+.gate-section-2 .gate-num-name,
+.gate-section-3 .gate-num-name { color: var(--charcoal); }
+.gate-section-4 .gate-num-name { color: var(--parchment); opacity: 0.6; }
+
+.gate-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600; line-height: 1.1;
+  margin-bottom: 0.6rem;
+  text-wrap: balance;
+}
+
+.gate-section-1 .gate-title,
+.gate-section-2 .gate-title,
+.gate-section-3 .gate-title { color: var(--ink); }
+.gate-section-4 .gate-title { color: var(--parchment); }
+
+.gate-title em { font-style: italic; }
+.gate-section-1 .gate-title em { color: var(--gate1); }
+.gate-section-2 .gate-title em { color: var(--gate2); }
+.gate-section-3 .gate-title em { color: var(--gate3); }
+.gate-section-4 .gate-title em { color: var(--gold); }
+
+.gate-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.15rem;
+  margin-bottom: 2.2rem; opacity: 0.55;
+  line-height: 1.55;
+}
+
+.gate-section-1 .gate-subtitle,
+.gate-section-2 .gate-subtitle,
+.gate-section-3 .gate-subtitle { color: var(--ash); }
+.gate-section-4 .gate-subtitle { color: var(--parchment); opacity: 0.55; }
+
+.gate-body {
+  font-size: 0.95rem; line-height: 1.9;
+  margin-bottom: 1.5rem;
+  text-wrap: pretty;
+}
+
+.gate-section-1 .gate-body,
+.gate-section-2 .gate-body,
+.gate-section-3 .gate-body { color: rgba(46,43,39,0.7); }
+.gate-section-4 .gate-body { color: rgba(245,237,217,0.55); }
+
+.gate-body strong { font-weight: 600; }
+
+.gate-section-1 .gate-body strong { color: var(--gate1); }
+.gate-section-2 .gate-body strong { color: var(--gate2); }
+.gate-section-3 .gate-body strong { color: var(--gate3); }
+.gate-section-4 .gate-body strong { color: var(--gold); }
+
+.gate-verse-block {
+  padding: 1.5rem 1.75rem;
+  border-radius: 0.5rem;
+  margin: 1.8rem 0;
+}
+
+.gate-section-1 .gate-verse-block { background: rgba(90,112,96,0.07); border-left: 3px solid var(--gate1); }
+.gate-section-2 .gate-verse-block { background: rgba(123,63,42,0.06); border-left: 3px solid var(--gate2); }
+.gate-section-3 .gate-verse-block { background: rgba(90,112,128,0.07); border-left: 3px solid var(--gate3); }
+.gate-section-4 .gate-verse-block { background: rgba(201,164,90,0.07); border-left: 3px solid var(--gold); }
+
+.gate-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.1rem;
+  line-height: 1.65; margin-bottom: 0.5rem;
+  text-wrap: pretty;
+}
+
+.gate-section-1 .gate-verse-text,
+.gate-section-2 .gate-verse-text,
+.gate-section-3 .gate-verse-text { color: rgba(46,43,39,0.78); }
+.gate-section-4 .gate-verse-text { color: rgba(245,237,217,0.75); }
+
+.gate-verse-ref {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.18em; font-weight: 600;
+}
+
+.gate-section-1 .gate-verse-ref { color: var(--gate1); opacity: 0.75; }
+.gate-section-2 .gate-verse-ref { color: var(--gate2); opacity: 0.75; }
+.gate-section-3 .gate-verse-ref { color: var(--gate3); opacity: 0.75; }
+.gate-section-4 .gate-verse-ref { color: var(--gold); opacity: 0.75; }
+
+.gate-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem; border-radius: 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  border: none; transition: all 0.2s;
+  margin-top: 1rem;
+}
+
+.gate-cta::after { content: '→'; font-size: 1rem; }
+
+.gate-section-1 .gate-cta { background: var(--gate1); color: var(--parchment); }
+.gate-section-1 .gate-cta:hover { background: var(--sage-dark); transform: translateY(-1px); }
+
+.gate-section-2 .gate-cta { background: var(--gate2); color: var(--parchment); }
+.gate-section-2 .gate-cta:hover { background: #5C2E1F; transform: translateY(-1px); }
+
+.gate-section-3 .gate-cta { background: var(--gate3); color: var(--parchment); }
+.gate-section-3 .gate-cta:hover { background: #45576A; transform: translateY(-1px); }
+
+.gate-section-4 .gate-cta { background: var(--gold); color: var(--ink); }
+.gate-section-4 .gate-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* ---- gate right: card ---- */
+.gate-card-full {
+  border-radius: 0.5rem; padding: 0;
+  position: relative; overflow: hidden;
+  border-top: 3px solid;
+}
+
+.gate-section-1 .gate-card-full {
+  background: var(--parchment);
+  border-top-color: var(--gate1);
+  box-shadow: 0 1px 0 rgba(90,112,96,0.15);
+}
+.gate-section-2 .gate-card-full {
+  background: var(--warm-white);
+  border-top-color: var(--gate2);
+  box-shadow: 0 1px 0 rgba(123,63,42,0.12);
+}
+.gate-section-3 .gate-card-full {
+  background: var(--parchment);
+  border-top-color: var(--gate3);
+  box-shadow: 0 1px 0 rgba(90,112,128,0.15);
+}
+.gate-section-4 .gate-card-full {
+  background: rgba(245,237,217,0.04);
+  border-top-color: var(--gold);
+}
+
+.gate-card-illus {
+  height: 320px;
+  border-radius: 0;
+  border-left: 0; border-right: 0; border-top: 0;
+  border-bottom: 1px solid rgba(123,63,42,0.1);
+  background: rgba(123,63,42,0.04);
+}
+
+.gate-section-4 .gate-card-illus {
+  background: rgba(201,164,90,0.04);
+  border-bottom-color: rgba(201,164,90,0.15);
+}
+
+.gate-card-body { padding: 2.5rem; position: relative; }
+
+.gate-card-watercolour {
+  position: absolute; inset: 0; pointer-events: none;
+}
+
+.gate-section-1 .gate-card-watercolour {
+  background: radial-gradient(ellipse 70% 60% at 90% 10%, rgba(90,112,96,0.08) 0%, transparent 60%);
+}
+.gate-section-2 .gate-card-watercolour {
+  background: radial-gradient(ellipse 70% 60% at 10% 90%, rgba(123,63,42,0.06) 0%, transparent 60%);
+}
+.gate-section-3 .gate-card-watercolour {
+  background: radial-gradient(ellipse 70% 60% at 90% 90%, rgba(90,112,128,0.08) 0%, transparent 60%);
+}
+.gate-section-4 .gate-card-watercolour {
+  background: radial-gradient(ellipse 70% 60% at 30% 30%, rgba(123,63,42,0.18) 0%, transparent 65%);
+}
+
+.gate-card-inner { position: relative; z-index: 1; }
+
+.gate-card-who {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem; letter-spacing: 0.06em;
+  margin-bottom: 0.6rem; opacity: 0.7;
+}
+
+.gate-section-1 .gate-card-who { color: var(--gate1); }
+.gate-section-2 .gate-card-who { color: var(--gate2); }
+.gate-section-3 .gate-card-who { color: var(--gate3); }
+.gate-section-4 .gate-card-who { color: var(--gold); }
+
+.gate-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem; font-weight: 600;
+  line-height: 1.25; margin-bottom: 1.5rem;
+  text-wrap: balance;
+}
+
+.gate-section-1 .gate-card-title,
+.gate-section-2 .gate-card-title,
+.gate-section-3 .gate-card-title { color: var(--ink); }
+.gate-section-4 .gate-card-title { color: var(--parchment); }
+
+.gate-card-list {
+  list-style: none; display: flex;
+  flex-direction: column; gap: 0.85rem;
+}
+
+.gate-card-item {
+  display: flex; gap: 0.85rem; align-items: flex-start;
+  font-size: 0.88rem; line-height: 1.65;
+}
+
+.gate-section-1 .gate-card-item,
+.gate-section-2 .gate-card-item,
+.gate-section-3 .gate-card-item { color: rgba(46,43,39,0.7); }
+.gate-section-4 .gate-card-item { color: rgba(245,237,217,0.55); }
+
+.gate-card-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 0.55rem;
+}
+
+.gate-section-1 .gate-card-dot { background: var(--gate1); opacity: 0.6; }
+.gate-section-2 .gate-card-dot { background: var(--gate2); opacity: 0.6; }
+.gate-section-3 .gate-card-dot { background: var(--gate3); opacity: 0.6; }
+.gate-section-4 .gate-card-dot { background: var(--gold); opacity: 0.6; }
+
+.gate-card-divider {
+  height: 1px; margin: 1.8rem 0;
+}
+
+.gate-section-1 .gate-card-divider { background: rgba(90,112,96,0.15); }
+.gate-section-2 .gate-card-divider { background: rgba(123,63,42,0.12); }
+.gate-section-3 .gate-card-divider { background: rgba(90,112,128,0.15); }
+.gate-section-4 .gate-card-divider { background: rgba(201,164,90,0.12); }
+
+.gate-card-promise {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.05rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.gate-section-1 .gate-card-promise { color: var(--gate1); }
+.gate-section-2 .gate-card-promise { color: var(--gate2); }
+.gate-section-3 .gate-card-promise { color: var(--gate3); }
+.gate-section-4 .gate-card-promise { color: var(--gold); }
+
+/* ============ GATE DIVIDERS ============ */
+.gate-divider {
+  padding: 2.5rem 3rem;
+  display: flex; align-items: center; gap: 2rem;
+  background: var(--warm-white);
+}
+
+.gate-divider.dark { background: var(--ink); }
+
+.gate-divider-line {
+  flex: 1; height: 1px;
+  background: rgba(123,63,42,0.1);
+}
+
+.gate-divider.dark .gate-divider-line { background: rgba(201,164,90,0.1); }
+
+.gate-divider-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem; color: var(--ash);
+  opacity: 0.45; letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.gate-divider.dark .gate-divider-text { color: rgba(245,237,217,0.3); }
+
+/* ============ REMBRANDT SECTION ============ */
+.rembrandt-section {
+  background: var(--ink);
+  display: grid; grid-template-columns: 5fr 4fr;
+  min-height: 700px;
+  position: relative; overflow: hidden;
+}
+
+.rembrandt-image {
+  position: relative; overflow: hidden;
+  display: flex; align-items: stretch;
+}
+
+.rembrandt-image .illus {
+  flex: 1;
+  border-radius: 0; border: none;
+  border-right: 1px solid rgba(201,164,90,0.1);
+}
+
+.rembrandt-content {
+  padding: 6rem 4rem;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  position: relative; z-index: 1;
+}
+
+.rembrandt-content::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 30% 50%, rgba(123,63,42,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rembrandt-inner { position: relative; z-index: 1; }
+
+.rembrandt-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: var(--gold);
+  letter-spacing: 0.06em; opacity: 0.7;
+  margin-bottom: 1.2rem;
+}
+
+.rembrandt-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 600; color: var(--parchment);
+  line-height: 1.15; margin-bottom: 1.8rem;
+  text-wrap: balance;
+}
+
+.rembrandt-title em { color: var(--gold); font-style: italic; }
+
+.rembrandt-body {
+  font-size: 0.92rem; line-height: 1.85;
+  color: rgba(245,237,217,0.5);
+  margin-bottom: 1.5rem;
+  text-wrap: pretty;
+}
+
+.rembrandt-body em { color: rgba(245,237,217,0.7); font-style: italic; }
+
+.rembrandt-observation {
+  background: rgba(201,164,90,0.06);
+  border-left: 3px solid var(--gold);
+  padding: 1.4rem 1.6rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.4rem 0;
+}
+
+.rembrandt-obs-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: rgba(245,237,217,0.7); line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.rembrandt-obs-ref {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.15em; color: var(--gold); opacity: 0.6;
+  font-weight: 600;
+}
+
+.rembrandt-hands {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 2rem;
+}
+
+.rembrandt-hand {
+  padding: 1.4rem 1.2rem;
+  background: rgba(245,237,217,0.04);
+  border-top: 2px solid;
+  border-radius: 0;
+}
+
+.rembrandt-hand-1 { border-top-color: var(--gate1); }
+.rembrandt-hand-2 { border-top-color: var(--gate4); }
+
+.rembrandt-hand-roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.08em;
+}
+
+.rembrandt-hand-1 .rembrandt-hand-roman { color: var(--sage-light); }
+.rembrandt-hand-2 .rembrandt-hand-roman { color: #C47070; }
+
+.rembrandt-hand-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; color: var(--parchment);
+  opacity: 0.7; margin-bottom: 0.6rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 600;
+}
+
+.rembrandt-hand-body {
+  font-size: 0.8rem; color: rgba(245,237,217,0.45);
+  line-height: 1.6;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+/* ============ SEASONS BRIDGE ============ */
+.seasons-bridge {
+  background: var(--parchment);
+  padding: 8rem 3rem;
+  position: relative; overflow: hidden;
+}
+
+.seasons-bridge::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 0% 100%, rgba(90,112,96,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 100% 0%, rgba(123,63,42,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.seasons-bridge-inner {
+  max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+.seasons-bridge-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600; color: var(--ink);
+  margin-bottom: 0.8rem; line-height: 1.15;
+  text-wrap: balance;
+}
+
+.seasons-bridge-title em { color: var(--sienna); font-style: italic; }
+
+.seasons-bridge-sub {
+  font-size: 0.95rem; line-height: 1.85;
+  color: rgba(46,43,39,0.6);
+  max-width: 620px; margin-bottom: 4rem;
+  text-wrap: pretty;
+}
+
+.seasons-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.season-col {
+  background: var(--warm-white);
+  padding: 2.5rem 1.8rem;
+  border-top: 3px solid;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.season-col:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(46,43,39,0.06); }
+
+.sc-1 { border-top-color: var(--gate1); }
+.sc-2 { border-top-color: var(--gate2); }
+.sc-3 { border-top-color: var(--gate3); }
+.sc-4 { border-top-color: var(--gate4); }
+
+.season-roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem; font-weight: 700;
+  font-style: italic;
+  line-height: 1; margin-bottom: 0.8rem;
+}
+
+.sc-1 .season-roman { color: var(--gate1); }
+.sc-2 .season-roman { color: var(--gate2); }
+.sc-3 .season-roman { color: var(--gate3); }
+.sc-4 .season-roman { color: var(--gate4); }
+
+.season-gate-label {
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem; letter-spacing: 0.06em;
+  opacity: 0.7;
+  margin-bottom: 0.4rem;
+}
+
+.sc-1 .season-gate-label { color: var(--gate1); }
+.sc-2 .season-gate-label { color: var(--gate2); }
+.sc-3 .season-gate-label { color: var(--gate3); }
+.sc-4 .season-gate-label { color: var(--gate4); }
+
+.season-stage {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.season-age {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; color: var(--ash);
+  opacity: 0.5; margin-bottom: 1.2rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 500;
+}
+
+.season-truth {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 0.95rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.sc-1 .season-truth { color: var(--gate1); }
+.sc-2 .season-truth { color: var(--gate2); }
+.sc-3 .season-truth { color: var(--gate3); }
+.sc-4 .season-truth { color: var(--gate4); }
+
+.season-note {
+  font-size: 0.82rem; line-height: 1.7;
+  color: rgba(46,43,39,0.55);
+  margin-bottom: 1.2rem;
+}
+
+.season-scripture {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.82rem; color: var(--ash);
+  opacity: 0.55; padding-top: 1rem;
+  border-top: 1px solid rgba(123,63,42,0.1);
+  line-height: 1.5;
+}
+
+/* ============ IDENTIFY ============ */
+.identify-section {
+  background: var(--ink);
+  padding: 8rem 3rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+
+.identify-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 20% 30%, rgba(90,112,96,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 80% 30%, rgba(123,63,42,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 20% 75%, rgba(90,112,128,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 80% 75%, rgba(139,46,46,0.14) 0%, transparent 55%);
+}
+
+.identify-inner {
+  position: relative; z-index: 1;
+  max-width: 880px; margin: 0 auto;
+}
+
+.identify-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem; color: var(--gold);
+  opacity: 0.7; margin-bottom: 1.8rem;
+  letter-spacing: 0.06em;
+}
+
+.identify-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  font-style: italic; font-weight: 300;
+  color: var(--parchment); line-height: 1.3;
+  margin-bottom: 1.2rem;
+  text-wrap: balance;
+}
+
+.identify-sub {
+  font-size: 0.92rem; color: rgba(245,237,217,0.45);
+  margin-bottom: 3.5rem; line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.identify-cards {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; margin-bottom: 3.5rem;
+  text-align: left;
+}
+
+.identify-card {
+  padding: 1.8rem;
+  border: 1px solid;
+  border-top-width: 3px;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.25s;
+  display: block;
+  background: rgba(245,237,217,0.02);
+}
+
+.ic-1 { border-color: rgba(90,112,96,0.25); border-top-color: var(--gate1); }
+.ic-1:hover { background: rgba(90,112,96,0.08); }
+
+.ic-2 { border-color: rgba(196,137,106,0.25); border-top-color: var(--gate2); }
+.ic-2:hover { background: rgba(196,137,106,0.08); }
+
+.ic-3 { border-color: rgba(90,112,128,0.25); border-top-color: var(--gate3); }
+.ic-3:hover { background: rgba(90,112,128,0.08); }
+
+.ic-4 { border-color: rgba(139,46,46,0.25); border-top-color: var(--gate4); }
+.ic-4:hover { background: rgba(139,46,46,0.08); }
+
+.ic-roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-style: italic;
+  font-weight: 700; line-height: 1;
+  margin-bottom: 0.6rem;
+}
+
+.ic-1 .ic-roman { color: var(--sage-light); }
+.ic-2 .ic-roman { color: var(--sienna-light); }
+.ic-3 .ic-roman { color: #8AAABB; }
+.ic-4 .ic-roman { color: #C47070; }
+
+.ic-gate {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.16em;
+  text-transform: uppercase; opacity: 0.6;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+.ic-1 .ic-gate { color: var(--sage-light); }
+.ic-2 .ic-gate { color: var(--sienna-light); }
+.ic-3 .ic-gate { color: #8AAABB; }
+.ic-4 .ic-gate { color: #C47070; }
+
+.ic-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.25rem; font-weight: 600;
+  color: var(--parchment); margin-bottom: 0.5rem;
+}
+
+.ic-body {
+  font-size: 0.83rem; line-height: 1.7;
+  color: rgba(245,237,217,0.5);
+}
+
+.identify-promise {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.15rem;
+  color: rgba(245,237,217,0.5); line-height: 1.7;
+  text-wrap: balance;
+}
+
+/* ============ FINAL CTA ============ */
+.final-cta {
+  background: var(--sienna);
+  padding: 7rem 3rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+
+.final-cta-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 18% 50%, rgba(139,46,46,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 82% 50%, rgba(30,27,23,0.35) 0%, transparent 55%);
+}
+
+.final-cta-inner {
+  position: relative; z-index: 1;
+  max-width: 640px; margin: 0 auto;
+}
+
+.final-cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600; color: var(--parchment);
+  line-height: 1.15; margin-bottom: 1.2rem;
+  text-wrap: balance;
+}
+
+.final-cta-title em { color: var(--gold-light); font-style: italic; }
+
+.final-cta-sub {
+  font-size: 0.95rem; color: rgba(245,237,217,0.6);
+  margin-bottom: 2.5rem; line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-block;
+  background: var(--gold); color: var(--ink);
+  padding: 0.95rem 2.4rem; border-radius: 2rem;
+  border: none; cursor: pointer; text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-block;
+  background: transparent; color: var(--parchment);
+  padding: 0.95rem 2.4rem; border-radius: 2rem;
+  border: 1px solid rgba(245,237,217,0.3);
+  cursor: pointer; text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+/* ============ FOOTER ============ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(201,164,90,0.1);
+  padding: 4rem 3rem 2.5rem;
+}
+
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; color: var(--parchment);
+  font-weight: 600; text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.footer-logo span { color: var(--gold); font-style: italic; }
+
+.footer-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem; color: rgba(245,237,217,0.4);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.footer-links {
+  display: flex; gap: 1.5rem; list-style: none;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.14em; color: rgba(245,237,217,0.4);
+  text-decoration: none; transition: color 0.2s;
+  font-weight: 500;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-meta {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(245,237,217,0.06);
+  font-size: 0.7rem;
+  color: rgba(245,237,217,0.2);
+  letter-spacing: 0.1em;
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+  .gate-inner { gap: 4rem; padding: 6rem 2rem; }
+  .seasons-grid { grid-template-columns: repeat(2, 1fr); }
+  .rembrandt-section { grid-template-columns: 1fr; }
+  .rembrandt-image { min-height: 360px; }
+  .rembrandt-content { padding: 4rem 2.5rem; }
+}
+
+@media (max-width: 900px) {
+  .page-hero { padding: 9rem 1.5rem 5rem; }
+  .gate-inner { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+  .gate-inner.reverse { direction: ltr; }
+  .gate-inner.reverse .gate-right { order: 2; }
+  .gate-inner.reverse .gate-left { order: 1; }
+  .seasons-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .identify-cards { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; text-align: center; }
+  .footer-links { justify-content: center; }
+  .intro-band { padding: 5rem 1.5rem; }
+  .seasons-bridge { padding: 5rem 1.5rem; }
+  .identify-section { padding: 5rem 1.5rem; }
+  .final-cta { padding: 5rem 1.5rem; }
+  .gate-divider { padding: 1.5rem; }
+  .gate-card-illus { height: 240px; }
+  .gate-card-body { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">The <span>Hush</span> Room</a>
+  <span class="nav-tagline">The world says rush. God says hush.</span>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="gates.html" class="active">Gates</a></li>
+      <li><a href="story.html">Story</a></li>
+      <li><a href="retreats.html">Retreats</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="connect.html">Connect</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <a href="retreats.html#register" class="nav-cta">Join Us</a>
+  </div>
+  <button class="nav-burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-sheet" id="mobileSheet">
+  <a href="gates.html">Gates</a>
+  <a href="story.html">Story</a>
+  <a href="retreats.html">Retreats</a>
+  <a href="resources.html">Resources</a>
+  <a href="connect.html">Connect</a>
+  <a href="about.html">About</a>
+  <a href="retreats.html#register" class="cta-mobile">Join Us</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Entry Points · Four ways in</div>
+    <h1 class="hero-title">
+      The <em>Four Gates</em><br>of the Hush Room
+    </h1>
+    <p class="hero-sub">
+      Nobody arrives at silence the same way.<br>
+      Whatever brought you here — there is a gate with your name on it.
+    </p>
+    <div class="hero-gates">
+      <a href="#gate1" class="hero-gate-pill hgp1"><span class="roman">I</span> The Intentional</a>
+      <a href="#gate2" class="hero-gate-pill hgp2"><span class="roman">II</span> The Drawn</a>
+      <a href="#gate3" class="hero-gate-pill hgp3"><span class="roman">III</span> The Broken</a>
+      <a href="#gate4" class="hero-gate-pill hgp4"><span class="roman">IV</span> The Returning</a>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO BAND -->
+<div class="intro-band">
+  <div class="intro-band-inner reveal">
+    <div class="intro-band-title">
+      "It doesn't matter which door you walked through.<br>
+      God has been here the whole time."
+    </div>
+    <p class="intro-band-body">
+      The Hush Room recognises that people come to silence through four very different roads.
+      Each road is valid. Each road is Biblical. Each road leads to the same room —
+      where the Father waits, the Son welcomes, and the Spirit moves.
+      Below you will find your gate. You may find yourself in more than one.
+      That is more than okay.
+    </p>
+    <div class="intro-band-ref">— Four gates · One room · One God —</div>
+  </div>
+</div>
+
+<!-- ============ GATE I ============ -->
+<section class="gate-section gate-section-1" id="gate1">
+  <div class="gate-watermark">I</div>
+  <div class="gate-inner">
+
+    <div class="gate-left reveal">
+      <div class="gate-number-badge">
+        <div class="gate-num">I</div>
+        <div class="gate-num-label">
+          <span class="gate-num-season">Spring · Primehood</span>
+          <span class="gate-num-name">Gate I — The Intentional · Jesus</span>
+        </div>
+      </div>
+
+      <h2 class="gate-title">
+        <em>"I chose</em><br>to come."
+      </h2>
+      <div class="gate-subtitle">"I am hungry — and I knew it."</div>
+
+      <p class="gate-body">
+        You are growing. Something in your soul has tasted the presence of God
+        and it has <strong>ruined you</strong> — ruined you for anything less.
+        You have done the services, the conferences, the worship sets, the Bible plans.
+        And they are good. But there is a place beyond words that you have not yet found.
+      </p>
+
+      <p class="gate-body">
+        Jesus found it. Every single day. In the dark, before anyone else was awake,
+        He withdrew. Not because He was weak — because He knew that everything He
+        gave to the world had to first come from a place of deep communion with His Father.
+        The most powerful man who ever lived. And He would not skip the silence.
+        <strong>Neither should you.</strong>
+      </p>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "Very early in the morning, while it was still dark, Jesus got up,
+          left the house and went off to a solitary place, where he prayed."
+        </div>
+        <div class="gate-verse-ref">Mark 1:35</div>
+      </div>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "But Jesus often withdrew to lonely places and prayed."
+        </div>
+        <div class="gate-verse-ref">Luke 5:16 · the word "often" is intentional</div>
+      </div>
+
+      <p class="gate-body">
+        Alan Fadling calls this the <strong>pace of grace</strong> — following Jesus' own
+        rhythms of work and rest. Not productivity. Not performance. A sustainable,
+        deeply rooted, deeply fruitful life with God. This gate was built for you.
+      </p>
+
+      <a href="retreats.html" class="gate-cta">Join a Retreat</a>
+    </div>
+
+    <div class="gate-right reveal">
+      <div class="gate-card-full">
+        <div class="gate-card-illus illus">
+          <span class="illus-name">gate-1-intentional</span>
+          <span class="illus-dim">600 × 320</span>
+        </div>
+        <div class="gate-card-body">
+          <div class="gate-card-watercolour"></div>
+          <div class="gate-card-inner">
+            <div class="gate-card-who">This gate is for you if…</div>
+            <div class="gate-card-title">You are hungry for more of God.</div>
+
+            <ul class="gate-card-list">
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You have been growing in faith but sense there is a depth you haven't touched yet
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                Your prayer life feels active but somehow still surface level
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You want to hear God's voice more clearly and consistently
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You serve, give, and show up — and you want the roots to go deeper
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                Something in you is restless for more
+              </li>
+            </ul>
+
+            <div class="gate-card-divider"></div>
+
+            <div class="gate-card-promise">
+              "This room was made for your hunger.<br>Come and go deeper."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gate-divider">
+  <div class="gate-divider-line"></div>
+  <div class="gate-divider-text">Gate II</div>
+  <div class="gate-divider-line"></div>
+</div>
+
+<!-- ============ GATE II ============ -->
+<section class="gate-section gate-section-2" id="gate2">
+  <div class="gate-watermark">II</div>
+  <div class="gate-inner reverse">
+
+    <div class="gate-right reveal">
+      <div class="gate-card-full">
+        <div class="gate-card-illus illus">
+          <span class="illus-name">gate-2-drawn</span>
+          <span class="illus-dim">600 × 320</span>
+        </div>
+        <div class="gate-card-body">
+          <div class="gate-card-watercolour"></div>
+          <div class="gate-card-inner">
+            <div class="gate-card-who">This gate is for you if…</div>
+            <div class="gate-card-title">Something pulled you here.</div>
+
+            <ul class="gate-card-list">
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You didn't exactly plan to be here — something nudged you, a friend sent a link, a quiet desperation
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You are serving faithfully but secretly running on empty
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You smile on Sunday and feel hollow on Monday
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You cannot remember the last time someone told you that you could just stop
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You are tired in a way that sleep alone cannot fix
+              </li>
+            </ul>
+
+            <div class="gate-card-divider"></div>
+
+            <div class="gate-card-promise">
+              "You don't have to perform here.<br>Just come. God will do the rest."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gate-left reveal">
+      <div class="gate-number-badge">
+        <div class="gate-num">II</div>
+        <div class="gate-num-label">
+          <span class="gate-num-season">Summer · Primehood</span>
+          <span class="gate-num-name">Gate II — The Drawn · Elijah</span>
+        </div>
+      </div>
+
+      <h2 class="gate-title">
+        <em>"Something pulled</em><br>me here."
+      </h2>
+      <div class="gate-subtitle">"I didn't plan this — but I came anyway."</div>
+
+      <p class="gate-body">
+        You didn't exactly choose to come. Exhaustion. A nudge from a friend.
+        A sermon that cracked something open. A quiet desperation you couldn't name.
+        <strong>Something brought you here.</strong> That something was not accidental.
+      </p>
+
+      <p class="gate-body">
+        Elijah had just called down fire from heaven. His greatest miracle.
+        And immediately after — he collapsed under a tree in the wilderness
+        and told God he was done. Burnt out. Afraid. Ready to quit.
+        God's response was not a sermon. Not a rebuke. Not a challenge to do better.
+      </p>
+
+      <p class="gate-body">
+        God sent an angel. With food. And said —
+        <strong>"Get up and eat. The journey is too much for you."</strong>
+        He fed him twice. And let him sleep. And only then —
+        in the gentlest whisper, not the earthquake, not the fire —
+        did God speak.
+      </p>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "The angel touched him and said, 'Get up and eat,
+          for the journey is too much for you.'"
+        </div>
+        <div class="gate-verse-ref">1 Kings 19:7</div>
+      </div>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "And after the fire came a gentle whisper."
+        </div>
+        <div class="gate-verse-ref">1 Kings 19:12 · the still small voice</div>
+      </div>
+
+      <p class="gate-body">
+        Ruth Haley Barton teaches that Elijah's story is the central Biblical model
+        for what happens in the silence — <strong>God restores, re-commissions and re-sends.</strong>
+        You came empty. You will not leave that way.
+      </p>
+
+      <a href="retreats.html" class="gate-cta">Join a Retreat</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="gate-divider">
+  <div class="gate-divider-line"></div>
+  <div class="gate-divider-text">Gate III</div>
+  <div class="gate-divider-line"></div>
+</div>
+
+<!-- ============ GATE III ============ -->
+<section class="gate-section gate-section-3" id="gate3">
+  <div class="gate-watermark">III</div>
+  <div class="gate-inner">
+
+    <div class="gate-left reveal">
+      <div class="gate-number-badge">
+        <div class="gate-num">III</div>
+        <div class="gate-num-label">
+          <span class="gate-num-season">Autumn · Adulthood</span>
+          <span class="gate-num-name">Gate III — The Broken · Job</span>
+        </div>
+      </div>
+
+      <h2 class="gate-title">
+        <em>"Everything</em><br>fell apart."
+      </h2>
+      <div class="gate-subtitle">"I did nothing wrong — and it still happened."</div>
+
+      <p class="gate-body">
+        You didn't choose the silence — the silence chose you.
+        Something collapsed. Loss, grief, illness, betrayal, a dream taken,
+        a relationship destroyed by someone else's choices.
+        And you find yourself in a stillness you never wanted.
+      </p>
+
+      <p class="gate-body">
+        Job was blameless. God Himself said so — <em>"there is no one on earth like him."</em>
+        And he lost everything in a single day. He didn't respond with a worship song.
+        He sat in the ash heap. He screamed at God. He demanded answers.
+        He refused to perform peace he didn't feel.
+        <strong>And God never rebuked him for his honesty.</strong>
+      </p>
+
+      <p class="gate-body">
+        God rebuked the friends — the ones with the polished theology,
+        the tidy explanations, the answers that came too quickly.
+        Job's raw, unfiltered wrestling was <strong>more acceptable to God</strong>
+        than their religious performance.
+      </p>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "Then they sat on the ground with him for seven days and seven nights.
+          No one said a word to him, because they saw how great his suffering was."
+        </div>
+        <div class="gate-verse-ref">Job 2:13 · the most loving thing his friends ever did</div>
+      </div>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "My ears had heard of you — but now my eyes have seen you."
+        </div>
+        <div class="gate-verse-ref">Job 42:5 · the promise of Gate III</div>
+      </div>
+
+      <p class="gate-body">
+        Job did not leave with all his questions answered.
+        But he left having <strong>seen God face to face.</strong>
+        That is the promise of this gate — not answers, but encounter.
+        You may not leave with explanation. But you may leave having seen.
+      </p>
+
+      <a href="retreats.html" class="gate-cta">Join a Retreat</a>
+    </div>
+
+    <div class="gate-right reveal">
+      <div class="gate-card-full">
+        <div class="gate-card-illus illus">
+          <span class="illus-name">gate-3-broken</span>
+          <span class="illus-dim">600 × 320</span>
+        </div>
+        <div class="gate-card-body">
+          <div class="gate-card-watercolour"></div>
+          <div class="gate-card-inner">
+            <div class="gate-card-who">This gate is for you if…</div>
+            <div class="gate-card-title">You are broken — and honest about it.</div>
+
+            <ul class="gate-card-list">
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                Something happened that you did not cause and cannot explain
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You are angry at God and haven't known it was okay to say so
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You have lost something — a person, a dream, your health, your faith
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You are tired of people giving you theological answers to a broken heart
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You know about God but you want to see Him — really see Him
+              </li>
+            </ul>
+
+            <div class="gate-card-divider"></div>
+
+            <div class="gate-card-promise">
+              "Your honesty is welcome here.<br>The ash heap is a valid address."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gate-divider dark">
+  <div class="gate-divider-line"></div>
+  <div class="gate-divider-text">Gate IV</div>
+  <div class="gate-divider-line"></div>
+</div>
+
+<!-- ============ GATE IV ============ -->
+<section class="gate-section gate-section-4" id="gate4">
+  <div class="gate-watermark">IV</div>
+  <div class="gate-inner reverse">
+
+    <div class="gate-right reveal">
+      <div class="gate-card-full">
+        <div class="gate-card-illus illus dark">
+          <span class="illus-name">gate-4-returning</span>
+          <span class="illus-dim">600 × 320</span>
+        </div>
+        <div class="gate-card-body">
+          <div class="gate-card-watercolour"></div>
+          <div class="gate-card-inner">
+            <div class="gate-card-who">This gate is for you if…</div>
+            <div class="gate-card-title">You made a mess — and you know it.</div>
+
+            <ul class="gate-card-list">
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You made choices you are not proud of and you are living with the consequences
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You secretly wonder if this silence in your life is God's punishment
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You feel too far gone to come back — or too ashamed to try
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                You have a rehearsed speech ready — all the things you will say to God if you ever face Him
+              </li>
+              <li class="gate-card-item">
+                <div class="gate-card-dot"></div>
+                Something in you is turning toward home and you don't know if you will be welcome
+              </li>
+            </ul>
+
+            <div class="gate-card-divider"></div>
+
+            <div class="gate-card-promise">
+              "He was already running.<br>You cannot outrun His watching."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gate-left reveal">
+      <div class="gate-number-badge">
+        <div class="gate-num">IV</div>
+        <div class="gate-num-label">
+          <span class="gate-num-season">Winter · all seasons</span>
+          <span class="gate-num-name">Gate IV — The Returning · The Prodigal</span>
+        </div>
+      </div>
+
+      <h2 class="gate-title">
+        <em>"I made a mess.</em><br>I'm coming home."
+      </h2>
+      <div class="gate-subtitle">"The far country finally broke me open."</div>
+
+      <p class="gate-body">
+        You know what you did. You don't need anyone to explain it.
+        The choices. The running. The ways you took what was given
+        and spent it on things that left you empty. You ended up somewhere
+        you never imagined you would be.
+      </p>
+
+      <p class="gate-body">
+        But here is what changes everything —
+        <strong>while you were still a long way off, the Father saw you.</strong>
+        Not when you arrived. Not when you had the right words.
+        Not when you had cleaned yourself up. While you were still far off.
+        He was watching. He was already running.
+      </p>
+
+      <p class="gate-body">
+        In Middle Eastern culture, a dignified elder man never ran.
+        It was considered shameful. <strong>The Father ran anyway.</strong>
+        Love overrides cultural dignity. The son came with a rehearsed speech —
+        the Father interrupted it with a robe, a ring, sandals and a feast.
+        He didn't let the boy finish. He was too busy celebrating.
+      </p>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "But while he was still a long way off, his father saw him
+          and was filled with compassion for him;
+          he ran to his son, threw his arms around him and kissed him."
+        </div>
+        <div class="gate-verse-ref">Luke 15:20 · the most important verse in Gate IV</div>
+      </div>
+
+      <div class="gate-verse-block">
+        <div class="gate-verse-text">
+          "When he came to his senses… he got up and went to his father."
+        </div>
+        <div class="gate-verse-ref">Luke 15:17–20 · the turning point — coming to himself</div>
+      </div>
+
+      <p class="gate-body">
+        You did not wander so far that you left His sight.
+        The silence you are sitting in right now —
+        the one that feels like punishment, like distance —
+        <strong>that is not God's absence.</strong>
+        That is the sound of Him running toward you.
+      </p>
+
+      <a href="retreats.html" class="gate-cta">Join a Retreat</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- REMBRANDT -->
+<section class="rembrandt-section">
+  <div class="rembrandt-image">
+    <img src="assets/images/prodigal-son-rembrandt.jpg"
+      alt="The Return of the Prodigal Son — Rembrandt van Rijn"
+      style="width:100%;height:100%;object-fit:cover;opacity:0.65;filter:sepia(15%);" />
+  </div>
+
+  <div class="rembrandt-content">
+    <div class="rembrandt-inner reveal">
+      <div class="rembrandt-eyebrow">Rembrandt van Rijn · Gate IV in paint</div>
+      <h2 class="rembrandt-title">
+        The painting that holds<br><em>all four gates</em> at once.
+      </h2>
+
+      <p class="rembrandt-body">
+        Rembrandt painted this near the end of his life — broken, bankrupt, having lost everything.
+        He was not painting theology. He was painting his own experience.
+        Henri Nouwen sat with this painting for hours in the Hermitage Museum
+        and wrote an entire book.
+        He said: <em>"The return of the Prodigal Son became the return of Henri Nouwen."</em>
+      </p>
+
+      <div class="rembrandt-observation">
+        <div class="rembrandt-obs-text">
+          "The Father's hands. Look closely. One hand is strong and firm — gripping, holding.
+          One hand is gentle and tender — cradling, soft. Both holding simultaneously.
+          Strength and tenderness. That is who God is."
+        </div>
+        <div class="rembrandt-obs-ref">Henri Nouwen · The Return of the Prodigal Son</div>
+      </div>
+
+      <div class="rembrandt-hands">
+        <div class="rembrandt-hand rembrandt-hand-1">
+          <div class="rembrandt-hand-roman">I &middot; II</div>
+          <div class="rembrandt-hand-title">The Intentional &amp; The Drawn</div>
+          <div class="rembrandt-hand-body">see the Father they are pursuing.</div>
+        </div>
+        <div class="rembrandt-hand rembrandt-hand-2">
+          <div class="rembrandt-hand-roman">III &middot; IV</div>
+          <div class="rembrandt-hand-title">The Broken &amp; The Returning</div>
+          <div class="rembrandt-hand-body">see that even collapsed, they are held.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEASONS BRIDGE -->
+<section class="seasons-bridge">
+  <div class="seasons-bridge-inner">
+    <div class="reveal">
+      <div class="section-tag">The Four Seasons of Life</div>
+      <h2 class="seasons-bridge-title">
+        The gates cross every <em>season.</em>
+      </h2>
+      <p class="seasons-bridge-sub">
+        No gate belongs to only one age. A nineteen-year-old can walk through Gate III.
+        A sixty-five-year-old can walk through Gate I. The seasons are tendencies, not cages.
+        But this is the natural rhythm across a lifetime.
+      </p>
+    </div>
+
+    <div class="seasons-grid reveal">
+      <div class="season-col sc-1">
+        <div class="season-roman">I</div>
+        <div class="season-gate-label">Spring · Gate I</div>
+        <div class="season-stage">Childhood</div>
+        <div class="season-age">Ages 0–12</div>
+        <div class="season-truth">"You are loved."</div>
+        <p class="season-note">
+          The season of wonder. Roots going down before anyone knows what is being planted.
+          THR resources parents and children's ministers to introduce young souls to stillness.
+        </p>
+        <div class="season-scripture">"Let the children come." — Mark 10:14</div>
+      </div>
+
+      <div class="season-col sc-2">
+        <div class="season-roman">II</div>
+        <div class="season-gate-label">Summer · Gates I &amp; II</div>
+        <div class="season-stage">Primehood</div>
+        <div class="season-age">Ages 13–35</div>
+        <div class="season-truth">"You are made for more."</div>
+        <p class="season-note">
+          The loudest season. The most identity-forming. Both Gate I and Gate II
+          live here — hunger and burnout are the twin realities of Primehood.
+        </p>
+        <div class="season-scripture">"Remember your Creator in the days of your youth." — Ecclesiastes 12:1</div>
+      </div>
+
+      <div class="season-col sc-3">
+        <div class="season-roman">III</div>
+        <div class="season-gate-label">Autumn · Gates III &amp; IV</div>
+        <div class="season-stage">Adulthood</div>
+        <div class="season-age">Ages 35–60</div>
+        <div class="season-truth">"You are being deepened."</div>
+        <p class="season-note">
+          The pruning season. Gate III and Gate IV live here —
+          the broken and the returning are the deep invitations of adulthood.
+          Not decline — deepening.
+        </p>
+        <div class="season-scripture">"He prunes so that it will be even more fruitful." — John 15:2</div>
+      </div>
+
+      <div class="season-col sc-4">
+        <div class="season-roman">IV</div>
+        <div class="season-gate-label">Winter · all four gates</div>
+        <div class="season-stage">Elderhood</div>
+        <div class="season-age">Ages 60+</div>
+        <div class="season-truth">"You are leaving legacy."</div>
+        <p class="season-note">
+          Not retirement — legacy. The elder has walked through every gate.
+          Their presence in the silence alongside younger retreatants
+          is itself a gift no curriculum can replace.
+        </p>
+        <div class="season-scripture">"They will still bear fruit in old age." — Psalm 92:14</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDENTIFY -->
+<section class="identify-section">
+  <div class="identify-bg"></div>
+  <div class="identify-inner">
+    <div class="identify-eyebrow">A gentle question for you</div>
+    <h2 class="identify-question reveal">
+      "Which gate are you walking through right now?"
+    </h2>
+    <p class="identify-sub reveal">
+      You may find yourself in more than one. That is more than okay.<br>
+      All roads lead to the same room. God is already there.
+    </p>
+
+    <div class="identify-cards reveal">
+      <a href="retreats.html" class="identify-card ic-1">
+        <div class="ic-roman">I</div>
+        <div class="ic-gate">Gate I — The Intentional</div>
+        <div class="ic-title">"I am hungry."</div>
+        <p class="ic-body">I chose to come. Something in me is reaching for more of God. I want to go deeper.</p>
+      </a>
+
+      <a href="retreats.html" class="identify-card ic-2">
+        <div class="ic-roman">II</div>
+        <div class="ic-gate">Gate II — The Drawn</div>
+        <div class="ic-title">"I am exhausted."</div>
+        <p class="ic-body">Something pulled me here. I am running on empty. I need rest that only God can give.</p>
+      </a>
+
+      <a href="retreats.html" class="identify-card ic-3">
+        <div class="ic-roman">III</div>
+        <div class="ic-gate">Gate III — The Broken</div>
+        <div class="ic-title">"I am broken."</div>
+        <p class="ic-body">Everything fell apart. I want to move from hearing about God to actually seeing Him.</p>
+      </a>
+
+      <a href="retreats.html" class="identify-card ic-4">
+        <div class="ic-roman">IV</div>
+        <div class="ic-gate">Gate IV — The Returning</div>
+        <div class="ic-title">"I am coming home."</div>
+        <p class="ic-body">I made a mess. But something in me is turning toward home. I hope the door is still open.</p>
+      </a>
+    </div>
+
+    <p class="identify-promise reveal">
+      "Whichever door you walked through —<br>
+      the room is the same. God has been here the whole time.<br>
+      Welcome to The Hush Room."
+    </p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="final-cta-inner reveal">
+    <h2 class="final-cta-title">
+      You found your gate.<br>
+      Now find your <em>retreat.</em>
+    </h2>
+    <p class="final-cta-sub">
+      Every Hush Room retreat is small, intentional and grounded in Scripture.
+      Eight to fifteen people. Space to breathe. A guide who will sit with you —
+      not fix you, not preach at you — just companion you in the silence.
+    </p>
+    <div class="cta-row">
+      <a href="retreats.html" class="btn-primary">See Upcoming Retreats</a>
+      <a href="story.html" class="btn-ghost">Read Our Story</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="footer-logo">The <span>Hush</span> Room</a>
+    <div class="footer-tagline">The world says rush. God says hush.</div>
+    <ul class="footer-links">
+      <li><a href="gates.html">Gates</a></li>
+      <li><a href="story.html">Story</a></li>
+      <li><a href="retreats.html">Retreats</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="connect.html">Connect</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+  <div class="footer-meta">© 2025 The Hush Room · All rights reserved</div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Mobile sheet
+  const burger = document.getElementById('navBurger');
+  const sheet = document.getElementById('mobileSheet');
+  burger.addEventListener('click', () => sheet.classList.toggle('open'));
+  sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => sheet.classList.remove('open')));
+</script>
+
+</body>
+</html>
