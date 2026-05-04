@@ -1228,7 +1228,170 @@ nav {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem; color: rgba(46,43,39,0.45);
   font-weight: 400;
+}
+
+/* ============================================================
+   PACE — evergreen methodology cards (Find your selah)
+   ============================================================ */
+.pace-section {
+  position: relative;
+  background-color: var(--warm-white);
+  overflow: hidden;
+}
+.pace-section::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 70%;
+  background-image: url('assets/images/vine-john15.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% auto;
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 1;
+}
+.pace-section::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 35%;
+  background: linear-gradient(180deg,
+    var(--warm-white) 0%,
+    rgba(245,237,217,0.6) 60%,
+    rgba(245,237,217,0) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+.pace-section .section-inner {
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 960px) {
+  .pace-section::before {
+    background-size: 180% auto;
+    opacity: 0.18;
+    height: 50%;
+  }
+}
+
+.pace-epigraph {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ash);
+  opacity: 0.75;
+  text-align: left;
+  margin: 1.25rem 0 0;
+  line-height: 1.5;
+}
+.pace-epigraph cite {
+  font-style: normal;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ash); opacity: 0.6;
+  margin-left: 0.7rem;
+}
+
+.pace-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+}
+
+.pace-card {
+  border: 1px solid var(--rule);
+  border-top-width: 3px;
+  border-radius: 1.1rem; overflow: hidden;
+  background: var(--warm-white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+  padding: 2rem 1.6rem 2.2rem;
+}
+.pace-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
+}
+.pc-1 { border-top-color: var(--gate1); }
+.pc-2 { border-top-color: var(--gate2); }
+.pc-3 { border-top-color: var(--gate3); }
+.pc-4 { border-top-color: var(--gate4); }
+
+.pace-numeral {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: 0.04em;
+  margin-bottom: 1.4rem;
+}
+.pc-1 .pace-numeral { color: var(--gate1); }
+.pc-2 .pace-numeral { color: var(--gate2); }
+.pc-3 .pace-numeral { color: var(--gate3); }
+.pc-4 .pace-numeral { color: var(--gate4); }
+
+.pace-letter {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+.pc-1 .pace-letter { color: var(--gate1); }
+.pc-2 .pace-letter { color: var(--gate2); }
+.pc-3 .pace-letter { color: var(--gate3); }
+.pc-4 .pace-letter { color: var(--gate4); }
+
+.pace-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.pace-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ash);
+  opacity: 0.78;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.pace-body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: rgba(46,43,39,0.72);
+  text-wrap: pretty;
+  flex: 1;
+}
+
+.pace-verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ash);
+  opacity: 0.7;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-soft);
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .pace-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .pace-grid { grid-template-columns: 1fr; }
 }
 
 /* ============================================================
@@ -2007,80 +2170,93 @@ footer {
 </section>
 
 <!-- ============================================================
-     RETREATS PREVIEW
+     PACE — evergreen methodology (Find your selah)
      ============================================================ -->
-<section class="section retreats-section" id="retreats">
+<section class="section retreats-section pace-section" id="retreats">
   <div class="section-inner">
     <div class="reveal">
-      <div class="section-tag">Upcoming</div>
+      <div class="section-tag">Our Way</div>
       <h2 class="section-title">Find your <em>selah.</em></h2>
       <p class="section-body">
         Every retreat is intentionally small — 8 to 15 people.
         Register early. No one turned away for financial reasons.
       </p>
+      <p class="pace-epigraph">
+        &ldquo;I am the vine; you are the branches.&rdquo;
+        <cite>John 15:5</cite>
+      </p>
     </div>
 
-    <div class="retreats-grid">
-      <div class="retreat-card rc-1 reveal">
-        <div class="retreat-header">
-          <div class="retreat-date">
-            <div class="retreat-date-num">13</div>
-            <div class="retreat-date-month">June<br>2026</div>
-          </div>
-          <div class="retreat-badge">2 Spots Left</div>
+    <div class="pace-grid">
+      <div class="pace-card pc-1 reveal">
+        <div class="pace-numeral">I</div>
+        <div class="pace-letter">P · Presence</div>
+        <div class="pace-word">Be here.</div>
+        <div class="pace-line">Fully. Before anything else.</div>
+        <div class="pace-body">
+          Phones down. Breath slowed. Body arrived. Brother Lawrence
+          called this <em>the practice of the presence of God</em> —
+          the simple, repeated turning of attention back to the One
+          who is already with you. Every retreat begins here.
         </div>
-        <div class="retreat-body">
-          <div class="retreat-gate-label rbl-1">Gate I · The Intentional</div>
-          <div class="retreat-title">Into the Stillness — Day Retreat</div>
-          <div class="retreat-meta">Singapore &nbsp;·&nbsp; 8am – 6pm</div>
-          <div class="retreat-tags">
-            <span class="retreat-tag">Beginners Welcome</span>
-            <span class="retreat-tag">Ages 16–30</span>
-            <span class="retreat-tag">Day</span>
-          </div>
-          <div class="retreat-price">$65 <span>/ person · all inclusive</span></div>
+        <div class="pace-verse">
+          &ldquo;In your presence is fullness of joy.&rdquo;
+          <span style="opacity:0.7;">— Psalm 16:11</span>
         </div>
       </div>
 
-      <div class="retreat-card rc-2 reveal">
-        <div class="retreat-header">
-          <div class="retreat-date">
-            <div class="retreat-date-num">10</div>
-            <div class="retreat-date-month">July<br>2026</div>
-          </div>
-          <div class="retreat-badge">Open</div>
+      <div class="pace-card pc-2 reveal">
+        <div class="pace-numeral">II</div>
+        <div class="pace-letter">A · Abide</div>
+        <div class="pace-word">Stay.</div>
+        <div class="pace-line">Don&rsquo;t rush past.</div>
+        <div class="pace-body">
+          With paint, paper, charcoal, thread. With a film watched
+          slowly. With a walk where the path becomes the prayer.
+          The fruit of the contemplative life does not come from
+          striving. It comes from staying. Abide is the practice of
+          not leaving.
         </div>
-        <div class="retreat-body">
-          <div class="retreat-gate-label rbl-2">Gate II · The Drawn</div>
-          <div class="retreat-title">Come Away — Overnight Retreat</div>
-          <div class="retreat-meta">Batam, Indonesia &nbsp;·&nbsp; Fri–Sun</div>
-          <div class="retreat-tags">
-            <span class="retreat-tag">All Levels</span>
-            <span class="retreat-tag">Ages 18–40</span>
-            <span class="retreat-tag">Overnight</span>
-          </div>
-          <div class="retreat-price">$220 <span>/ person · full board</span></div>
+        <div class="pace-verse">
+          &ldquo;Abide in me, and I in you.&rdquo;
+          <span style="opacity:0.7;">— John 15:4</span>
         </div>
       </div>
 
-      <div class="retreat-card rc-3 reveal">
-        <div class="retreat-header">
-          <div class="retreat-date">
-            <div class="retreat-date-num">22</div>
-            <div class="retreat-date-month">Aug<br>2026</div>
-          </div>
-          <div class="retreat-badge">Coming Soon</div>
+      <div class="pace-card pc-3 reveal">
+        <div class="pace-numeral">III</div>
+        <div class="pace-letter">C · Contemplate</div>
+        <div class="pace-word">Look long.</div>
+        <div class="pace-line">Sit with Scripture, with silence.</div>
+        <div class="pace-body">
+          <em>Lectio divina.</em> The Examen. Contemplative prayer.
+          The slow walk and the long look. The contemplative
+          tradition is two thousand years old. We are not making it
+          up. We are translating it for Primehood — gently,
+          faithfully, in the language of this generation.
         </div>
-        <div class="retreat-body">
-          <div class="retreat-gate-label rbl-3">Gate III &amp; IV · Broken &amp; Returning</div>
-          <div class="retreat-title">The Ash Heap — Healing Retreat</div>
-          <div class="retreat-meta">Janda Baik, Malaysia &nbsp;·&nbsp; Saturday</div>
-          <div class="retreat-tags">
-            <span class="retreat-tag">All Ages</span>
-            <span class="retreat-tag">Confidential</span>
-            <span class="retreat-tag">Day</span>
-          </div>
-          <div class="retreat-price">$80 <span>/ person · meals included</span></div>
+        <div class="pace-verse">
+          &ldquo;On his law he meditates day and night.&rdquo;
+          <span style="opacity:0.7;">— Psalm 1:2</span>
+        </div>
+      </div>
+
+      <div class="pace-card pc-4 reveal">
+        <div class="pace-numeral">IV</div>
+        <div class="pace-letter">E · Encounter</div>
+        <div class="pace-word">And there&hellip;</div>
+        <div class="pace-line">you meet Christ.</div>
+        <div class="pace-body">
+          What the first three motions make space for, only Christ
+          can give. The encounter is not manufactured — it is
+          received. Moses turned aside, and the bush was already
+          burning. Mary sat at his feet, and one thing was already
+          necessary. Come present. Abide. Contemplate. And meet
+          the One who was waiting all along.
+        </div>
+        <div class="pace-verse">
+          &ldquo;Be still, and know that I am God.&rdquo;
+          <span style="opacity:0.7;">— Psalm 46:10</span>
         </div>
       </div>
     </div>
