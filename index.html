@@ -643,11 +643,20 @@ nav {
   border-top-width: 3px;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   position: relative; overflow: hidden;
+  /* anchor reset — cards are now <a> tags */
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
 .gate-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 18px 45px rgba(46,43,39,0.08);
   background: var(--warm-white);
+}
+.gate-card:focus-visible {
+  outline: 2px solid var(--sienna);
+  outline-offset: 4px;
 }
 
 .gc-1 { border-top-color: var(--gate1); }
@@ -1001,6 +1010,64 @@ nav {
   letter-spacing: 0.18em;
   color: var(--gold); opacity: 0.65;
   font-weight: 500;
+}
+
+/* Three movements within the prodigal section */
+.prodigal-movements {
+  display: flex; flex-direction: column;
+  gap: 1.6rem;
+  margin: 2rem 0 1.5rem;
+}
+.prodigal-movement {
+  border-left: 2px solid rgba(201,164,90,0.28);
+  padding: 0.2rem 0 0.2rem 1.2rem;
+}
+.prodigal-numeral {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--gold);
+  opacity: 0.75;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+}
+.prodigal-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  opacity: 0.7;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+.prodigal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--warm-white);
+  line-height: 1.35;
+  margin-bottom: 0.65rem;
+}
+.prodigal-body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.8;
+  color: rgba(245,237,217,0.78);
+  text-wrap: pretty;
+}
+
+.prodigal-closing {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(245,237,217,0.85);
+  line-height: 1.55;
+  text-align: left;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(201,164,90,0.18);
 }
 
 /* ============================================================
@@ -1836,7 +1903,7 @@ footer {
 
     <div class="gates-grid">
 
-      <div class="gate-card gc-1 reveal">
+      <a href="gates.html#gate1" class="gate-card gc-1 reveal">
         <div class="gate-card-grid">
           <div class="gate-illus illus">
             <img src="assets/images/gate-1-jesus.jpg" alt="Gate I — The Intentional · Jesus" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
@@ -1857,9 +1924,9 @@ footer {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="gate-card gc-2 reveal">
+      <a href="gates.html#gate2" class="gate-card gc-2 reveal">
         <div class="gate-card-grid">
           <div class="gate-illus illus">
             <img src="assets/images/gate-2-elijah.jpg" alt="Gate II — The Drawn · Elijah" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
@@ -1880,9 +1947,9 @@ footer {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="gate-card gc-3 reveal">
+      <a href="gates.html#gate3" class="gate-card gc-3 reveal">
         <div class="gate-card-grid">
           <div class="gate-illus illus">
             <img src="assets/images/gate-3-broken.jpg" alt="Gate III — The Broken · Job" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
@@ -1903,9 +1970,9 @@ footer {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="gate-card gc-4 reveal">
+      <a href="gates.html#gate4" class="gate-card gc-4 reveal">
         <div class="gate-card-grid">
           <div class="gate-illus illus">
             <img src="assets/images/prodigal-return.jpg" alt="Gate IV — The Returning · The Prodigal" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
@@ -1926,49 +1993,9 @@ footer {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     WHICH GATE
-     ============================================================ -->
-<section class="question-section">
-  <div class="question-inner">
-    <div class="question-label">A gentle question</div>
-    <div class="question-text reveal">
-      "Which gate are you walking through right now?"
-    </div>
-
-    <div class="gate-links reveal">
-      <a href="gates.html#gate1" class="gate-link gl-1">
-        <span class="gate-link-num">Gate I · The Intentional</span>
-        <div class="gate-link-title">I am hungry.</div>
-        <div class="gate-link-sub">I chose to come. Something in me is reaching for more.</div>
-      </a>
-      <a href="gates.html#gate2" class="gate-link gl-2">
-        <span class="gate-link-num">Gate II · The Drawn</span>
-        <div class="gate-link-title">I am exhausted.</div>
-        <div class="gate-link-sub">Something pulled me here. I am running on empty.</div>
-      </a>
-      <a href="gates.html#gate3" class="gate-link gl-3">
-        <span class="gate-link-num">Gate III · The Broken</span>
-        <div class="gate-link-title">I am broken.</div>
-        <div class="gate-link-sub">Everything fell apart. I want to see God, not just hear about Him.</div>
-      </a>
-      <a href="gates.html#gate4" class="gate-link gl-4">
-        <span class="gate-link-num">Gate IV · The Returning</span>
-        <div class="gate-link-title">I am coming home.</div>
-        <div class="gate-link-sub">I made a mess. I hope the door is still open.</div>
-      </a>
-    </div>
-
-    <p class="question-footnote reveal">
-      Whichever door you walked through —<br>
-      the room is the same. God is already there.
-    </p>
   </div>
 </section>
 
@@ -2080,7 +2107,7 @@ footer {
 </section>
 
 <!-- ============================================================
-     PRODIGAL FEATURE
+     PRODIGAL FEATURE — three movements
      ============================================================ -->
 <section class="rembrandt-section">
   <div class="rembrandt-image">
@@ -2090,16 +2117,61 @@ footer {
   </div>
   <div class="rembrandt-content">
     <div class="section-tag light">Gate IV · The Returning</div>
-    <h2 class="section-title light">The Father was already <em>running.</em></h2>
+    <h2 class="section-title light">The parable that holds <em>all of us.</em></h2>
     <p class="section-body light">
-      The parable Jesus told as His clearest picture of the Father's heart.
-      The son rehearsed his speech all the way home. The Father interrupted him —
-      with arms that would not let go.
+      Three figures. One father. One painting. The story Jesus told as
+      His clearest picture of the heart of God.
     </p>
+
+    <div class="prodigal-movements">
+      <div class="prodigal-movement reveal">
+        <div class="prodigal-numeral">i</div>
+        <div class="prodigal-label">The Son who left</div>
+        <div class="prodigal-title">I am coming home with empty hands.</div>
+        <p class="prodigal-body">
+          He took the inheritance. He spent it all. He fed pigs and envied them.
+          And then — <em>he came to himself.</em> The first miracle of return is
+          the simple act of turning. Whatever he had rehearsed on the road, the
+          Father would not let him finish.
+        </p>
+      </div>
+
+      <div class="prodigal-movement reveal">
+        <div class="prodigal-numeral">ii</div>
+        <div class="prodigal-label">The Father who waited</div>
+        <div class="prodigal-title">He had been watching the road every day.</div>
+        <p class="prodigal-body">
+          The shocking detail of the parable is the running. In that culture,
+          an old man did not run. The Father gathered up his robe and ran —
+          toward the smell of pigs, toward the rehearsed apology, toward the son
+          he had never stopped expecting. Love that fast was not dignity.
+          It was joy.
+        </p>
+      </div>
+
+      <div class="prodigal-movement reveal">
+        <div class="prodigal-numeral">iii</div>
+        <div class="prodigal-label">The Brother who stayed</div>
+        <div class="prodigal-title">I have served you all these years&hellip;</div>
+        <p class="prodigal-body">
+          The harder figure. The dutiful one. The one who never left, and yet
+          was also lost — lost in resentment, in score-keeping, in the slow
+          ache of feeling unseen. The Father went out to him, too.
+          <em>Son, you are always with me, and all that I have is yours.</em>
+          Both sons were welcomed home. The party was not optional.
+        </p>
+      </div>
+    </div>
+
     <blockquote class="rembrandt-quote">
-      "While he was still a long way off, his father saw him and was filled with compassion. He ran to his son."
+      &ldquo;While he was still a long way off, his father saw him and was filled with compassion. He ran to his son.&rdquo;
     </blockquote>
     <div class="rembrandt-ref">Luke 15:20 · The parable of the Prodigal Son</div>
+
+    <p class="prodigal-closing reveal">
+      Whichever door you walked through —<br>
+      the room is the same. God is already there.
+    </p>
   </div>
 </section>
 
