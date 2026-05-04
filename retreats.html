@@ -4,22 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retreats &amp; Calendar — The Hush Room</title>
-<link rel="icon" type="image/x-icon" href="assets/favicons/favicon.ico">
-<link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="The Hush Room">
-<meta property="og:title" content="The world says rush. God says hush.">
-<meta property="og:description" content="Upcoming silent retreats and the rhythm of the year — Advent, Epiphany, Lent, Eastertide. Small, intentional, distinctly Christian.">
-<meta property="og:image" content="https://hush.asia/assets/og/og-default.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:url" content="https://hush.asia/retreats">
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The world says rush. God says hush.">
-<meta name="twitter:description" content="Upcoming silent retreats and the rhythm of the year — Advent, Epiphany, Lent, Eastertide. Small, intentional, distinctly Christian.">
-<meta name="twitter:image" content="https://hush.asia/assets/og/og-default.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -835,6 +819,149 @@ nav {
 }
 
 /* ============================================================
+   THE WHEEL · VITRUVIAN PRIMEHOOD
+   ============================================================ */
+.wheel-section {
+  background: var(--parchment);
+  position: relative;
+}
+
+.wheel-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 1.2fr;
+  gap: 4rem;
+  align-items: center;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.wheel-image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wheel-image {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+}
+
+.wheel-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.18rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.wheel-text p {
+  margin-bottom: 1.4rem;
+}
+
+.wheel-lead {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--sienna);
+  margin-bottom: 1.6rem;
+}
+
+.wheel-quote {
+  border-left: 2px solid var(--sienna);
+  padding: 0.4rem 0 0.4rem 1.2rem;
+  margin: 1.5rem 0;
+  font-size: 1.05rem;
+  color: rgba(46,43,39,0.78);
+}
+
+.wheel-quote em {
+  font-style: italic;
+}
+
+.wheel-quote-cite {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--sienna);
+}
+
+.wheel-coda {
+  font-style: italic;
+  color: var(--ink);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(123,63,42,0.18);
+}
+
+.wheel-architecture {
+  margin-top: 4rem;
+  padding: 3rem 2rem;
+  background: rgba(245,237,217,0.4);
+  border-top: 1px solid rgba(123,63,42,0.18);
+  border-bottom: 1px solid rgba(123,63,42,0.18);
+  text-align: center;
+}
+
+.wheel-architecture-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.wheel-arch-block {
+  text-align: center;
+}
+
+.wheel-arch-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--sienna);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.wheel-arch-words {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.wheel-arch-note {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(46,43,39,0.6);
+  font-style: italic;
+}
+
+.wheel-arch-bottom {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-style: normal;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(123,63,42,0.18);
+}
+
+@media (max-width: 900px) {
+  .wheel-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .wheel-architecture-row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .wheel-image {
+    max-width: 360px;
+  }
+}
+
+/* ============================================================
    FORMATS
    ============================================================ */
 .formats-section { background: var(--warm-white); }
@@ -1341,6 +1468,26 @@ textarea.form-input { resize: vertical; min-height: 90px; line-height: 1.6; }
   letter-spacing: 0.02em;
 }
 
+.form-thank-you {
+  padding: 2rem;
+  background: rgba(245,237,217,0.06);
+  border: 1px solid rgba(245,237,217,0.15);
+  border-radius: 4px;
+  color: rgba(245,237,217,0.9);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.form-thank-you strong {
+  font-weight: 600;
+  color: var(--gold-light);
+}
+.form-thank-you em {
+  font-style: italic;
+  color: rgba(245,237,217,0.7);
+}
+
 /* ============================================================
    FINAL CTA
    ============================================================ */
@@ -1552,16 +1699,18 @@ footer {
       style="width:100%;height:100%;object-fit:cover;object-position:top;" />
   </div>
   <div class="hero-content">
-    <div class="hero-eyebrow">2026 schedule · all four gates · all formats</div>
+    <div class="hero-eyebrow">2026–2027 schedule · the wheel of retreats</div>
 
     <h1 class="hero-title">
       Find your<br><em>selah.</em>
     </h1>
 
     <p class="hero-sub">
-      Every retreat is small, intentional and grounded in Scripture.
-      Eight to fifteen people. Space to breathe. A guide who will sit
-      with you — not fix you, not preach at you — just companion you in the silence.
+      Six retreats across nine months — three in Singapore, two overseas,
+      all built on long weekends so you don't have to negotiate leave
+      to find God. Eight to fifteen people per retreat. Space to breathe.
+      A guide who will sit with you — not fix you, not preach at you —
+      just companion you in the silence.
     </p>
   </div>
 
@@ -1618,63 +1767,24 @@ footer {
 <section class="section retreats-section" id="retreats">
   <div class="section-inner">
     <div class="reveal">
-      <div class="section-tag">2026 Schedule</div>
+      <div class="section-tag">2026–2027 Schedule</div>
       <h2 class="section-title">Upcoming <em>retreats.</em></h2>
       <p class="section-body">
-        Register early — spots fill quickly. No one is turned away for financial reasons.
-        If cost is a barrier, reach out before you register.
+        Six retreats. Nine months. Each one anchored on a long weekend
+        so attendance doesn't cost a leave day. Register early — spots
+        fill quickly. No one is turned away for financial reasons.
       </p>
     </div>
 
     <div class="retreats-grid" id="retreats-grid">
 
-      <!-- 1 -->
-      <article class="retreat-card rc-1 reveal" data-gate="gate1" data-format="day">
-        <div class="retreat-header">
-          <div class="retreat-header-top">
-            <div class="retreat-date">
-              <div class="retreat-date-num">13</div>
-              <div class="retreat-date-month">June 2026 · Saturday</div>
-            </div>
-            <span class="retreat-badge badge-spots">2 Spots Left</span>
-          </div>
-          <div class="retreat-header-bottom">
-            <div class="retreat-gate-tag">Gate I — The Intentional</div>
-          </div>
-        </div>
-        <div class="retreat-body">
-          <h3 class="retreat-name">Into the Stillness</h3>
-          <div class="retreat-meta">
-            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
-            <div class="retreat-meta-row"><span class="label">When</span> 8am – 6pm</div>
-            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
-          </div>
-          <div class="retreat-tags">
-            <span class="retreat-tag">Beginners</span>
-            <span class="retreat-tag">Ages 16–30</span>
-            <span class="retreat-tag">Day Retreat</span>
-            <span class="retreat-tag">Meals Incl.</span>
-          </div>
-          <p class="retreat-desc">
-            A gentle introduction to the practice of silence. Perfect for those
-            new to silent retreats — or those returning to the well.
-            We move through the full HUSH Arc together with guided Lectio Divina,
-            free silence and a spiritual direction session.
-          </p>
-          <div class="retreat-footer">
-            <div class="retreat-price">$65<small>per person · all inclusive</small></div>
-            <a href="#register" class="retreat-register register-active">Register</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2 -->
+      <!-- 1 · PREPARING · Sat 7 Nov 2026 -->
       <article class="retreat-card rc-2 reveal" data-gate="gate2" data-format="overnight">
         <div class="retreat-header">
           <div class="retreat-header-top">
             <div class="retreat-date">
-              <div class="retreat-date-num">10</div>
-              <div class="retreat-date-month">July 2026 · Fri – Sun</div>
+              <div class="retreat-date-num">7</div>
+              <div class="retreat-date-month">November 2026 · Sat – Sun</div>
             </div>
             <span class="retreat-badge badge-open">Open</span>
           </div>
@@ -1683,185 +1793,235 @@ footer {
           </div>
         </div>
         <div class="retreat-body">
-          <h3 class="retreat-name">Come Away</h3>
+          <h3 class="retreat-name">Preparing — <em>What is already here?</em></h3>
           <div class="retreat-meta">
-            <div class="retreat-meta-row"><span class="label">Where</span> Batam, Indonesia</div>
-            <div class="retreat-meta-row"><span class="label">When</span> Fri – Sun · 2 nights</div>
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Sat – Sun · 1 night</div>
             <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
           </div>
           <div class="retreat-tags">
             <span class="retreat-tag">All Levels</span>
-            <span class="retreat-tag">Ages 18–40</span>
-            <span class="retreat-tag">Overnight</span>
-            <span class="retreat-tag">Ferry Incl.</span>
+            <span class="retreat-tag">Ages 13–35</span>
+            <span class="retreat-tag">Lectio Divina</span>
+            <span class="retreat-tag">Zero Leave</span>
           </div>
           <p class="retreat-desc">
-            For those running on empty. Built on the Elijah model —
-            rest first, encounter second. We slow down together, eat well,
-            sleep, and enter the silence at a human pace. Extended spiritual
-            direction included for all participants.
+            The threshold of Advent. We begin waiting before the Church does.
+            A first introduction to Lectio Divina — the ancient practice of
+            reading Scripture as living voice — with open response time for
+            those who want to colour, draw, journal, or simply sit. No skill
+            required. The Lectio is the listening. The response is the receiving.
           </p>
           <div class="retreat-footer">
-            <div class="retreat-price">$220<small>full board · ferry incl.</small></div>
+            <div class="retreat-price">$220<small>full board</small></div>
             <a href="#register" class="retreat-register register-active">Register</a>
           </div>
         </div>
       </article>
 
-      <!-- 3 -->
-      <article class="retreat-card rc-3 reveal" data-gate="gate3" data-format="day">
+      <!-- 2 · PONDERING · Sat 26 Dec 2026 -->
+      <article class="retreat-card rc-1 reveal" data-gate="gate1" data-format="overnight">
         <div class="retreat-header">
           <div class="retreat-header-top">
             <div class="retreat-date">
-              <div class="retreat-date-num">22</div>
-              <div class="retreat-date-month">August 2026 · Saturday</div>
+              <div class="retreat-date-num">26</div>
+              <div class="retreat-date-month">December 2026 · Sat – Sun</div>
             </div>
-            <span class="retreat-badge badge-soon">Coming Soon</span>
+            <span class="retreat-badge badge-open">Open</span>
           </div>
           <div class="retreat-header-bottom">
-            <div class="retreat-gate-tag">Gates III &amp; IV — Broken &amp; Returning</div>
+            <div class="retreat-gate-tag">Gate I — The Intentional</div>
           </div>
         </div>
         <div class="retreat-body">
-          <h3 class="retreat-name">The Ash Heap</h3>
+          <h3 class="retreat-name">Pondering — <em>What has been given?</em></h3>
           <div class="retreat-meta">
-            <div class="retreat-meta-row"><span class="label">Where</span> Janda Baik, Malaysia</div>
-            <div class="retreat-meta-row"><span class="label">When</span> 9am – 5pm</div>
-            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 10</div>
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Sat – Sun · 1 night</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
           </div>
           <div class="retreat-tags">
-            <span class="retreat-tag">All Ages</span>
-            <span class="retreat-tag">Confidential</span>
-            <span class="retreat-tag">Day Retreat</span>
-            <span class="retreat-tag">Grief Welcome</span>
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 13–35</span>
+            <span class="retreat-tag">Film + Journal</span>
+            <span class="retreat-tag">Zero Leave</span>
           </div>
           <p class="retreat-desc">
-            For those who are broken or returning. This retreat holds deliberate
-            space for honest suffering and the long road home — inspired by Job's
-            ash heap and the Prodigal's far country. A safe, confidential space
-            to bring what you would not bring anywhere else.
+            The strangest week of the year. The Christmas Octave —
+            eight days the Church says count as one liturgical day. A held
+            screening of <em>The Lion, the Witch and the Wardrobe</em>
+            followed by silence and journaling. Mary's posture: treasuring
+            what has arrived, pondering it in the heart.
           </p>
           <div class="retreat-footer">
-            <div class="retreat-price">$80<small>meals included</small></div>
-            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+            <div class="retreat-price">$220<small>full board</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
           </div>
         </div>
       </article>
 
-      <!-- 4 -->
+      <!-- 3 · PURSUING · Sat 2 Jan 2027 -->
       <article class="retreat-card rc-1 reveal" data-gate="gate1" data-format="day">
         <div class="retreat-header">
           <div class="retreat-header-top">
             <div class="retreat-date">
-              <div class="retreat-date-num">19</div>
-              <div class="retreat-date-month">September 2026 · Saturday</div>
+              <div class="retreat-date-num">2</div>
+              <div class="retreat-date-month">January 2027 · Saturday</div>
             </div>
-            <span class="retreat-badge badge-soon">Coming Soon</span>
+            <span class="retreat-badge badge-open">Open</span>
           </div>
           <div class="retreat-header-bottom">
-            <div class="retreat-gate-tag">Gate I — Women's Edition</div>
+            <div class="retreat-gate-tag">Gate I — The Intentional</div>
           </div>
         </div>
         <div class="retreat-body">
-          <h3 class="retreat-name">The Inner Room</h3>
+          <h3 class="retreat-name">Pursuing — <em>What is being asked of you?</em></h3>
           <div class="retreat-meta">
             <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
-            <div class="retreat-meta-row"><span class="label">When</span> 9am – 5pm</div>
-            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 8:30am – 5:30pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
           </div>
           <div class="retreat-tags">
-            <span class="retreat-tag">Women Only</span>
-            <span class="retreat-tag">Ages 18–35</span>
-            <span class="retreat-tag">Day Retreat</span>
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 13–35</span>
+            <span class="retreat-tag">Journaling</span>
+            <span class="retreat-tag">Zero Leave</span>
           </div>
           <p class="retreat-desc">
-            A women-only space for the Primehood generation —
-            built for the unique pressures, expectations and identity questions
-            young women carry. Guided by female spiritual companions in a
-            safe, warm and unhurried space.
-          </p>
-          <div class="retreat-footer">
-            <div class="retreat-price">$75<small>meals included</small></div>
-            <a href="#register" class="retreat-register register-soon">Notify Me</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 5 -->
-      <article class="retreat-card rc-2 reveal" data-gate="gate2" data-format="day">
-        <div class="retreat-header">
-          <div class="retreat-header-top">
-            <div class="retreat-date">
-              <div class="retreat-date-num">17</div>
-              <div class="retreat-date-month">October 2026 · Saturday</div>
-            </div>
-            <span class="retreat-badge badge-soon">Coming Soon</span>
-          </div>
-          <div class="retreat-header-bottom">
-            <div class="retreat-gate-tag">Gate II — Leadership Edition</div>
-          </div>
-        </div>
-        <div class="retreat-body">
-          <h3 class="retreat-name">Lead from Rest</h3>
-          <div class="retreat-meta">
-            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
-            <div class="retreat-meta-row"><span class="label">When</span> 8am – 6pm</div>
-            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
-          </div>
-          <div class="retreat-tags">
-            <span class="retreat-tag">Leaders</span>
-            <span class="retreat-tag">Ministry</span>
-            <span class="retreat-tag">Day Retreat</span>
-          </div>
-          <p class="retreat-desc">
-            For pastors, cell leaders, worship leaders and ministry workers
-            giving from empty. Drawing from Alan Fadling on leading from a
-            rested soul — this retreat is permission to stop, receive
-            and be filled before you pour out again.
+            The first Saturday of the new year. Not goal-setting —
+            <em>discernment</em>. The Magi did not have a five-year plan;
+            they had a star. Three guided journaling sessions across the day
+            — gratitude, discernment, sending — leaving with one bearing for
+            the year. Not ten things. The one thing.
           </p>
           <div class="retreat-footer">
             <div class="retreat-price">$65<small>meals included</small></div>
-            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+            <a href="#register" class="retreat-register register-active">Register</a>
           </div>
         </div>
       </article>
 
-      <!-- 6 -->
-      <article class="retreat-card rc-gold reveal" data-gate="all" data-format="extended">
+      <!-- 4 · REMEMBERING · Sat 27 Mar 2027 · Holy Saturday -->
+      <article class="retreat-card rc-3 reveal" data-gate="gate3" data-format="day">
         <div class="retreat-header">
           <div class="retreat-header-top">
             <div class="retreat-date">
-              <div class="retreat-date-num">4</div>
-              <div class="retreat-date-month">December 2026 · Fri – Sun</div>
+              <div class="retreat-date-num">27</div>
+              <div class="retreat-date-month">March 2027 · Holy Saturday</div>
+            </div>
+            <span class="retreat-badge badge-open">Open</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate III — The Broken</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Remembering — <em>The day between</em></h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Singapore</div>
+            <div class="retreat-meta-row"><span class="label">When</span> 8:30am – 5:30pm</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 13–35</span>
+            <span class="retreat-tag">Held Silence</span>
+            <span class="retreat-tag">Zero Leave</span>
+          </div>
+          <p class="retreat-desc">
+            Holy Saturday — the day Christ lay in the tomb, the day the
+            disciples did not yet know what was coming. The most
+            contemplative day in the Christian year. A retreat for the
+            seasons of faith that are quiet — when God seems silent,
+            when the early clarity has blurred. We do not solve that
+            experience. We companion it.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">$65<small>meals included</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 · RENEWING · Tue 8 - Sat 12 Jun 2027 · Chiang Mai -->
+      <article class="retreat-card rc-gold reveal" data-gate="gate1" data-format="extended">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">8</div>
+              <div class="retreat-date-month">June 2027 · Tue – Sat</div>
             </div>
             <span class="retreat-badge badge-featured">Featured</span>
           </div>
           <div class="retreat-header-bottom">
-            <div class="retreat-gate-tag">Year End · All Gates Welcome</div>
+            <div class="retreat-gate-tag">Gate I — The Intentional · Extended Retreat</div>
           </div>
         </div>
         <div class="retreat-body">
-          <h3 class="retreat-name">Advent Silence</h3>
+          <h3 class="retreat-name">Renewing — <em>The Long Walk</em></h3>
           <div class="retreat-meta">
-            <div class="retreat-meta-row"><span class="label">Where</span> Cameron Highlands, Malaysia</div>
-            <div class="retreat-meta-row"><span class="label">When</span> Fri – Sun · 2 nights</div>
-            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 15</div>
+            <div class="retreat-meta-row"><span class="label">Where</span> Chiang Mai, Thailand</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Tue – Sat · 4 nights</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
           </div>
           <div class="retreat-tags">
-            <span class="retreat-tag">All Ages</span>
-            <span class="retreat-tag">All Gates</span>
-            <span class="retreat-tag">Overnight</span>
-            <span class="retreat-tag">Advent</span>
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 18–35</span>
+            <span class="retreat-tag">Walking + Lectio</span>
+            <span class="retreat-tag">School Holidays</span>
           </div>
           <p class="retreat-desc">
-            The year-end retreat. All four gates welcome.
-            In the season of Advent — when the world grows loudest —
-            we gather to become quiet together. To wait, like Mary.
-            To listen, like the shepherds. To receive what only the silence can give.
+            Five days in the Chiang Mai hills. Built around the Emmaus
+            road — two disciples walking with Christ, not yet knowing
+            who he was. Renewal is not a thunderbolt; it is a long walk
+            in good company. Daily walks in held silence. Daily Lectio.
+            Daily breaking of bread. The walk is the retreat.
           </p>
           <div class="retreat-footer">
-            <div class="retreat-price">$250<small>full board · transport incl.</small></div>
-            <a href="#register" class="retreat-register register-soon">Notify Me</a>
+            <div class="retreat-price">From $1,200<small>full board · ground transport</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 · RELEASING · Sat 7 - Wed 11 Aug 2027 · Dalat -->
+      <article class="retreat-card rc-gold reveal" data-gate="gate1" data-format="extended">
+        <div class="retreat-header">
+          <div class="retreat-header-top">
+            <div class="retreat-date">
+              <div class="retreat-date-num">7</div>
+              <div class="retreat-date-month">August 2027 · Sat – Wed</div>
+            </div>
+            <span class="retreat-badge badge-featured">Featured</span>
+          </div>
+          <div class="retreat-header-bottom">
+            <div class="retreat-gate-tag">Gate I — The Intentional · Extended Retreat</div>
+          </div>
+        </div>
+        <div class="retreat-body">
+          <h3 class="retreat-name">Releasing — <em>Transfiguration</em></h3>
+          <div class="retreat-meta">
+            <div class="retreat-meta-row"><span class="label">Where</span> Dalat, Vietnam</div>
+            <div class="retreat-meta-row"><span class="label">When</span> Sat – Wed · 4 nights</div>
+            <div class="retreat-meta-row"><span class="label">Capacity</span> Max 12</div>
+          </div>
+          <div class="retreat-tags">
+            <span class="retreat-tag">All Levels</span>
+            <span class="retreat-tag">Ages 18–35</span>
+            <span class="retreat-tag">Mountain Silence</span>
+            <span class="retreat-tag">NDP Weekend</span>
+          </div>
+          <p class="retreat-desc">
+            The Vietnamese Highlands at 1500m. The Feast of the
+            Transfiguration sits the day before this retreat begins.
+            Peter wanted to build tents and stay forever; Jesus said
+            nothing in return. Five days re-telling the Transfiguration
+            story slowly — the climb, the seeing, the cloud, the descent,
+            the keeping. They came down changed.
+          </p>
+          <div class="retreat-footer">
+            <div class="retreat-price">From $1,200<small>full board · ground transport</small></div>
+            <a href="#register" class="retreat-register register-active">Register</a>
           </div>
         </div>
       </article>
@@ -1877,7 +2037,7 @@ footer {
   <div class="section-inner">
     <div class="reveal">
       <div class="section-tag">At a Glance</div>
-      <h2 class="section-title">The 2026 <em>calendar.</em></h2>
+      <h2 class="section-title">The <em>wheel of retreats.</em></h2>
       <p class="section-body">
         Coloured marks indicate retreat dates. Click any marked day to jump to that retreat's details.
         Dates are subject to change — join the mailing list to stay updated.
@@ -1937,26 +2097,94 @@ footer {
         <div class="cal-card">
           <div class="cal-card-title">Next Retreats</div>
           <a href="#retreats" class="cal-upcoming-item cu-1">
-            <div class="cal-upcoming-date">13 Jun 2026 · Day</div>
-            <div class="cal-upcoming-name">Into the Stillness</div>
-            <div class="cal-upcoming-spots">2 spots remaining</div>
+            <div class="cal-upcoming-date">7–8 Nov 2026 · Overnight</div>
+            <div class="cal-upcoming-name">Preparing</div>
+            <div class="cal-upcoming-spots">Open · Singapore</div>
           </a>
           <a href="#retreats" class="cal-upcoming-item cu-2">
-            <div class="cal-upcoming-date">10 Jul 2026 · Overnight</div>
-            <div class="cal-upcoming-name">Come Away</div>
-            <div class="cal-upcoming-spots">8 spots remaining</div>
+            <div class="cal-upcoming-date">26–27 Dec 2026 · Overnight</div>
+            <div class="cal-upcoming-name">Pondering</div>
+            <div class="cal-upcoming-spots">Open · Singapore</div>
           </a>
           <a href="#retreats" class="cal-upcoming-item cu-3">
-            <div class="cal-upcoming-date">22 Aug 2026 · Day</div>
-            <div class="cal-upcoming-name">The Ash Heap</div>
-            <div class="cal-upcoming-spots">Registration opening soon</div>
+            <div class="cal-upcoming-date">2 Jan 2027 · Day</div>
+            <div class="cal-upcoming-name">Pursuing</div>
+            <div class="cal-upcoming-spots">Open · Singapore</div>
           </a>
           <a href="#retreats" class="cal-upcoming-item cu-gold">
-            <div class="cal-upcoming-date">4 Dec 2026 · Overnight</div>
-            <div class="cal-upcoming-name">Advent Silence</div>
-            <div class="cal-upcoming-spots">Registration opening soon</div>
+            <div class="cal-upcoming-date">8–12 Jun 2027 · Extended</div>
+            <div class="cal-upcoming-name">Renewing</div>
+            <div class="cal-upcoming-spots">Featured · Chiang Mai</div>
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE WHEEL · VITRUVIAN PRIMEHOOD
+     ============================================================ -->
+<section class="section wheel-section">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-tag">The Wheel of Retreats</div>
+      <h2 class="section-title">There is nothing new<br><em>under the sun.</em></h2>
+    </div>
+
+    <div class="wheel-grid reveal">
+      <div class="wheel-image-wrap">
+        <img src="assets/images/vitruvian-primehood.jpg"
+             alt="The Vitruvian Primehood — a young figure inscribed in a square and circle, surrounded by the four Ps and three Rs of the THR formation arc, with four medallion saints at the corners."
+             class="wheel-image" />
+      </div>
+      <div class="wheel-text">
+        <p class="wheel-lead">
+          The calendar is not a list. It is a <strong>wheel.</strong>
+        </p>
+        <p>
+          Every year, the same six retreats. Every year, the same
+          long weekends. Every year, the same liturgical seasons
+          turning under the same sun.
+        </p>
+        <blockquote class="wheel-quote">
+          <em>"What has been will be again, what has been done will be done again;
+          there is nothing new under the sun."</em><br>
+          <span class="wheel-quote-cite">— Ecclesiastes 1:9</span>
+        </blockquote>
+        <blockquote class="wheel-quote">
+          <em>"His mercies are new every morning."</em><br>
+          <span class="wheel-quote-cite">— Lamentations 3:23</span>
+        </blockquote>
+        <p>
+          Both verses are true at the same time. The cycle repeats.
+          The participant deepens. <strong>The sun rises every morning,
+          and you are not the same person who watched it rise yesterday.</strong>
+        </p>
+        <p class="wheel-coda">
+          THR does not measure formation in <em>novelty</em>.
+          We measure it in <em>fidelity</em>. The wheel turns. The
+          participants walk. <em>And by the seventh turn, something
+          has been built that cannot be hurried.</em>
+        </p>
+      </div>
+    </div>
+
+    <div class="wheel-architecture reveal">
+      <div class="wheel-architecture-row">
+        <div class="wheel-arch-block">
+          <div class="wheel-arch-label">The Four Ps</div>
+          <div class="wheel-arch-words"><em>Preparing · Pondering · Pursuing · Primehood</em></div>
+          <div class="wheel-arch-note">The formation cycle. Four corners. Earth.</div>
+        </div>
+        <div class="wheel-arch-block">
+          <div class="wheel-arch-label">The Three Rs</div>
+          <div class="wheel-arch-words"><em>Remembering · Renewing · Releasing</em></div>
+          <div class="wheel-arch-note">The year's unfolding. Three points around the circle. Heaven.</div>
+        </div>
+      </div>
+      <div class="wheel-arch-bottom">
+        Seven words for the year. <em>Seven, the biblical number of completeness.</em>
       </div>
     </div>
   </div>
@@ -2398,53 +2626,74 @@ footer {
       </div>
     </div>
 
-    <form class="group-form reveal" onsubmit="event.preventDefault(); alert('Thank you. We will be in touch within two days.');">
+    <form class="group-form reveal"
+          name="retreat-registration"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onsubmit="handleRetreatFormSubmit(event)">
+      <input type="hidden" name="form-name" value="retreat-registration">
+      <p class="hidden-field" style="display:none;">
+        <label>Don't fill this out if you're human: <input name="bot-field"></label>
+      </p>
+
       <h3 class="group-form-title">Register or enquire</h3>
       <div class="group-form-sub">A real human reads every message.</div>
 
       <div class="form-field">
-        <label class="form-label">Your name</label>
-        <input type="text" class="form-input" placeholder="Full name" required>
+        <label class="form-label" for="reg-name">Your name</label>
+        <input type="text" id="reg-name" name="name" class="form-input" placeholder="Full name" required>
       </div>
 
       <div class="form-field">
-        <label class="form-label">Email address</label>
-        <input type="email" class="form-input" placeholder="your@email.com" required>
+        <label class="form-label" for="reg-email">Email address</label>
+        <input type="email" id="reg-email" name="email" class="form-input" placeholder="your@email.com" required>
       </div>
 
       <div class="form-field">
-        <label class="form-label">Which retreat</label>
-        <select class="form-select">
+        <label class="form-label" for="reg-retreat">Which retreat</label>
+        <select id="reg-retreat" name="retreat" class="form-select" required>
           <option value="">Select a retreat...</option>
-          <option>14 Jun — Into the Stillness · Day</option>
-          <option>11 Jul — Come Away · Overnight</option>
-          <option>23 Aug — The Ash Heap · Day</option>
-          <option>20 Sep — The Inner Room · Women's</option>
-          <option>18 Oct — Lead from Rest · Leaders</option>
-          <option>5 Dec — Advent Silence · Overnight</option>
-          <option>Group / Church booking — enquire</option>
+          <option value="preparing-2026-11">7–8 Nov 2026 — Preparing · Overnight · Singapore</option>
+          <option value="pondering-2026-12">26–27 Dec 2026 — Pondering · Overnight · Singapore</option>
+          <option value="pursuing-2027-01">2 Jan 2027 — Pursuing · Day · Singapore</option>
+          <option value="remembering-2027-03">27 Mar 2027 — Remembering · Day · Singapore</option>
+          <option value="renewing-2027-06">8–12 Jun 2027 — Renewing · Extended · Chiang Mai</option>
+          <option value="releasing-2027-08">7–11 Aug 2027 — Releasing · Extended · Dalat</option>
+          <option value="group-booking">Group / Church booking — enquire</option>
+          <option value="not-sure">I'm not sure yet — please advise</option>
         </select>
       </div>
 
       <div class="form-field">
-        <label class="form-label">Which gate brings you?</label>
-        <select class="form-select">
+        <label class="form-label" for="reg-gate">Which gate brings you?</label>
+        <select id="reg-gate" name="gate" class="form-select">
           <option value="">Select your gate...</option>
-          <option>Gate I — I am hungry</option>
-          <option>Gate II — I am exhausted</option>
-          <option>Gate III — I am broken</option>
-          <option>Gate IV — I am returning</option>
-          <option>I'm not sure yet</option>
+          <option value="gate-1">Gate I — I am hungry</option>
+          <option value="gate-2">Gate II — I am exhausted</option>
+          <option value="gate-3">Gate III — I am broken</option>
+          <option value="gate-4">Gate IV — I am returning</option>
+          <option value="not-sure">I'm not sure yet</option>
         </select>
       </div>
 
       <div class="form-field">
-        <label class="form-label">Anything you'd like us to know</label>
-        <textarea class="form-input" rows="3" placeholder="Scholarship request, dietary needs, questions..."></textarea>
+        <label class="form-label" for="reg-message">Anything you'd like us to know</label>
+        <textarea id="reg-message" name="message" class="form-input" rows="3"
+                  placeholder="Scholarship request, dietary needs, questions..."></textarea>
       </div>
 
       <button type="submit" class="btn-submit">Send Registration</button>
       <div class="form-promise">No one turned away for lack of funds. Just ask.</div>
+
+      <div class="form-thank-you" id="form-thank-you" style="display:none;">
+        <p><strong>Thank you.</strong> Your registration has been received.
+        A real human will be in touch within two days, usually sooner.</p>
+        <p style="margin-top:0.75em;font-style:italic;">
+          <em>"In returning and rest you shall be saved; in quietness and trust shall be your strength."</em>
+          — Isaiah 30:15
+        </p>
+      </div>
     </form>
   </div>
 </section>
@@ -2510,24 +2759,38 @@ if (navBurger) {
 
 /* ===== Calendar ===== */
 const retreatDates = {
-  '2026-6':  [{ day: 13, gate: 'g1', name: 'Into the Stillness' }],
-  '2026-7':  [
-    { day: 10, gate: 'g2', name: 'Come Away' },
-    { day: 11, gate: 'g2', name: 'Come Away' },
-    { day: 12, gate: 'g2', name: 'Come Away' }
+  '2026-11': [
+    { day: 7, gate: 'g2', name: 'Preparing' },
+    { day: 8, gate: 'g2', name: 'Preparing' }
   ],
-  '2026-8':  [{ day: 22, gate: 'g3', name: 'The Ash Heap' }],
-  '2026-9':  [{ day: 19, gate: 'g1', name: 'The Inner Room' }],
-  '2026-10': [{ day: 17, gate: 'g2', name: 'Lead from Rest' }],
   '2026-12': [
-    { day: 4, gate: 'gold', name: 'Advent Silence' },
-    { day: 5, gate: 'gold', name: 'Advent Silence' },
-    { day: 6, gate: 'gold', name: 'Advent Silence' }
+    { day: 26, gate: 'g1', name: 'Pondering' },
+    { day: 27, gate: 'g1', name: 'Pondering' }
+  ],
+  '2027-1': [
+    { day: 2, gate: 'g1', name: 'Pursuing' }
+  ],
+  '2027-3': [
+    { day: 27, gate: 'g3', name: 'Remembering' }
+  ],
+  '2027-6': [
+    { day: 8, gate: 'gold', name: 'Renewing' },
+    { day: 9, gate: 'gold', name: 'Renewing' },
+    { day: 10, gate: 'gold', name: 'Renewing' },
+    { day: 11, gate: 'gold', name: 'Renewing' },
+    { day: 12, gate: 'gold', name: 'Renewing' }
+  ],
+  '2027-8': [
+    { day: 7, gate: 'gold', name: 'Releasing' },
+    { day: 8, gate: 'gold', name: 'Releasing' },
+    { day: 9, gate: 'gold', name: 'Releasing' },
+    { day: 10, gate: 'gold', name: 'Releasing' },
+    { day: 11, gate: 'gold', name: 'Releasing' }
   ]
 };
 
 let currentYear = 2026;
-let currentMonth = 5; // 0-indexed June
+let currentMonth = 10; // 0-indexed November (where the wheel begins)
 
 const monthNames = ['January','February','March','April','May','June',
                     'July','August','September','October','November','December'];
@@ -2638,6 +2901,40 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 reveals.forEach(el => observer.observe(el));
+
+/* ===== Retreat Registration Form (Netlify) ===== */
+function handleRetreatFormSubmit(event) {
+  event.preventDefault();
+  const form = event.target;
+  const data = new FormData(form);
+
+  // Honeypot check - if filled, silently succeed without sending
+  if (data.get('bot-field')) {
+    return false;
+  }
+
+  // Submit to Netlify Forms via fetch
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(data).toString()
+  })
+  .then(() => {
+    // Hide the form fields, show inline thank-you
+    const fields = form.querySelectorAll('.form-field, .group-form-title, .group-form-sub, .btn-submit, .form-promise');
+    fields.forEach(el => el.style.display = 'none');
+    const thankYou = document.getElementById('form-thank-you');
+    if (thankYou) thankYou.style.display = 'block';
+    // Scroll the thank-you into view
+    thankYou.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  })
+  .catch((error) => {
+    alert('Sorry — there was an error sending your registration. Please email hello@hush.asia directly and we will reply personally.');
+    console.error('Form submission error:', error);
+  });
+
+  return false;
+}
 </script>
 
 </body>
