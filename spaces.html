@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sacred Spaces — The Hush Room</title>
+<meta name="description" content="A curated map of retreat houses and places of stillness across Singapore and the region — maintained by The Hush Room.">
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Earths */
+  --sienna:       #7B3F2A;
+  --sienna-light: #C4896A;
+  --parchment:    #F5EDD9;
+  --warm-white:   #FDFAF3;
+  --charcoal:     #2E2B27;
+  --ash:          #4A4540;
+  --gold:         #C9A45A;
+  --gold-light:   #E8D5A8;
+  --ink:          #1E1B17;
+
+  /* Waters */
+  --sage:         #8A9E7F;
+  --sage-dark:    #5A7060;
+  --sage-light:   #C4CFBA;
+  --slate:        #5A7080;
+  --slate-light:  #9CB3C2;
+  --cream:        #F0E8D5;
+
+  /* Accent */
+  --crimson:      #8B2E2E;
+  --crimson-light:#D08A8A;
+
+  /* Rule */
+  --rule:         rgba(123,63,42,0.10);
+  --rule-light:   rgba(123,63,42,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  font-weight: 400;
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* parchment grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ============================================================
+   NAVIGATION (system-shared)
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(253,250,243,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--sienna);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-logo span { font-style: italic; color: var(--gold); }
+
+.nav-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--ash);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--charcoal); text-decoration: none;
+  opacity: 0.6;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { opacity: 1; color: var(--sienna); }
+
+.nav-cta {
+  background: var(--sienna) !important;
+  color: var(--parchment) !important;
+  padding: 0.55rem 1.4rem;
+  border-radius: 2rem;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  font-size: 0.72rem !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.nav-cta:hover { background: var(--crimson) !important; transform: translateY(-1px); }
+
+.nav-burger {
+  display: none;
+  background: none; border: 0; padding: 0.3rem;
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  margin: 5px 0;
+  background: var(--sienna);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-sheet {
+  position: fixed; inset: 0;
+  z-index: 999;
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-sheet.open { opacity: 1; pointer-events: auto; }
+.nav-sheet a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-sheet a.sheet-cta {
+  margin-top: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--sienna);
+  color: var(--parchment);
+  padding: 0.85rem 2.5rem;
+  border-radius: 2rem;
+}
+
+/* ============================================================
+   PRIMITIVES
+   ============================================================ */
+.section { padding: 8rem 3rem; position: relative; }
+.section-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+
+.section-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--sienna);
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  opacity: 0.85;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--sienna); opacity: 0.7;
+}
+.section-tag.center { justify-content: center; }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.section-title em { color: var(--sienna); font-style: italic; font-weight: 400; }
+
+.section-body {
+  font-size: 1rem; color: var(--ash); line-height: 1.85;
+  max-width: 640px;
+}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 11rem 5rem 6rem;
+  position: relative; overflow: hidden;
+  background: var(--ink);
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 75% 60% at 20% 30%, rgba(123,63,42,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 20%, rgba(201,164,90,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at 80% 80%, rgba(90,112,96,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 15% 90%, rgba(90,112,128,0.16) 0%, transparent 60%);
+  filter: blur(2px);
+}
+.page-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 4rem;
+  align-items: end;
+}
+
+.hero-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--gold);
+  opacity: 0.75;
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  letter-spacing: 0.02em;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--gold); opacity: 0.6;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.05;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold-light);
+}
+
+.hero-sub {
+  font-size: 1rem; line-height: 1.85;
+  color: rgba(245,237,217,0.6);
+  max-width: 540px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-illus {
+  width: 100%;
+  aspect-ratio: 4/5;
+  max-width: 360px;
+  margin-left: auto;
+  animation: fadeUp 1s 0.45s ease both;
+}
+
+/* ============================================================
+   INTRO SECTION
+   ============================================================ */
+.intro-section {
+  padding: 7rem 3rem 4rem;
+  position: relative;
+}
+.intro-inner {
+  max-width: 720px; margin: 0 auto;
+  position: relative;
+  text-align: left;
+}
+.intro-inner p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: var(--ash);
+  margin-bottom: 1.6rem;
+  font-weight: 400;
+}
+.intro-inner p:last-child { margin-bottom: 0; }
+.intro-inner em { color: var(--sienna); font-style: italic; }
+
+/* ============================================================
+   REGION HEADER (used for "Singapore" and "Beyond Singapore")
+   ============================================================ */
+.region-section {
+  padding: 5rem 3rem 2rem;
+}
+.region-inner {
+  max-width: 880px; margin: 0 auto;
+}
+.region-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--sienna);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.85rem;
+  opacity: 0.85;
+}
+.region-tag::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px;
+  background: var(--sienna); opacity: 0.7;
+}
+.region-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+}
+.region-title em { color: var(--sienna); font-style: italic; font-weight: 400; }
+.region-body {
+  font-size: 1rem; line-height: 1.85;
+  color: var(--ash);
+  max-width: 620px;
+}
+
+/* ============================================================
+   PLACE LIST
+   ============================================================ */
+.places-section {
+  padding: 3rem 3rem 5rem;
+}
+.places-inner {
+  max-width: 880px; margin: 0 auto;
+}
+
+.place {
+  padding: 3.5rem 0;
+  border-top: 1px solid var(--rule);
+  position: relative;
+}
+.place:first-child { border-top: 1px solid var(--rule); }
+.place:last-child { border-bottom: 1px solid var(--rule); }
+
+.place-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.place-where {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--sienna);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.01em;
+}
+
+.place-body {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--ash);
+  max-width: 720px;
+}
+.place-body p { margin-bottom: 1.1rem; }
+.place-body p:last-child { margin-bottom: 0; }
+.place-body em {
+  font-style: italic;
+  color: var(--sienna);
+}
+
+.place-gratitude {
+  margin-top: 1.4rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--ash);
+  opacity: 0.7;
+  line-height: 1.6;
+  max-width: 620px;
+  border-left: 2px solid var(--gold-light);
+  padding-left: 1.2rem;
+}
+
+/* ============================================================
+   CLOSING NOTE
+   ============================================================ */
+.closing-section {
+  padding: 5rem 3rem 8rem;
+  position: relative;
+}
+.closing-inner {
+  max-width: 720px; margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.closing-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--sienna);
+  opacity: 0.7;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.closing-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: var(--ash);
+  font-weight: 400;
+}
+.closing-body p { margin-bottom: 1rem; }
+.closing-body p:last-child { margin-bottom: 0; }
+.closing-body a {
+  color: var(--sienna);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(123,63,42,0.3);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.closing-body a:hover {
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+
+/* ============================================================
+   FOOTER (system-shared)
+   ============================================================ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(201,164,90,0.10);
+  padding: 3.5rem 3rem;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; color: var(--parchment);
+  font-weight: 600; text-decoration: none;
+}
+.footer-logo span { color: var(--gold); font-style: italic; }
+.footer-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(245,237,217,0.3);
+  margin-top: 0.5rem;
+  letter-spacing: 0.08em;
+}
+.footer-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(245,237,217,0.4);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+.footer-links {
+  display: flex; gap: 1.8rem; list-style: none;
+  justify-content: flex-end; flex-wrap: wrap;
+}
+.footer-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(245,237,217,0.4);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1180px) {
+  .nav-tagline { display: none; }
+  .nav-links { gap: 1.4rem; font-size: 0.7rem; letter-spacing: 0.1em; }
+  nav { padding: 1.1rem 2rem; }
+}
+
+@media (max-width: 1100px) {
+  .page-hero { padding: 10rem 2.5rem 5rem; }
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-illus { max-width: 320px; aspect-ratio: 5/4; margin: 0; order: -1; }
+}
+
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-burger { display: block; }
+  .nav-cta-desktop { display: none; }
+}
+
+@media (max-width: 900px) {
+  .page-hero { padding: 8rem 1.5rem 4rem; min-height: auto; }
+  .intro-section { padding: 5rem 1.5rem 3rem; }
+  .intro-inner p { font-size: 1.2rem; }
+  .region-section { padding: 4rem 1.5rem 1.5rem; }
+  .places-section { padding: 2rem 1.5rem 4rem; }
+  .place { padding: 2.8rem 0; }
+  .closing-section { padding: 4rem 1.5rem 6rem; }
+  footer {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    gap: 1.5rem;
+  }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  .hero-eyebrow { font-size: 0.95rem; }
+  .place-name { font-size: 1.5rem; }
+  .place-body { font-size: 0.95rem; }
+  .closing-body { font-size: 1.05rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav>
+  <a href="index.html" class="nav-logo">The <span>Hush</span> Room</a>
+  <div class="nav-tagline">The world says rush. God says hush.</div>
+  <ul class="nav-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="spaces.html" class="active">Spaces</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+    <li class="nav-cta-desktop"><a href="retreats.html#register" class="nav-cta">Join Us</a></li>
+  </ul>
+  <button class="nav-burger" aria-label="Open menu" id="navBurger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-sheet" id="navSheet">
+  <a href="gates.html">Gates</a>
+  <a href="story.html">Story</a>
+  <a href="retreats.html">Retreats</a>
+  <a href="resources.html">Resources</a>
+  <a href="spaces.html">Spaces</a>
+  <a href="connect.html">Connect</a>
+  <a href="about.html">About</a>
+  <a href="retreats.html#register" class="sheet-cta">Join Us</a>
+</div>
+
+<!-- ============================================================
+     PAGE HERO
+     ============================================================ -->
+<section class="page-hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">A curated map of stillness</div>
+      <h1 class="hero-title">Sacred <em>spaces.</em></h1>
+      <p class="hero-sub">
+        A small list of retreat houses and places of stillness across
+        Singapore and the region — places worth knowing, maintained with
+        care, for anyone looking for somewhere to retreat.
+      </p>
+    </div>
+    <div class="hero-illus" aria-hidden="true">
+      <img src="assets/images/room-empty.jpg"
+        alt=""
+        style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.32;" />
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTRO
+     ============================================================ -->
+<section class="intro-section">
+  <div class="intro-inner reveal">
+    <p>
+      The Hush Room maintains this list as a small service to anyone in
+      Singapore or the wider region looking for a place to retreat. Some
+      of these are purpose-built retreat houses, where the building itself
+      does some of the work — chapel, silence, staff who understand what
+      it means when someone arrives saying they need to be quiet for a
+      while. Others are hospitable venues that have served retreats well,
+      where the silence is something a group brings with them. Both have
+      their place.
+    </p>
+    <p>
+      This is not a directory. It is a curated map. Each entry below
+      names a place worth knowing, with enough context to help you decide
+      whether it fits the kind of retreat you have in mind.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SINGAPORE — REGION HEADER
+     ============================================================ -->
+<section class="region-section">
+  <div class="region-inner reveal">
+    <div class="region-tag">The places we know</div>
+    <h2 class="region-title">In <em>Singapore.</em></h2>
+  </div>
+</section>
+
+<!-- ============================================================
+     SINGAPORE — PLACES
+     ============================================================ -->
+<section class="places-section">
+  <div class="places-inner">
+
+    <!-- La Salle House -->
+    <article class="place reveal">
+      <h3 class="place-name">La Salle House</h3>
+      <div class="place-where">East Coast Road, Katong</div>
+      <div class="place-body">
+        <p>
+          Newly opened in 2023, La Salle House sits within the grounds of
+          St Patrick's School in Katong — the former boarding house of
+          the school, re-purposed by the Lasallian Brothers as a formation
+          and retreat centre. The building carries the quiet of an old
+          school after the children have gone home: high ceilings, long
+          corridors, dedicated prayer rooms. The Katong neighbourhood
+          around it is residential and unhurried, the sea a short walk
+          away. Well-suited to silent retreat for those who want to stay
+          in the city while leaving its rhythm behind.
+        </p>
+      </div>
+    </article>
+
+    <!-- Montfort Centre -->
+    <article class="place reveal">
+      <h3 class="place-name">Montfort Centre</h3>
+      <div class="place-where">Upper Bukit Timah Road</div>
+      <div class="place-body">
+        <p>
+          Montfort sits high on Upper Bukit Timah Road and has long been
+          one of the most-loved retreat houses in the city. The grounds
+          include a prayer maze, an art room, an adoration room and a
+          thoughtful library. Trees soften the traffic noise from the
+          road below; mornings are bird-loud and evenings quiet. The
+          hospitality is gentle and attentive — silence is honoured here
+          as a matter of practice rather than rule. Weekends in Advent
+          and Lent book up early, often six months ahead.
+        </p>
+      </div>
+    </article>
+
+    <!-- San Damiano -->
+    <article class="place reveal">
+      <h3 class="place-name">San Damiano Spirituality Centre</h3>
+      <div class="place-where">Bukit Batok East, behind the Church of St Mary of the Angels</div>
+      <div class="place-body">
+        <p>
+          San Damiano carries the Franciscan posture into its space —
+          simplicity, silence, walking the gospel rather than dressing it
+          up. Tucked behind the Church of St Mary of the Angels and
+          across from Bukit Batok Nature Park, the centre is wrapped in
+          the green of one of the quieter pockets of the city. Less
+          publicly programmed than some of the larger houses, which can
+          mean room to breathe for groups looking for an unhurried
+          weekend.
+        </p>
+      </div>
+    </article>
+
+    <!-- Kingsmead Centre -->
+    <article class="place reveal">
+      <h3 class="place-name">Kingsmead Centre</h3>
+      <div class="place-where">Victoria Park Road, behind the Church of St Ignatius</div>
+      <div class="place-body">
+        <p>
+          Kingsmead is the centre of gravity for Ignatian silent-retreat
+          work in Singapore. A peaceful garden surrounds the centre, the
+          Botanic Gardens sit nearby, and a team of trained spiritual
+          directors accompanies every retreatant who comes through. Days
+          of Recollection, Individually-Guided Retreats, and the full
+          Spiritual Exercises of St Ignatius are all offered within
+          these walls. Silence is the default rather than the exception.
+        </p>
+      </div>
+    </article>
+
+    <!-- Lifesprings -->
+    <article class="place reveal">
+      <h3 class="place-name">Lifesprings Canossian Spirituality Centre</h3>
+      <div class="place-where">Jalan Merbok, facing Bukit Timah Nature Reserve</div>
+      <div class="place-body">
+        <p>
+          Perched on a hilltop facing Bukit Timah Nature Reserve,
+          Lifesprings has shaped a generation of contemplative
+          practitioners in Singapore — the Community for Spiritual
+          Formation has called it home for years, and many of the
+          country's most respected formation teachers continue to teach
+          within its walls. The grounds include a walking labyrinth used
+          as sacred space, hammocks beneath the trees, a koi pond and
+          quiet prayer rooms. The forest sits a few steps from the gate.
+          Accommodation is no-frills by design — the space asks visitors
+          to bring their attention rather than their expectations.
+        </p>
+      </div>
+    </article>
+
+    <!-- Praisehaven -->
+    <article class="place reveal">
+      <h3 class="place-name">Praisehaven Retreat Centre</h3>
+      <div class="place-where">Upper Bukit Timah Road, next to Hillview MRT</div>
+      <div class="place-body">
+        <p>
+          Praisehaven, run by the Salvation Army, is the largest
+          Christian retreat venue in Singapore. The accommodation is
+          basic but generous; the building itself is more practical than
+          contemplative. What makes Praisehaven worth knowing for silent
+          retreat is its setting: tucked next to Hillview MRT, within
+          easy walking distance of Bukit Timah Nature Reserve and the
+          Rail Corridor. The surrounding green offers a real
+          contemplative outdoors to step into between sessions — long,
+          quiet walks under canopy, with the sound of the city receding
+          behind the trees.
+        </p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     BEYOND SINGAPORE — REGION HEADER
+     ============================================================ -->
+<section class="region-section">
+  <div class="region-inner reveal">
+    <div class="region-tag">For longer retreats, deeper silence</div>
+    <h2 class="region-title">Beyond <em>Singapore.</em></h2>
+    <p class="region-body">
+      For longer retreats, deeper silence, or a change of country, the
+      places below have shaped the lineage of contemplative practice
+      across the region.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     BEYOND SINGAPORE — PLACES
+     ============================================================ -->
+<section class="places-section">
+  <div class="places-inner">
+
+    <!-- Seven Fountains -->
+    <article class="place reveal">
+      <h3 class="place-name">Seven Fountains</h3>
+      <div class="place-where">Chiang Mai, Thailand</div>
+      <div class="place-body">
+        <p>
+          Seven Fountains is where some of the slowest, most carefully
+          held silent retreats in the region are run, by a team of
+          Jesuit fathers and lay spiritual directors whose work has
+          shaped a generation of practitioners across Asia, including
+          many of those whose teaching informs The Hush Room. The
+          grounds are gardens within gardens, hill country wrapped in
+          rain-tree shade, and the silence settles in by the second day.
+          Programmes range from a few days to thirty days. Worth the
+          flight.
+        </p>
+      </div>
+      <div class="place-gratitude">
+        With particular gratitude to Rev Simon and Sister Rinda of
+        Listening Inn, whose work flows out of and back into this place.
+      </div>
+    </article>
+
+    <!-- Dalat Wonder Resort -->
+    <article class="place reveal">
+      <h3 class="place-name">Dalat Wonder Resort</h3>
+      <div class="place-where">Tuyen Lam Lake, Dalat, Vietnam</div>
+      <div class="place-body">
+        <p>
+          Dalat Wonder Resort sits on the shore of Tuyen Lam Lake, in
+          the misty highlands of Dalat where the climate stays cool
+          year round. It is a hospitality resort rather than a religious
+          retreat house, but the setting does extraordinary work: fog
+          at dawn, mountain pine forest, lake water, and the kind of
+          quiet that the city never quite gives. Each villa has its own
+          space and its own surrounding green. For groups willing to
+          bring their own silence, the mountains and the lake will
+          hold the rest.
+        </p>
+      </div>
+    </article>
+
+    <!-- Nature's Village Resort -->
+    <article class="place reveal">
+      <h3 class="place-name">Nature's Village Resort</h3>
+      <div class="place-where">Talisay City, Negros Occidental, Philippines</div>
+      <div class="place-body">
+        <p>
+          Nature's Village sits just outside Bacolod, on the Talisay
+          highway between the city and Silay's old Spanish quarter.
+          The grounds are densely planted, the air smells of lemongrass
+          from the resort's working kitchen garden, and the staff are
+          known for warmth. Like Dalat Wonder, this is a hospitality
+          resort rather than a religious retreat house, and it can fill
+          with weddings and events at peak times — choosing the right
+          window matters. When the timing is right, the gardens, the
+          cool evenings and the distance from the city give a retreat
+          the room it needs.
+        </p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CLOSING NOTE
+     ============================================================ -->
+<section class="closing-section">
+  <div class="closing-inner reveal">
+    <div class="closing-tag">A note on this list</div>
+    <div class="closing-body">
+      <p>
+        This list is not exhaustive and is not a ranking. It is a map of
+        places worth knowing, maintained with care. New entries will be
+        added as the ministry's experience and relationships grow.
+      </p>
+      <p>
+        If you know of a place that should be on this map, or notice
+        something here that needs updating, write to
+        <a href="mailto:hello@hush.asia">hello@hush.asia</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">The <span>Hush</span> Room</a>
+    <div class="footer-meta">© 2026 The Hush Room · hush.asia · All rights reserved</div>
+  </div>
+  <div class="footer-tagline">The world says rush.<br>God says hush.</div>
+  <ul class="footer-links">
+    <li><a href="gates.html">Gates</a></li>
+    <li><a href="story.html">Story</a></li>
+    <li><a href="retreats.html">Retreats</a></li>
+    <li><a href="resources.html">Resources</a></li>
+    <li><a href="spaces.html">Spaces</a></li>
+    <li><a href="connect.html">Connect</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+(function() {
+  // Mobile menu
+  var burger = document.getElementById('navBurger');
+  var sheet  = document.getElementById('navSheet');
+  if (burger && sheet) {
+    burger.addEventListener('click', function() { sheet.classList.toggle('open'); });
+    sheet.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { sheet.classList.remove('open'); });
+    });
+  }
+
+  // Reveal on scroll
+  var reveals = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(function(el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>
