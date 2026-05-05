@@ -12,12 +12,15 @@ Built for the Primehood generation. Open to every season of life.
 - `story.html` — Our Story & Beliefs
 - `gates.html` — The Four Gates
 - `retreats.html` — Retreats & Calendar
+- `spaces.html` — Sacred Spaces
 - `resources.html` — Resources
 - `connect.html` — Connect & Partner
 - `about.html` — About the Founder
 
-## Images
-Place all images in `assets/images/` — see `assets/images/IMAGES-NEEDED.md`
+## Assets
+- `assets/images/` — illustrations, photographs, page imagery
+- `assets/favicons/` — favicon and Apple touch icon
+- `assets/og/` — Open Graph share preview images
 
 ## Deployment
 Hosted on Netlify · Domain: hush.asia
