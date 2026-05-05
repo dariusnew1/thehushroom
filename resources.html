@@ -901,6 +901,117 @@ nav {
   letter-spacing: 0.02em;
 }
 
+.track-info a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.track-info a:hover .track-title { color: var(--gold); }
+
+/* Deeper listening sub-block — sits below the playlist on the same dark section */
+.deeper-listening {
+  max-width: 1200px;
+  margin: 6rem auto 0;
+  padding: 4rem 0 0;
+  border-top: 1px solid rgba(245,237,217,0.08);
+  position: relative; z-index: 2;
+}
+.deeper-listening-head {
+  margin-bottom: 2.5rem;
+  max-width: 60ch;
+}
+.deeper-listening-head .section-tag.light {
+  margin-bottom: 1.2rem;
+}
+.deeper-listening-head h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-weight: 500;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.deeper-listening-head h3 em {
+  color: var(--gold); font-style: italic; font-weight: 400;
+}
+.deeper-listening-head p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem; line-height: 1.8;
+  color: rgba(245,237,217,0.6);
+}
+
+.podcast-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.podcast-card {
+  background: rgba(245,237,217,0.04);
+  border: 1px solid rgba(245,237,217,0.10);
+  border-radius: 0.9rem;
+  padding: 1.6rem 1.5rem;
+  display: flex; flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+.podcast-card:hover {
+  transform: translateY(-4px);
+  background: rgba(245,237,217,0.06);
+  border-color: rgba(201,164,90,0.3);
+}
+.podcast-numeral {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 0.7rem;
+}
+.podcast-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--parchment);
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+}
+.podcast-host {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  opacity: 0.7;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.podcast-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: rgba(245,237,217,0.65);
+  flex: 1;
+  margin-bottom: 1.2rem;
+}
+.podcast-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(245,237,217,0.5);
+  font-weight: 600;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(245,237,217,0.08);
+  transition: color 0.2s ease;
+}
+.podcast-card:hover .podcast-link { color: var(--gold); }
+
+@media (max-width: 960px) {
+  .podcast-grid { grid-template-columns: 1fr; }
+  .deeper-listening { margin-top: 4rem; padding-top: 3rem; }
+}
+
 /* ============================================================
    JOURNAL PROMPTS
    ============================================================ */
@@ -968,104 +1079,6 @@ nav {
   padding-left: 1.1rem;
   border-left: 1px solid rgba(123,63,42,0.18);
   text-wrap: pretty;
-}
-
-/* ============================================================
-   AUDIO REFLECTIONS
-   ============================================================ */
-.audio-section { background: var(--warm-white); }
-
-.audio-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem; margin-top: 3rem;
-}
-
-.audio-card {
-  border-radius: 1rem; overflow: hidden;
-  border: 1px solid var(--rule);
-  background: var(--parchment);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex; flex-direction: column;
-}
-.audio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(46,43,39,0.08);
-}
-
-.audio-header {
-  padding: 1.8rem; background: var(--sienna);
-  position: relative; overflow: hidden;
-  min-height: 130px;
-  display: flex; flex-direction: column;
-  justify-content: space-between;
-}
-.audio-header::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.10) 0%, transparent 60%);
-}
-.ah-1 { background: var(--sage-dark); }
-.ah-2 { background: var(--sienna); }
-.ah-3 { background: var(--slate); }
-.ah-4 { background: var(--crimson); }
-.ah-5 { background: var(--ash); }
-.ah-6 { background: var(--ink); }
-
-.audio-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 3.2rem; font-weight: 600;
-  color: rgba(245,237,217,0.14); line-height: 1;
-  position: absolute; top: 0.5rem; right: 1.2rem;
-  font-style: italic;
-}
-
-.audio-duration {
-  font-family: 'Caveat', cursive;
-  font-size: 0.9rem; color: rgba(245,237,217,0.7);
-  letter-spacing: 0.02em;
-  position: relative; z-index: 1;
-}
-
-.audio-play {
-  width: 42px; height: 42px; border-radius: 50%;
-  background: rgba(245,237,217,0.18);
-  border: 1px solid rgba(245,237,217,0.25);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s ease;
-  position: relative; z-index: 1;
-  color: var(--parchment);
-  font-size: 0.75rem;
-  padding-left: 3px;
-}
-.audio-play:hover { background: rgba(245,237,217,0.3); transform: scale(1.05); }
-
-.audio-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
-
-.audio-episode {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.65rem; color: var(--sienna);
-  letter-spacing: 0.18em; opacity: 0.75;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase; font-weight: 600;
-}
-.audio-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem; font-weight: 600;
-  color: var(--ink); margin-bottom: 0.6rem;
-  line-height: 1.3;
-}
-.audio-desc {
-  font-size: 0.85rem; line-height: 1.75;
-  color: rgba(46,43,39,0.6);
-  margin-bottom: 1rem;
-  flex: 1;
-}
-.audio-scripture {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 0.9rem;
-  color: var(--sienna); opacity: 0.75;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--rule-light);
 }
 
 /* ============================================================
@@ -1212,7 +1225,6 @@ footer {
   .scripture-grid { grid-template-columns: repeat(2, 1fr); }
   .reading-intro { grid-template-columns: 1fr; gap: 2.5rem; }
   .practices-grid { grid-template-columns: repeat(2, 1fr); }
-  .audio-grid { grid-template-columns: repeat(2, 1fr); }
   .playlist-inner { grid-template-columns: 1fr; gap: 3.5rem; }
   .books-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1233,7 +1245,6 @@ footer {
   .scripture-grid { grid-template-columns: 1fr; }
   .scripture-featured-content { padding: 2rem 1.5rem; }
   .practices-grid { grid-template-columns: 1fr; }
-  .audio-grid { grid-template-columns: 1fr; }
   .journal-grid { grid-template-columns: 1fr; }
   .books-grid { grid-template-columns: 1fr; }
   footer { grid-template-columns: 1fr; text-align: center; padding: 2.5rem 1.5rem; }
@@ -1313,7 +1324,6 @@ footer {
     <button class="tab-btn" data-target="practices">Practices</button>
     <button class="tab-btn" data-target="playlist">Playlist</button>
     <button class="tab-btn" data-target="journal">Journal</button>
-    <button class="tab-btn" data-target="audio">Reflections</button>
   </div>
 </div>
 
@@ -1323,8 +1333,8 @@ footer {
 <section class="section scripture-section" id="scripture">
   <div class="section-inner">
     <div class="reveal">
-      <div class="section-tag">This Week</div>
-      <h2 class="section-title">Weekly scripture <em>reflection.</em></h2>
+      <div class="section-tag">From the Scriptures</div>
+      <h2 class="section-title">Scripture reflection on <em>silence &amp; solitude.</em></h2>
       <p class="section-body">
         One passage. Read slowly. Read again. Sit with it.
         This is not commentary. It is invitation.
@@ -1339,7 +1349,7 @@ footer {
           style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.45;" />
       </div>
       <div class="scripture-featured-content">
-        <div class="scripture-week">Week of 4 May 2026 · Gate I</div>
+        <div class="scripture-week">A passage to sit with · Gate I</div>
         <h3 class="scripture-title">The practice Jesus would not skip.</h3>
         <div class="scripture-verse-block">
           <div class="scripture-verse-text">
@@ -1362,87 +1372,98 @@ footer {
           into the presence of the Father.
         </p>
         <div class="scripture-practice">
-          Practice this week — rise twenty minutes before your day begins.
+          Practice — rise twenty minutes before your day begins.
           Sit. Say only — Here I am. Then listen.
         </div>
       </div>
     </div>
 
     <div class="reveal scripture-archive-head">
-      <div class="section-tag">Archive</div>
-      <h2 class="section-title" style="font-size:clamp(1.5rem, 2.6vw, 2rem); margin-bottom:0;">Previous reflections.</h2>
+      <div class="section-tag">The Year</div>
+      <h2 class="section-title" style="font-size:clamp(1.5rem, 2.6vw, 2rem); margin-bottom:0;">The year in six scriptures.</h2>
+      <p class="section-body" style="margin-top:0.85rem; max-width:62ch;">
+        Each retreat is anchored in one passage. Read them as a sequence —
+        the arc of a year of formation. Read them one at a time —
+        a single Scripture, given for a season.
+      </p>
     </div>
 
     <div class="scripture-grid reveal">
       <article class="scripture-card sc-2">
-        <div class="scripture-card-week">Week of 26 Apr · Gate II</div>
-        <h3 class="scripture-card-title">The journey is too much for you.</h3>
-        <div class="scripture-card-ref">1 Kings 19:7</div>
+        <div class="scripture-card-week">Retreat 1 · Preparing</div>
+        <h3 class="scripture-card-title">My soul magnifies the Lord.</h3>
+        <div class="scripture-card-ref">Luke 1:46–47</div>
         <p class="scripture-card-body">
-          God's first response to Elijah's burnout was not a sermon.
-          It was food. And rest. What does that tell us about how God sees our exhaustion?
+          Mary's song — sung before the world knew anything was happening.
+          The threshold of Advent begins not with announcement but with
+          recognition. <em>What is already here?</em> What has God been
+          doing while you were busy?
         </p>
-        <div class="scripture-card-practice">Practice — sleep without guilt this week.</div>
-      </article>
-
-      <article class="scripture-card sc-3">
-        <div class="scripture-card-week">Week of 19 Apr · Gate III</div>
-        <h3 class="scripture-card-title">My ears had heard of You.</h3>
-        <div class="scripture-card-ref">Job 42:5</div>
-        <p class="scripture-card-body">
-          Job moved from secondhand knowledge to firsthand encounter —
-          not because his questions were answered, but because God showed up.
-          What is the difference between hearing about God and seeing Him?
-        </p>
-        <div class="scripture-card-practice">Practice — sit with one unanswered question this week.</div>
-      </article>
-
-      <article class="scripture-card sc-4">
-        <div class="scripture-card-week">Week of 12 Apr · Gate IV</div>
-        <h3 class="scripture-card-title">While he was still a long way off.</h3>
-        <div class="scripture-card-ref">Luke 15:20</div>
-        <p class="scripture-card-body">
-          The Father didn't wait for the son to arrive. He was already watching.
-          Already running. What part of you is still in the far country —
-          and what would it mean to turn toward home?
-        </p>
-        <div class="scripture-card-practice">Practice — write one honest sentence to God this week.</div>
-      </article>
-
-      <article class="scripture-card sc-all">
-        <div class="scripture-card-week">Week of 5 Apr · All Gates</div>
-        <h3 class="scripture-card-title">Be still, and know.</h3>
-        <div class="scripture-card-ref">Psalm 46:10</div>
-        <p class="scripture-card-body">
-          The Hebrew <em>raphah</em> — to let go, to sink down, to release.
-          Not the absence of activity. The presence of surrender.
-          What are you still gripping that needs to be released?
-        </p>
-        <div class="scripture-card-practice">Practice — ten minutes of silence, no agenda.</div>
+        <div class="scripture-card-practice">Practice — name three things God has already given before this week begins.</div>
       </article>
 
       <article class="scripture-card sc-1">
-        <div class="scripture-card-week">Week of 29 Mar · Gate I</div>
-        <h3 class="scripture-card-title">Give me an undivided heart.</h3>
-        <div class="scripture-card-ref">Psalm 86:11</div>
+        <div class="scripture-card-week">Retreat 2 · Pondering</div>
+        <h3 class="scripture-card-title">Mary treasured these things.</h3>
+        <div class="scripture-card-ref">Luke 2:19</div>
         <p class="scripture-card-body">
-          David prayed for what THR is trying to cultivate —
-          an undivided heart. Not perfect. Not sinless. A whole one.
-          Present. Undistracted. Fully here.
+          After the shepherds left, Mary did not move on. She held what
+          had been given. <em>Pondered</em> — turned it over, weighed it,
+          let it become part of her. The work of Christmas is not
+          consumption. It is treasuring.
         </p>
-        <div class="scripture-card-practice">Practice — notice every distraction today. Don't fight it. Just notice.</div>
+        <div class="scripture-card-practice">Practice — sit with one gift of the past year for ten minutes without explaining it.</div>
       </article>
 
-      <article class="scripture-card sc-2">
-        <div class="scripture-card-week">Week of 22 Mar · Gate II</div>
-        <h3 class="scripture-card-title">Come away and rest.</h3>
-        <div class="scripture-card-ref">Mark 6:31</div>
+      <article class="scripture-card sc-1">
+        <div class="scripture-card-week">Retreat 3 · Pursuing</div>
+        <h3 class="scripture-card-title">What does the Lord require?</h3>
+        <div class="scripture-card-ref">Micah 6:8</div>
         <p class="scripture-card-body">
-          Jesus said this to His disciples after they returned from ministry —
-          before they could even eat. Come away. Rest a while.
-          Not as a reward. As a rhythm. What rhythm are you living?
+          Not a five-year plan. Three small verbs: <em>do justice, love
+          mercy, walk humbly.</em> The new year does not need a strategy.
+          It needs a posture. <em>What is being asked of you?</em>
         </p>
-        <div class="scripture-card-practice">Practice — schedule rest before you schedule anything else.</div>
+        <div class="scripture-card-practice">Practice — choose one of the three. Live it for one day. Notice what shifts.</div>
+      </article>
+
+      <article class="scripture-card sc-3">
+        <div class="scripture-card-week">Retreat 4 · Remembering</div>
+        <h3 class="scripture-card-title">They rested on the Sabbath.</h3>
+        <div class="scripture-card-ref">Luke 23:55–56</div>
+        <p class="scripture-card-body">
+          Holy Saturday. The women who had followed Jesus watched the tomb,
+          prepared spices — and then rested, according to the
+          commandment. The day between death and resurrection has its own
+          obedience. Some seasons ask only for waiting.
+        </p>
+        <div class="scripture-card-practice">Practice — keep one Saturday this season with no agenda. Let it be enough.</div>
+      </article>
+
+      <article class="scripture-card sc-all">
+        <div class="scripture-card-week">Retreat 5 · Renewing</div>
+        <h3 class="scripture-card-title">Were not our hearts burning?</h3>
+        <div class="scripture-card-ref">Luke 24:32</div>
+        <p class="scripture-card-body">
+          Two disciples on the road to Emmaus, walking and grieving. They
+          did not recognise Him until afterwards — but their hearts had
+          been burning the whole walk. The long walk is the curriculum.
+          God speaks while you are still walking.
+        </p>
+        <div class="scripture-card-practice">Practice — take one walk without your phone. Notice when your heart catches.</div>
+      </article>
+
+      <article class="scripture-card sc-4">
+        <div class="scripture-card-week">Retreat 6 · Releasing</div>
+        <h3 class="scripture-card-title">This is my Son. Listen to him.</h3>
+        <div class="scripture-card-ref">Mark 9:7</div>
+        <p class="scripture-card-body">
+          The Transfiguration. The disciples wanted to stay on the mountain.
+          God told them only one thing — <em>listen.</em> Then they came
+          down changed. The mountain is not the destination. The listening
+          is. And what you carry down with you is the work.
+        </p>
+        <div class="scripture-card-practice">Practice — release one thing you have been gripping. Don't replace it. Just release.</div>
       </article>
     </div>
   </div>
@@ -1780,7 +1801,7 @@ footer {
 </section>
 
 <!-- ============================================================
-     PLAYLIST
+     PLAYLIST + DEEPER LISTENING
      ============================================================ -->
 <section class="playlist-section" id="playlist">
   <div class="playlist-inner">
@@ -1803,19 +1824,12 @@ footer {
         <div class="playlist-cat">
           <span class="playlist-cat-num">I</span>
           <div>
-            <div class="playlist-cat-title">Taizé &amp; Chant</div>
-            <div class="playlist-cat-desc">Ancient repetitive chant that stills the mind and opens the heart.</div>
-          </div>
-        </div>
-        <div class="playlist-cat">
-          <span class="playlist-cat-num">II</span>
-          <div>
             <div class="playlist-cat-title">Instrumental &amp; Ambient</div>
             <div class="playlist-cat-desc">No words — just sound that creates sacred space.</div>
           </div>
         </div>
         <div class="playlist-cat">
-          <span class="playlist-cat-num">III</span>
+          <span class="playlist-cat-num">II</span>
           <div>
             <div class="playlist-cat-title">Soaking &amp; Worship</div>
             <div class="playlist-cat-desc">Gentle worship that invites encounter without performance.</div>
@@ -1838,10 +1852,12 @@ footer {
         <div class="playlist-track">
           <div class="track-num">ii</div>
           <div class="track-info">
-            <div class="track-title">Ubi Caritas</div>
-            <div class="track-artist">Taizé Community</div>
+            <a href="https://open.spotify.com/album/3ZdkcFMbU6fQXEO4FW8GSH" target="_blank" rel="noopener">
+              <div class="track-title">Yahweh</div>
+              <div class="track-artist">Vladimir Savchuk · Soaking Instrumental</div>
+            </a>
           </div>
-          <div class="track-type">Chant</div>
+          <div class="track-type">Soaking</div>
         </div>
         <div class="playlist-track">
           <div class="track-num">iii</div>
@@ -1862,10 +1878,12 @@ footer {
         <div class="playlist-track">
           <div class="track-num">v</div>
           <div class="track-info">
-            <div class="track-title">O Lord Hear My Prayer</div>
-            <div class="track-artist">Taizé Community</div>
+            <a href="https://open.spotify.com/album/0077c8wGaL2RRGfAlGs3xa" target="_blank" rel="noopener">
+              <div class="track-title">Surrender</div>
+              <div class="track-artist">Vladimir Savchuk · Soaking Instrumental</div>
+            </a>
           </div>
-          <div class="track-type">Chant</div>
+          <div class="track-type">Soaking</div>
         </div>
         <div class="playlist-track">
           <div class="track-num">vi</div>
@@ -1878,25 +1896,76 @@ footer {
         <div class="playlist-track">
           <div class="track-num">vii</div>
           <div class="track-info">
-            <div class="track-title">The Lord's Prayer</div>
-            <div class="track-artist">Shane &amp; Shane</div>
-          </div>
-          <div class="track-type">Prayer</div>
-        </div>
-        <div class="playlist-track">
-          <div class="track-num">viii</div>
-          <div class="track-info">
             <div class="track-title">Instrumental Psalm 23</div>
             <div class="track-artist">Various</div>
           </div>
           <div class="track-type">Instrumental</div>
         </div>
+        <div class="playlist-track">
+          <div class="track-num">viii</div>
+          <div class="track-info">
+            <div class="track-title">The Lord's Prayer</div>
+            <div class="track-artist">Shane &amp; Shane</div>
+          </div>
+          <div class="track-type">Prayer</div>
+        </div>
       </div>
       <p class="playlist-note">
         Full playlist available on Spotify · Search <em>The Hush Room</em> ·
-        Updated monthly. Music is a door, not a destination —
+        Updated as the seasons turn. Music is a door, not a destination —
         when silence feels ready, let the music fade.
       </p>
+    </div>
+  </div>
+
+  <!-- Deeper listening sub-block — same dark section, separate visual zone -->
+  <div class="deeper-listening reveal">
+    <div class="deeper-listening-head">
+      <div class="section-tag light">For Deeper Listening</div>
+      <h3>Voices from <em>the tradition.</em></h3>
+      <p>
+        When silence is too new, sometimes the right companion is a voice
+        that has walked further down this road. These three podcasts are
+        worth slow listening — one episode at a time, with space to ponder.
+      </p>
+    </div>
+
+    <div class="podcast-grid">
+      <a class="podcast-card" href="https://open.spotify.com/show/1SW1QqhM3lB6Ys54zZdUvE" target="_blank" rel="noopener">
+        <div class="podcast-numeral">i</div>
+        <div class="podcast-title">Cultivate Connection Meditation</div>
+        <div class="podcast-host">Cultivate Connection</div>
+        <p class="podcast-desc">
+          Thirty-minute Bible-based guided meditations. One Scripture, extended quiet
+          time, a single theme each week. The closest thing to a guided retreat
+          you can carry in your pocket.
+        </p>
+        <div class="podcast-link">Listen on Spotify →</div>
+      </a>
+
+      <a class="podcast-card" href="https://open.spotify.com/show/3pNX6bcf2TYJnmrGEHCSjY" target="_blank" rel="noopener">
+        <div class="podcast-numeral">ii</div>
+        <div class="podcast-title">Restoring the Soul</div>
+        <div class="podcast-host">Michael John Cusick</div>
+        <p class="podcast-desc">
+          Long-form conversations on attachment, healing, and the inner life.
+          Where psychology meets the contemplative tradition — for souls
+          weary of pretending to be fine.
+        </p>
+        <div class="podcast-link">Listen on Spotify →</div>
+      </a>
+
+      <a class="podcast-card" href="https://open.spotify.com/show/1ZNKZgytbuGJbWeWwG5jBs" target="_blank" rel="noopener">
+        <div class="podcast-numeral">iii</div>
+        <div class="podcast-title">Soul Care Conversations</div>
+        <div class="podcast-host">Potter's Inn</div>
+        <p class="podcast-desc">
+          Sabbath, the Examen, discernment, the slow work of formation —
+          gently spoken, with rich poetry and music breaks. The back catalog
+          alone is a year of soul care.
+        </p>
+        <div class="podcast-link">Listen on Spotify →</div>
+      </a>
     </div>
   </div>
 </section>
@@ -1965,110 +2034,6 @@ footer {
           <div class="journal-prompt">"What has been restored to me that I almost didn't notice — the robe, the ring, the sandals?"</div>
         </div>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     AUDIO REFLECTIONS
-     ============================================================ -->
-<section class="section audio-section" id="audio">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-tag">Short Reflections</div>
-      <h2 class="section-title">Audio <em>reflections.</em></h2>
-      <p class="section-body">
-        Five to ten minutes. One scripture. One practice. One invitation.
-        For the commute, the quiet moment, the in-between space of your day.
-      </p>
-    </div>
-
-    <div class="audio-grid">
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-1">
-          <div class="audio-num">I</div>
-          <div class="audio-duration">7 min · Gate I</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 1 · The Intentional</div>
-          <h3 class="audio-title">The practice Jesus would not skip.</h3>
-          <p class="audio-desc">Why Jesus — the Son of God — withdrew regularly, and what that means for us. A reflection on Mark 1:35.</p>
-          <div class="audio-scripture">Mark 1:35</div>
-        </div>
-      </article>
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-2">
-          <div class="audio-num">II</div>
-          <div class="audio-duration">8 min · Gate II</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 2 · The Drawn</div>
-          <h3 class="audio-title">The journey is too much for you.</h3>
-          <p class="audio-desc">God's response to Elijah's burnout — and what it reveals about how God sees our exhaustion. A reflection on 1 Kings 19.</p>
-          <div class="audio-scripture">1 Kings 19:7</div>
-        </div>
-      </article>
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-3">
-          <div class="audio-num">III</div>
-          <div class="audio-duration">9 min · Gate III</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 3 · The Broken</div>
-          <h3 class="audio-title">From hearing to seeing.</h3>
-          <p class="audio-desc">Job's journey from secondhand knowledge of God to face-to-face encounter. Why the ash heap is not the end.</p>
-          <div class="audio-scripture">Job 42:5</div>
-        </div>
-      </article>
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-4">
-          <div class="audio-num">IV</div>
-          <div class="audio-duration">10 min · Gate IV</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 4 · The Returning</div>
-          <h3 class="audio-title">While he was still a long way off.</h3>
-          <p class="audio-desc">The Father who was already watching, already running. What the Prodigal's homecoming reveals about God's character.</p>
-          <div class="audio-scripture">Luke 15:20</div>
-        </div>
-      </article>
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-5">
-          <div class="audio-num">V</div>
-          <div class="audio-duration">6 min · All Gates</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 5 · The Practice</div>
-          <h3 class="audio-title">Your first twenty minutes of silence.</h3>
-          <p class="audio-desc">A guided entry into silence for complete beginners. What to expect, what to do when the mind wanders, and how to begin.</p>
-          <div class="audio-scripture">Psalm 46:10</div>
-        </div>
-      </article>
-
-      <article class="audio-card reveal">
-        <div class="audio-header ah-6">
-          <div class="audio-num">VI</div>
-          <div class="audio-duration">8 min · All Gates</div>
-          <button class="audio-play" aria-label="Play">▶</button>
-        </div>
-        <div class="audio-body">
-          <div class="audio-episode">Episode 6 · The Word</div>
-          <h3 class="audio-title">How to practise Lectio Divina.</h3>
-          <p class="audio-desc">A practical guide to reading Scripture the way it was meant to be read — slowly, attentively, as if God is speaking directly to you.</p>
-          <div class="audio-scripture">Hebrews 4:12</div>
-        </div>
-      </article>
-
     </div>
   </div>
 </section>
@@ -2143,7 +2108,7 @@ footer {
   });
 
   // Active tab on scroll
-  var sections = ['scripture', 'reading', 'practices', 'playlist', 'journal', 'audio'];
+  var sections = ['scripture', 'reading', 'practices', 'playlist', 'journal'];
   function setActiveTab() {
     var fromTop = window.scrollY + 140;
     var current = sections[0];
