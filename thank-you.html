@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank you — The Hush Room</title>
+<link rel="icon" type="image/x-icon" href="assets/favicons/favicon.ico">
+<link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sienna: #7B3F2A;
+  --parchment: #F5EDD9;
+  --warm-white: #FDFAF3;
+  --gold: #C9A45A;
+  --ink: #1E1B17;
+  --ash: #4A4540;
+  --rule: rgba(46,43,39,0.08);
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+header {
+  padding: 1.6rem 3rem;
+  border-bottom: 1px solid var(--rule);
+}
+.brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  color: var(--ink); text-decoration: none;
+}
+.brand em {
+  color: var(--gold); font-style: italic; font-weight: 400;
+}
+main {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 4rem 2rem;
+}
+.thanks {
+  max-width: 540px;
+  text-align: center;
+}
+.thanks-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--sienna);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.4rem;
+}
+.thanks h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 1.6rem;
+}
+.thanks h1 em {
+  color: var(--sienna); font-style: italic; font-weight: 400;
+}
+.thanks-body {
+  font-size: 1rem;
+  color: var(--ash);
+  line-height: 1.85;
+  margin-bottom: 2.4rem;
+  text-wrap: pretty;
+}
+.thanks-verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ash);
+  opacity: 0.7;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.6rem;
+  margin-bottom: 2.4rem;
+  line-height: 1.6;
+}
+.thanks-verse-ref {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.thanks-back {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--parchment);
+  background: var(--sienna);
+  padding: 0.95rem 2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.thanks-back:hover {
+  background: var(--ink);
+  transform: translateY(-1px);
+}
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: var(--ash); opacity: 0.55;
+  border-top: 1px solid var(--rule);
+}
+@media (max-width: 600px) {
+  header { padding: 1.4rem 1.5rem; }
+  main { padding: 3rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="brand">The <em>Hush</em> Room</a>
+</header>
+
+<main>
+  <div class="thanks">
+    <div class="thanks-tag">Your message is with us</div>
+    <h1>We have <em>received</em> what you sent.</h1>
+    <p class="thanks-body">
+      Thank you for reaching out. We read every message personally
+      and will respond within three working days. The silence is not
+      empty — it is attentive. We are listening.
+    </p>
+    <p class="thanks-verse">
+      &ldquo;Be still, and know that I am God.&rdquo;
+      <span class="thanks-verse-ref">Psalm 46:10</span>
+    </p>
+    <a href="index.html" class="thanks-back">Return Home →</a>
+  </div>
+</main>
+
+<footer>
+  hello@hush.asia · The Hush Room · Singapore
+</footer>
+</body>
+</html>

@@ -1248,7 +1248,17 @@ footer {
         </div>
       </div>
 
-      <div class="church-form reveal">
+      <form class="church-form reveal"
+            name="church-enquiry"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            action="/thank-you.html">
+        <input type="hidden" name="form-name" value="church-enquiry">
+        <p style="display:none;">
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+
         <div class="form-title">Church & Group Enquiry</div>
         <div class="form-subtitle">
           Tell us about your community and what you are looking for.
@@ -1256,23 +1266,23 @@ footer {
         </div>
 
         <div class="form-field">
-          <label class="form-label">Your Name</label>
-          <input type="text" class="form-input" placeholder="Full name" />
+          <label class="form-label" for="ce-name">Your Name</label>
+          <input type="text" id="ce-name" name="name" class="form-input" placeholder="Full name" required />
         </div>
 
         <div class="form-field">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" placeholder="your@email.com" />
+          <label class="form-label" for="ce-email">Email Address</label>
+          <input type="email" id="ce-email" name="email" class="form-input" placeholder="your@email.com" required />
         </div>
 
         <div class="form-row">
           <div class="form-field">
-            <label class="form-label">Church / Organisation</label>
-            <input type="text" class="form-input" placeholder="Name" />
+            <label class="form-label" for="ce-org">Church / Organisation</label>
+            <input type="text" id="ce-org" name="organisation" class="form-input" placeholder="Name" />
           </div>
           <div class="form-field">
-            <label class="form-label">Group Size</label>
-            <select class="form-select">
+            <label class="form-label" for="ce-size">Group Size</label>
+            <select id="ce-size" name="group_size" class="form-select">
               <option value="">Approx. size</option>
               <option>Under 10</option>
               <option>10–20</option>
@@ -1283,8 +1293,8 @@ footer {
         </div>
 
         <div class="form-field">
-          <label class="form-label">Age Group</label>
-          <select class="form-select">
+          <label class="form-label" for="ce-age">Age Group</label>
+          <select id="ce-age" name="age_group" class="form-select">
             <option value="">Primary age group</option>
             <option>Youth — ages 13–17</option>
             <option>Young Adults — ages 18–25</option>
@@ -1296,8 +1306,8 @@ footer {
         </div>
 
         <div class="form-field">
-          <label class="form-label">What You Are Looking For</label>
-          <select class="form-select">
+          <label class="form-label" for="ce-type">What You Are Looking For</label>
+          <select id="ce-type" name="retreat_type" class="form-select">
             <option value="">Type of retreat</option>
             <option>Half day (4 hours)</option>
             <option>Full day (8 hours)</option>
@@ -1307,16 +1317,16 @@ footer {
         </div>
 
         <div class="form-field">
-          <label class="form-label">Anything else we should know</label>
-          <textarea class="form-textarea" placeholder="Preferred dates, venue preferences, specific needs..."></textarea>
+          <label class="form-label" for="ce-notes">Anything else we should know</label>
+          <textarea id="ce-notes" name="message" class="form-textarea" placeholder="Preferred dates, venue preferences, specific needs..."></textarea>
         </div>
 
-        <button class="btn-submit">Send Enquiry →</button>
+        <button type="submit" class="btn-submit">Send Enquiry →</button>
 
         <p style="font-family:'Caveat',cursive; font-size:0.78rem; color:rgba(46,43,39,0.35); text-align:center; margin-top:1rem;">
           We respond within 3 working days · <a href="mailto:hello@hush.asia">hello@hush.asia</a>
         </p>
-      </div>
+      </form>
 
     </div>
   </div>
@@ -1575,7 +1585,17 @@ footer {
     </div>
 
     <div class="finance-right reveal">
-      <div class="finance-form">
+      <form class="finance-form"
+            name="financial-partnership"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            action="/thank-you.html">
+        <input type="hidden" name="form-name" value="financial-partnership">
+        <p style="display:none;">
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+
         <div class="finance-form-title">Partner with THR</div>
         <div class="finance-form-sub">
           One-time or recurring · Every gift goes directly to the work
@@ -1586,27 +1606,28 @@ footer {
         </label>
 
         <div class="finance-amounts">
-          <button class="amount-btn" onclick="selectAmount(this, 35)">$35</button>
-          <button class="amount-btn" onclick="selectAmount(this, 65)">$65</button>
-          <button class="amount-btn" onclick="selectAmount(this, 100)">$100</button>
-          <button class="amount-btn" onclick="selectAmount(this, 150)">$150</button>
-          <button class="amount-btn" onclick="selectAmount(this, 220)">$220</button>
-          <button class="amount-btn" onclick="selectAmount(this, 'other')">Other</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 35)">$35</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 65)">$65</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 100)">$100</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 150)">$150</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 220)">$220</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, 'other')">Other</button>
         </div>
 
-        <input type="number" class="finance-input" id="customAmount" placeholder="Or enter your own amount" style="display:none;" />
+        <input type="hidden" name="amount" id="selectedAmount" value="" />
+        <input type="number" name="custom_amount" class="finance-input" id="customAmount" placeholder="Or enter your own amount" style="display:none;" />
 
-        <select class="finance-select">
+        <select name="frequency" class="finance-select">
           <option value="">Frequency</option>
           <option>One-time gift</option>
           <option>Monthly — ongoing partnership</option>
           <option>Quarterly</option>
         </select>
 
-        <input type="text" class="finance-input" placeholder="Your name" />
-        <input type="email" class="finance-input" placeholder="Your email" />
+        <input type="text" name="name" class="finance-input" placeholder="Your name" required />
+        <input type="email" name="email" class="finance-input" placeholder="Your email" required />
 
-        <select class="finance-select">
+        <select name="designation" class="finance-select">
           <option value="">Designate your gift (optional)</option>
           <option>Where most needed</option>
           <option>Scholarship Fund</option>
@@ -1615,13 +1636,13 @@ footer {
           <option>Digital Resources</option>
         </select>
 
-        <button class="finance-submit">Give Now →</button>
+        <button type="submit" class="finance-submit">Partner with us →</button>
 
         <div class="finance-note">
-          We will contact you with payment details after submission.<br>
+          After you submit, we will personally email you with payment details.<br>
           All gifts are acknowledged. Financial statements available on request.
         </div>
-      </div>
+      </form>
     </div>
 
   </div>
@@ -1729,25 +1750,35 @@ footer {
       </div>
 
       <div class="contact-right reveal">
-        <div class="contact-form-card">
+        <form class="contact-form-card"
+              name="connect-message"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              action="/thank-you.html">
+          <input type="hidden" name="form-name" value="connect-message">
+          <p style="display:none;">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+          </p>
+
           <div class="form-title">Send a Message</div>
           <div class="form-subtitle" style="color:rgba(46,43,39,0.5); font-size:0.82rem; margin-bottom:2rem; line-height:1.6;">
             We read every message personally.
           </div>
 
           <div class="form-field">
-            <label class="form-label">Your Name</label>
-            <input type="text" class="form-input" placeholder="Full name" />
+            <label class="form-label" for="cm-name">Your Name</label>
+            <input type="text" id="cm-name" name="name" class="form-input" placeholder="Full name" required />
           </div>
 
           <div class="form-field">
-            <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" placeholder="your@email.com" />
+            <label class="form-label" for="cm-email">Email Address</label>
+            <input type="email" id="cm-email" name="email" class="form-input" placeholder="your@email.com" required />
           </div>
 
           <div class="form-field">
-            <label class="form-label">I am reaching out about...</label>
-            <select class="form-select">
+            <label class="form-label" for="cm-topic">I am reaching out about...</label>
+            <select id="cm-topic" name="topic" class="form-select">
               <option value="">Select a topic</option>
               <option>Attending a retreat</option>
               <option>Church or group booking</option>
@@ -1760,12 +1791,12 @@ footer {
           </div>
 
           <div class="form-field">
-            <label class="form-label">Your Message</label>
-            <textarea class="form-textarea" rows="5" placeholder="Tell us what's on your heart..."></textarea>
+            <label class="form-label" for="cm-message">Your Message</label>
+            <textarea id="cm-message" name="message" class="form-textarea" rows="5" placeholder="Tell us what's on your heart..." required></textarea>
           </div>
 
-          <button class="btn-submit">Send Message →</button>
-        </div>
+          <button type="submit" class="btn-submit">Send Message →</button>
+        </form>
       </div>
 
     </div>
@@ -1804,11 +1835,15 @@ function selectAmount(btn, amount) {
   document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   const custom = document.getElementById('customAmount');
+  const hidden = document.getElementById('selectedAmount');
   if (amount === 'other') {
     custom.style.display = 'block';
     custom.focus();
+    if (hidden) hidden.value = '';
   } else {
     custom.style.display = 'none';
+    custom.value = '';
+    if (hidden) hidden.value = amount;
   }
 }
 
