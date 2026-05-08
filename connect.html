@@ -767,6 +767,34 @@ nav {
 .finance-input:focus { border-color: rgba(201,164,90,0.4); }
 .finance-input::placeholder { color: rgba(245,237,217,0.25); }
 
+.finance-textarea {
+  width: 100%; padding: 0.85rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(245,237,217,0.12);
+  background: rgba(245,237,217,0.05);
+  color: var(--parchment);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem; outline: none;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+  resize: vertical; min-height: 90px;
+  line-height: 1.55;
+}
+.finance-textarea:focus { border-color: rgba(201,164,90,0.4); }
+.finance-textarea::placeholder { color: rgba(245,237,217,0.25); }
+
+.finance-label {
+  font-family: 'Caveat', cursive;
+  font-size: 0.82rem;
+  color: rgba(245,237,217,0.5);
+  display: block;
+  margin: 0.4rem 0 0.6rem;
+  letter-spacing: 0.05em;
+}
+.finance-label-spaced {
+  margin-top: 1.4rem;
+}
+
 .finance-select {
   width: 100%; padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -1601,31 +1629,28 @@ footer {
           One-time or recurring · Every gift goes directly to the work
         </div>
 
-        <label style="font-family:'Caveat',cursive; font-size:0.82rem; color:rgba(245,237,217,0.5); display:block; margin-bottom:0.6rem; letter-spacing:0.05em;">
-          Choose an amount (SGD)
-        </label>
+        <input type="text" name="name" class="finance-input" placeholder="Your name" required />
+        <input type="email" name="email" class="finance-input" placeholder="Your email" required />
 
+        <label class="finance-label finance-label-spaced">Amount in mind (SGD, optional)</label>
         <div class="finance-amounts">
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 35)">$35</button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 65)">$65</button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 100)">$100</button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 150)">$150</button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 220)">$220</button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 'other')">Other</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '35')">$35</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '65')">$65</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '100')">$100</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '150')">$150</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '220')">$220</button>
+          <button type="button" class="amount-btn" onclick="selectAmount(this, '')">Other</button>
         </div>
-
-        <input type="hidden" name="amount" id="selectedAmount" value="" />
-        <input type="number" name="custom_amount" class="finance-input" id="customAmount" placeholder="Or enter your own amount" style="display:none;" />
+        <input type="text" name="amount" id="amountField" class="finance-input"
+               placeholder="Type any amount, or leave blank to discuss" />
 
         <select name="frequency" class="finance-select">
-          <option value="">Frequency</option>
+          <option value="">Frequency (optional)</option>
           <option>One-time gift</option>
           <option>Monthly — ongoing partnership</option>
           <option>Quarterly</option>
+          <option>Not sure yet — let's talk</option>
         </select>
-
-        <input type="text" name="name" class="finance-input" placeholder="Your name" required />
-        <input type="email" name="email" class="finance-input" placeholder="Your email" required />
 
         <select name="designation" class="finance-select">
           <option value="">Designate your gift (optional)</option>
@@ -1635,6 +1660,10 @@ footer {
           <option>Guide Training</option>
           <option>Digital Resources</option>
         </select>
+
+        <label class="finance-label finance-label-spaced">Tell us more (optional)</label>
+        <textarea name="message" class="finance-textarea"
+                  placeholder="Share what's on your heart — your context, your church, why you want to partner..."></textarea>
 
         <button type="submit" class="finance-submit">Partner with us →</button>
 
@@ -1830,20 +1859,15 @@ if (burger && sheet) {
   sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => sheet.classList.remove('open')));
 }
 
-// Amount selector
+// Amount selector — writes directly to the single visible amount field
 function selectAmount(btn, amount) {
   document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  const custom = document.getElementById('customAmount');
-  const hidden = document.getElementById('selectedAmount');
-  if (amount === 'other') {
-    custom.style.display = 'block';
-    custom.focus();
-    if (hidden) hidden.value = '';
-  } else {
-    custom.style.display = 'none';
-    custom.value = '';
-    if (hidden) hidden.value = amount;
+  const field = document.getElementById('amountField');
+  if (!field) return;
+  field.value = amount;
+  if (amount === '') {
+    field.focus();
   }
 }
 
